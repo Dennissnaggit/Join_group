@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+
+    <link
+      rel="stylesheet"
+      href="../node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../script.js" defer></script>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../style/font.css" />
+    <link rel="stylesheet" href="../style/log-in.css" />
+  </head>
+  <body>
+    <section class="start-logo">
+      <a href="../index.html">
+        <img src="../assets/icons/Capa 2.png" alt="Logo" class="logo" />
+      </a>
+      <section class="log-in">
+        <form class="login-box" id="signupForm">
+          <h2>Sign Up</h2>
+          <hr class="custom-hr" />
+
+          <div class="shadow form-floating position-relative mb-3">
+            <input
+              type="text"
+              class="form-control pe-5"
+              id="signupName"
+              placeholder="Dennis"
+            />
+
+            <label for="signupName">Name</label>
+
+            <img
+              src="../assets/icons/images/person.png"
+              alt="Name"
+              class="custom-icon"
+            />
+          </div>
+
+          <div class="shadow form-floating position-relative mb-3">
+            <input
+              type="email"
+              class="form-control pe-5"
+              id="signupEmail"
+              placeholder="name@example.com"
+            />
+
+            <label for="signupEmail">Email</label>
+
+            <img
+              src="../assets/icons/images/mail.png"
+              alt="Email"
+              class="custom-icon"
+            />
+          </div>
+
+          <div class="shadow form-floating position-relative mb-3">
+            <input
+              type="password"
+              class="form-control pe-5"
+              id="signupPassword"
+              placeholder="Password"
+            />
+
+            <label for="signupPassword">Password</label>
+
+            <img
+              src="../assets/icons/images/lock.png"
+              alt="Password"
+              class="custom-icon"
+            />
+          </div>
+
+          <div class="shadow form-floating position-relative mb-3">
+            <input
+              type="password"
+              class="form-control pe-5"
+              id="signupConfirmPassword"
+              placeholder="Password"
+            />
+
+            <label for="signupConfirmPassword">Confirm Password</label>
+
+            <img
+              src="../assets/icons/images/lock.png"
+              alt="Password"
+              class="custom-icon"
+            />
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="checkDefault"
+            />
+            <label class="form-check-label" for="checkDefault">
+              accept the <a href="#">Privacy Policy</a>
+            </label>
+          </div>
+          <div class="btn-group">
+            <button type="submit" class="button-dark">Sign Up</button>
+          </div>
+        </form>
+      </section>
+      <div class="legals">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Legal Notice</a>
+      </div>
+    </section>
+    <div id="successMessage" class="success-message">
+      You Signed Up successfully
+    </div>
+    <script type="module" src="../script/firebase.js"></script>
+    <script type="module" src="../script/signUp.js"></script>
+  </body>
+</html>

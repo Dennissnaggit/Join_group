@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Join</title>
+
+    <link
+      rel="stylesheet"
+      href="./node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="./script.js" defer></script>
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./style/font.css" />
+    <link rel="stylesheet" href="./style/log-in.css">
+  </head>
+  <body>
+    <section class="start-logo">
+      <img src="./assets/icons/Capa 2.png" alt="Logo" class="logo" />
+      <section class="nav-bar">
+        <p>Not a Join user ?</p>
+        <button class="button-dark"><a class="sign-up-a" href="./pages/sign-up.html">Sign up</a></button>
+      </section>
+      <section class="log-in">
+        <form class="login-box" id="loginForm">
+          <h2>Log in</h2>
+          <hr class="custom-hr" />
+
+          <div class="shadow form-floating position-relative mb-3">
+            <input
+              type="email"
+              class="form-control pe-5"
+              id="loginEmail"
+              placeholder="name@example.com"
+            />
+
+            <label for="loginEmail">Email</label>
+
+            <img
+              src="./assets/icons/images/mail.png"
+              alt="Email"
+              class="custom-icon"
+            />
+          </div>
+
+          <div class="shadow form-floating position-relative mb-3">
+            <input
+              type="password"
+              class="form-control pe-5"
+              id="loginPassword"
+              placeholder="Password"
+            />
+
+            <label for="loginPassword">Password</label>
+
+            <img
+              src="./assets/icons/images/lock.png"
+              alt="Password"
+              class="custom-icon"
+            />
+          </div>
+          <div class="btn-group">
+            <button type="submit" class="button-dark">Log In</button>
+            <button type="button" class="button-outline">Guest Log in</button>
+          </div>
+        </form>
+      </section>
+      <div class="legals">
+    <a href="#">Privacy Policy</a>
+     <a href="#">Legal Notice</a>
+     </div>
+    </section>
+    <script type="module" src="./script/signIn.js"></script>
+  </body>
+</html>
