@@ -228,6 +228,9 @@
 
   transform: translate(-50%, 0);
 }
+.guest-login {
+  text-decoration: none;
+}
 /* Animation */
 @keyframes moveLogo {
   0% {
