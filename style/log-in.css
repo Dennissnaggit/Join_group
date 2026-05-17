@@ -341,16 +341,17 @@
   }
   .nav-bar {
   position: absolute;
-  top: 980px;
+  top: auto;
   left: auto;
   right: auto;
-  margin: 0 auto;
+  bottom: 80px;
+  transform: translateX(-50%);
   display: flex;
-  align-items: center;
   gap: 16px;
   opacity: 0;
   animation: showLogin 1s ease forwards;
   animation-delay: 2.7s;
+   z-index: 10;
 }
  .log-in {
     width: 100%;
@@ -360,4 +361,16 @@
   .login-box {
     width: 100%;
   }
+  h2 {
+    font-size: 47px;
+  }
+  .btn-group {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 }
