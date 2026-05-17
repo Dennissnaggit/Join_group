@@ -141,6 +141,9 @@
 
   z-index: 1000;
 }
+.logo-responsive {
+  display: none;
+}
 .legals {
   position: absolute;
   bottom: 40px;
@@ -162,24 +165,24 @@
 }
 
 .form-check {
-    display: flex;
-    justify-content: center;
-    padding-top: 40px;
+  display: flex;
+  justify-content: center;
+  padding-top: 40px;
 }
 
 .form-check-input {
   width: 18px;
   height: 18px;
 
-  border: 2px solid #2A3647 !important;
+  border: 2px solid #2a3647 !important;
   border-radius: 4px;
 
   cursor: pointer;
 }
 
 .form-check-input:checked {
-  background-color: #2A3647;
-  border-color: #2A3647;
+  background-color: #2a3647;
+  border-color: #2a3647;
 }
 .form-check {
   display: flex;
@@ -192,7 +195,7 @@
   top: 50%;
   left: 50%;
 
- transform: translate(-50%, 50px);
+  transform: translate(-50%, 50px);
 
   width: 312px;
   height: 74px;
@@ -282,4 +285,79 @@
   border-radius: 12px;
 
   font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .logo {
+    position: absolute;
+    width: 64px;
+    top: 60px;
+    left: 60px;
+    opacity: 0;
+
+    animation: showLogo 1s ease forwards;
+    animation-delay: 2s;
+  }
+
+  @keyframes showLogo {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  body {
+    background-color: rgba(42, 54, 71, 1);
+
+    animation: bodyWhite 1s ease forwards;
+    animation-delay: 2s;
+  }
+
+  .logo-responsive {
+    display: block;
+    position: absolute;
+
+    animation: fadeOut 1s ease forwards;
+    animation-delay: 2s;
+  }
+
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes bodyWhite {
+    from {
+      background-color: rgba(42, 54, 71, 1);
+    }
+    to {
+      background-color: white;
+    }
+  }
+  .nav-bar {
+  position: absolute;
+  top: 980px;
+  left: auto;
+  right: auto;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  opacity: 0;
+  animation: showLogin 1s ease forwards;
+  animation-delay: 2.7s;
+}
+ .log-in {
+    width: 100%;
+    max-width: calc(100% - 32px);
+    padding: 40px 48px;
+  }
+  .login-box {
+    width: 100%;
+  }
 }
