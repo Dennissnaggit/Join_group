@@ -21,10 +21,10 @@ onAuthStateChanged(auth, async (user) => {
 
       console.log("Userdaten:", userData);
 
-      // Beispiel: Namen anzeigen
+      // Namen anzeigen
       document.getElementById("username").textContent = userData.name;
 
-      // Beispiel: E-Mail anzeigen
+      // E-Mail anzeigen
       document.getElementById("userEmail").textContent = userData.email;
 
       //Uid anzeigen 
@@ -39,3 +39,4 @@ onAuthStateChanged(auth, async (user) => {
     window.location.href = "../index.html";
   }
 });
+
