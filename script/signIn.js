@@ -25,6 +25,10 @@ loginForm.addEventListener("submit", async (event) => {
     );
 
     console.log("Eingeloggt:", userCredential.user);
+// User in der Datenban anlegen 
+
+
+ 
 
     window.location.href = "../pages/main.html";
 

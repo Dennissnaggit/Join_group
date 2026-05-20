@@ -1,65 +1,56 @@
-import { auth } from "./firebase.js";
+import { auth, db } from "./firebase.js";
 
 import {
   createUserWithEmailAndPassword,
   updateProfile,
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
+import {
+  doc,
+  setDoc,
+  serverTimestamp,
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
 const signupForm = document.getElementById("signupForm");
 
 signupForm.addEventListener("submit", async (event) => {
   event.preventDefault();
-  const successMessage = document.getElementById("successMessage");
+const successMessage = document.getElementById("successMessage");
   const name = document.getElementById("signupName").value.trim();
   const email = document.getElementById("signupEmail").value.trim();
   const password = document.getElementById("signupPassword").value;
-  const confirmPassword = document.getElementById(
-    "signupConfirmPassword",
-  ).value;
+  const confirmPassword = document.getElementById("signupConfirmPassword").value;
   const acceptedPrivacy = document.getElementById("checkDefault").checked;
-
-  if (!name || !email || !password || !confirmPassword) {
-    alert("Bitte fülle alle Felder aus.");
-    return;
-  }
-
-  if (password !== confirmPassword) {
-    alert("Die Passwörter stimmen nicht überein.");
-    return;
-  }
-
-  if (!acceptedPrivacy) {
-    alert("Bitte akzeptiere die Privacy Policy.");
-    return;
-  }
 
   try {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
-      password,
+      password
     );
 
-    await updateProfile(userCredential.user, {
+    const user = userCredential.user;
+
+    await updateProfile(user, {
       displayName: name,
     });
+
+    await setDoc(doc(db, "users", user.uid), {
+      uid: user.uid,
+      name: name,
+      email: user.email,
+      createdAt: serverTimestamp(),
+    });
+
+    console.log("User gespeichert:", user.uid);
 
     successMessage.classList.add("show");
     setTimeout(() => {
       window.location.href = "../index.html";
     }, 2000);
-    console.log("Neuer User:", userCredential.user);
-  } catch (error) {
-    console.error(error);
 
-    if (error.code === "auth/email-already-in-use") {
-      alert("Diese E-Mail wird bereits verwendet.");
-    } else if (error.code === "auth/weak-password") {
-      alert("Das Passwort ist zu schwach.");
-    } else if (error.code === "auth/invalid-email") {
-      alert("Die E-Mail-Adresse ist ungültig.");
-    } else {
-      alert("Fehler beim Registrieren: " + error.message);
-    }
+  } catch (error) {
+    console.error("Firebase Fehler:", error.code, error.message);
+    alert(error.message);
   }
 });
