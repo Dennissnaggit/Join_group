@@ -27,6 +27,9 @@ onAuthStateChanged(auth, async (user) => {
       // Beispiel: E-Mail anzeigen
       document.getElementById("userEmail").textContent = userData.email;
 
+      //Uid anzeigen 
+      document.getElementById("userId").textContent = "User ID: " + user.uid;
+
     } else {
       console.log("Kein User-Dokument gefunden.");
     }
