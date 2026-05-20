@@ -299,6 +299,7 @@
     animation-delay: 2s;
   }
 
+
   @keyframes showLogo {
     from {
       opacity: 0;
@@ -345,7 +346,6 @@
   left: auto;
   right: auto;
   bottom: 90px;
-  transform: translateX(-50%);
   display: flex;
   gap: 16px;
   opacity: 0;
@@ -372,5 +372,52 @@
   align-items: center;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+}
+
+body.animation-done .logo,
+body.animation-done .logo-responsive,
+body.animation-done .log-in,
+body.animation-done .login-box,
+body.animation-done .nav-bar,
+body.animation-done .legals {
+  animation: none !important;
+  opacity: 1 !important;
+}
+
+/* Endzustand vom großen Logo */
+body.animation-done .logo {
+  width: 100px;
+  top: 40px;
+  left: 40px;
+  transform: translate(0, 0);
+}
+
+/* Mobile Endzustand */
+@media (max-width: 768px) {
+  body.animation-done {
+    background-color: white !important;
+  }
+
+  body.animation-done .logo {
+    width: 64px;
+    top: 30px;
+    left: 30px;
+    opacity: 1 !important;
+  }
+.log-in {
+  padding: 20px 48px;
+}
+  body.animation-done .logo-responsive {
+    display: none !important;
+  }
+  .login-box {
+    gap: 8px;
+  }
+.form-control label {
+font-size: 16px;
+}
+.form-check {
+  padding-top: 20px;
 }
 }
