@@ -163,7 +163,17 @@
   text-decoration: none;
   color: white;
 }
+.sign-up-head {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.sign-up-head a {
+  position: absolute;
+  left: 0;
+}
 .form-check {
   display: flex;
   justify-content: center;
