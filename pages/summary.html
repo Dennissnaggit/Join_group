@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join - Summary</title>
+    <link rel="icon" type="image/png" href="../assets/logo/fav_icon.png">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../style/app_layout.css">
+    <link rel="stylesheet" href="../style/summary_style.css">
+    <script src="../script.js"></script>
+    <script src="../script/summary.js" defer></script>
+</head>
+<body onload="init().then(() => { if (typeof initSummary === 'function') initSummary(); })"></body>
+
+
+    <div class="app-shell">
+
+        <div w3-include-html="../components/sidebar.html"></div>
+
+        <div class="main-content-wrapper">
+
+            <div w3-include-html="../components/header.html"></div>
+
+            <main class="content-panel" id="content">
+                <div class="summary-content-container">
+
+                    <div class="main-stats">
+                        <div class="summary-header">
+                            <h1>Join 360</h1>
+                            <div class="vertical-separator"></div>
+                            <span>Key metrics at Glance</span>
+                        </div>
+
+                        <div class="metrics-container">
+                            <div class="metrics-row">
+                                <div class="summary-card card-small">
+                                    <div class="icon-circle navy">
+                                        <img src="../assets/icons/summary_todo_hover.svg" alt="Todo">
+                                    </div>
+                                    <div class="tile-info">
+                                        <span class="count" id="todo-count">1</span>
+                                        <span class="label">To-do</span>
+                                    </div>
+                                </div>
+
+                                <div class="summary-card card-small">
+                                    <div class="icon-circle navy">
+                                        <img src="../assets/icons/summary_done_hover.svg" alt="Done">
+                                    </div>
+                                    <div class="tile-info">
+                                        <span class="count" id="done-count">0</span>
+                                        <span class="label">Done</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="summary-card card-wide">
+                                <div class="tile-left">
+                                    <div class="icon-circle orange">
+                                        <img src="../assets/icons/urgent_todo.svg" alt="Urgent">
+                                    </div>
+                                    <div class="tile-info">
+                                        <span class="count" id="urgent-count">1</span>
+                                        <span class="label">Urgent</span>
+                                    </div>
+                                </div>
+                                <div class="separator-v"></div>
+                                <div class="tile-right">
+                                    <span class="date">Jun 15, 2026</span>
+                                    <span class="date-label">Upcoming Deadline</span>
+                                </div>
+                            </div>
+
+                            <div class="metrics-row">
+                                <div class="summary-card card-mini">
+                                    <span class="count" id="board-count">5</span>
+                                    <span class="label">Tasks in Board</span>
+                                </div>
+                                <div class="summary-card card-mini">
+                                    <span class="count" id="progress-count">2</span>
+                                    <span class="label">Tasks in Progress</span>
+                                </div>
+                                <div class="summary-card card-mini">
+                                    <span class="count" id="feedback-count">1</span>
+                                    <span class="label">Awaiting Feedback</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="greeting-section">
+                        <h2 id="greetingText">Good morning,</h2>
+                        <h1 id="userNameDisplay">User Name</h1>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+
+
+
+
+    <nav class="mobile-footer">
+        <a href="summary.html" class="footer-item">
+            <img src="../assets/icons/summary.svg" alt="">
+            <span>Summary</span>
+        </a>
+        <a href="add_task.html" class="footer-item">
+            <img src="../assets/icons/add_task.svg" alt="">
+            <span>Add Task</span>
+        </a>
+        <a href="board.html" class="footer-item">
+            <img src="../assets/icons/board.svg" alt="">
+            <span>Board</span>
+        </a>
+        <a href="contacts.html" class="footer-item">
+            <img src="../assets/icons/contacts.svg" alt="">
+            <span>Contacts</span>
+        </a>
+    </nav>
+
+</body>
+</html>
+

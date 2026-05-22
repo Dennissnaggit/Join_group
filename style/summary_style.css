@@ -1,0 +1,264 @@
+.summary-header {
+    display: flex;
+    align-items: center;
+    /* gap: 30px; */
+    margin-bottom: 40px;
+}
+
+.summary-header h1 {
+    font-size: 61px;
+    font-weight: 700;
+    color: var(primary-color);
+    margin: 0;
+}
+
+.vertical-separator {
+    width: 3px;
+    height: 59px;
+    background-color: #29ABE2 !important;
+    display: inline-block;
+    margin: 0 30px;
+    opacity: 1;
+}
+
+.summary-header span {
+    font-size: 27px;
+    font-weight: 400;
+    color: #2A3647;
+}
+
+.summary-wrapper {
+    display: flex;
+    gap: 60px;
+    align-items: flex-start;
+}
+.summary-content-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    gap: 40px;
+    margin-top: 40px;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.summary-title-section {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.summary-title-section h1 {
+    font-size: 61px;
+    font-weight: 700;
+    color: #2A3647;
+    margin: 0;
+}
+.vertical-separator {
+    width: 3px;
+    height: 60px;
+    background-color: var(--secondary-color);
+}
+
+.summary-title-section span {
+    font-size: 27px;
+    font-weight: 400;
+    color: #2A3647;
+}
+.summary-card {
+    background-color: white; /* */
+    border-radius: 30px;    /* */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.1s ease-in-out;
+    cursor: pointer;
+}
+
+.summary-card:hover {
+    background-color: #2A3647;
+    transform: scale(1.05);
+}
+
+.summary-card:hover .count, 
+.summary-card:hover .label {
+    color: white;
+}
+
+.card-small {
+    width: 264px;
+    height: 168px;
+    gap: 15px;
+}
+
+.card-wide {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 40px;
+    background-color: white;
+    border-radius: 30px;
+}
+
+.card-mini {
+    width: 168px;
+    height: 168px;
+    flex-direction: column;
+}
+
+/* --- Tiles General --- */
+.metrics-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.metrics-row {
+    display: flex;
+    gap: 20px;
+}
+
+.tile-small, .tile-mini, .tile-wide {
+    background-color: white;
+    border-radius: 30px;
+    box-shadow: 0 0 4px rgba(0,0,0,0.1);
+    transition: all 0.1s ease-in-out;
+    cursor: pointer;
+}
+
+.tile-small:hover, .tile-mini:hover, .tile-wide:hover {
+    background-color: #2A3647;
+    color: white;
+    transform: scale(1.02);
+}
+
+/* --- Specific Tile Layouts --- */
+.tile-small {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 260px;
+    height: 160px;
+}
+
+.tile-wide {
+    display: flex;
+    align-items: center;
+    padding: 30px 60px;
+    gap: 60px;
+}
+
+.tile-mini {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 168px;
+    height: 160px;
+}
+
+.tile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tile-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.separator-v {
+    width: 4px;
+    height: 100px;
+    background-color: #D1D1D1;
+    margin: 16px 20px;
+}
+
+.tile-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.date {
+    font-size: 21px;
+    font-weight: 700;
+    color: #2A3647;
+}
+
+.date-label {
+    font-size: 16px;
+    color: #2A3647;
+}
+
+.count {
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.label {
+    font-size: 21px;
+    color: #2A3647;
+}
+/* --- Internal Elements --- */
+.icon-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-circle.navy { background-color: #2A3647; }
+.icon-circle.orange { background-color: #FF3D00; }
+
+.count {
+    font-size: 48px;
+    font-weight: 700;
+    display: block;
+}
+
+.label {
+    font-size: 16px;
+}
+
+/* --- Greeting --- */
+.greeting-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 300px;
+}
+
+.greeting-section h2 {
+    font-size: 47px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.greeting-section h1 {
+    font-size: 64px;
+    font-weight: 700;
+    color: #29ABE2; 
+    margin: 0;
+}
+
+/* Responsive tablets/móvil */
+@media (max-width: 1200px) {
+    .summary-wrapper {
+        flex-direction: column-reverse;
+    }
+    
+    .metrics-row {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}

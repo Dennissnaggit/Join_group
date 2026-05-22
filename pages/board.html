@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join - Board</title>
+    <link rel="icon" type="image/png" href="../assets/logo/fav_icon.png">
+    
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../style/app_layout.css">
+    <link rel="stylesheet" href="../style/board_style.css"> <script src="../script.js"></script>
+    <script src="../script/board.js" defer></script> </head>
+<body onload="init().then(() => { if (typeof initBoard === 'function') initBoard(); })">
+
+    <div class="app-shell">
+        <div w3-include-html="../components/sidebar.html"></div>
+
+        <div class="main-content-wrapper">
+            <div w3-include-html="../components/header.html"></div>
+
+            <main class="content-panel" id="content">
+                <div class="board-content-container">
+                    
+                    <h1>Board</h1>
+                    
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+    
+    <nav class="mobile-footer">
+        <a href="summary.html" class="footer-item">
+            <img src="../assets/icons/summary.svg" alt="">
+            <span>Summary</span>
+        </a>
+        <a href="add_task.html" class="footer-item">
+            <img src="../assets/icons/add_task.svg" alt="">
+            <span>Add Task</span>
+        </a>
+        <a href="board.html" class="footer-item">
+            <img src="../assets/icons/board.svg" alt="">
+            <span>Board</span>
+        </a>
+        <a href="contacts.html" class="footer-item">
+            <img src="../assets/icons/contacts.svg" alt="">
+            <span>Contacts</span>
+        </a>
+    </nav>
+
+</body>
+</html>

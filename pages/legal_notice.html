@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Notice</title>
+    <link rel="icon" type="image/png" href="./assets/img/logo/fav_icon.png">
+    
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../style/app_layout.css">
+    <link rel="stylesheet" href="../style/legal_pages_style.css"> 
+    <script src="../script.js"></script>
+    <script src="../script/legal.js"></script>
+</head>
+<body onload="init().then(() => { if (typeof initLegal === 'function') initLegal(); })">
+    
+    <div class="app-shell">
+        <div w3-include-html="../components/sidebar.html"></div>
+
+        <div class="main-content-wrapper">
+            <div w3-include-html="../components/header.html"></div>
+
+            <main class="content-panel" id="content">
+                <div class="legal-main-container">
+                    
+                    <header class="legal-header">
+                        <h1>Legal Notice</h1>
+                    </header>
+
+                    <section class="legal-text-content">
+                        <h2>Imprint</h2>
+                        <ul>
+                            <li>[Student Names List]</li>
+                            <li>[Address of the JOIN operator - e.g. one of the students]</li>
+                            <li>[Postcode and city]</li>
+                        </ul>
+
+                        <h2>Exploring the Board</h2>
+                        <p>Email: [Email]</p>
+
+                        <h2>Acceptance of terms</h2>
+                        <p>By accessing and using <span class="highlight-blue">Join</span> (Product), you acknowledge and agree to the following terms and conditions, and any policies, guidelines, or amendments thereto that may be presented to you from time to time. We, the listed students, may update or change the terms and conditions from time to time without notice.</p>
+
+                        <h2>Scope and ownership of the product</h2>
+                        <p><span class="highlight-blue">Join</span> has been developed as part of a student group project in a web development bootcamp at the <a href="https://developerakademie.com" target="_blank" class="highlight-blue">Developer Akademie GmbH</a>. It has an educational purpose and is not intended for extensive personal & business usage. As such, we cannot guarantee consistent availability, reliability, accuracy, or any other aspect of quality regarding this Product.</p>
+                        <p>The design of <span class="highlight-blue">Join</span> is owned by the <a href="https://developerakademie.com" target="_blank" class="highlight-blue">Developer Akademie GmbH</a>. Unauthorized use, reproduction, modification, distribution, or replication of the design is strictly prohibited.</p>
+
+                        <h2>Proprietary rights</h2>
+                        <p>Aside from the design owned by <a href="https://developerakademie.com" target="_blank" class="highlight-blue">Developer Akademie GmbH</a>, we, the listed students, retain all proprietary rights in <span class="highlight-blue">Join</span>, including any associated copyrighted material, trademarks, and other proprietary information.</p>
+
+                        <h2>Use of the product</h2>
+                        <p><span class="highlight-blue">Join</span> is intended to be used for lawful purposes only, in accordance with all applicable laws and regulations. Any use of <span class="highlight-blue">Join</span> for illegal activities, or to harass, harm, threaten, or intimidate another person, is strictly prohibited. You are solely responsible for your interactions with other users of <span class="highlight-blue">Join</span>.</p>
+
+                        <h2>Disclaimer of warranties and limitation of liability</h2>
+                        <p><span class="highlight-blue">Join</span> is provided "as is" without warranty of any kind, whether express or implied, including but not limited to the implied warranties of merchantability, fitness for a particular purpose, and non-infringement. In no event will we, the listed students, or the <a href="https://developerakademie.com" target="_blank" class="highlight-blue">Developer Akademie</a> be liable for any direct, indirect, incidental, special, consequential, or exemplary damages...</p>
+                    </section>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <nav class="mobile-footer">
+        <a href="summary.html" class="footer-item"><img src="../assets/icons/summary.svg" alt=""><span>Summary</span></a>
+        <a href="add_task.html" class="footer-item"><img src="../assets/icons/add_task.svg" alt=""><span>Add Task</span></a>
+        <a href="board.html" class="footer-item"><img src="../assets/icons/board.svg" alt=""><span>Board</span></a>
+        <a href="contacts.html" class="footer-item"><img src="../assets/icons/contacts.svg" alt=""><span>Contacts</span></a>
+    </nav>
+
+</body>
+</html>
