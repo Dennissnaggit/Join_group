@@ -20,7 +20,6 @@ async function init() {
   setActivePage();
   
   let currentFile = window.location.pathname.split("/").pop();
-  // Agregamos help.html al grupo de páginas especiales
   let isSpecialPage = currentFile === "legal_notice.html" || currentFile === "privacy_policy.html" || currentFile === "help.html";
   
   let urlParams = new URLSearchParams(window.location.search);
@@ -125,7 +124,7 @@ function handleInternalLayout(isSpecialPage) {
   let logoutBtn = document.querySelector(".logout-button") || Array.from(document.querySelectorAll("header button")).find(el => el.textContent.includes("Log out"));
   let loginBtn = document.getElementById("sidebar-login-btn");
   let userInitials = document.getElementById("userInitials") || document.querySelector(".header-user-actions");
-  
+
   if (isSpecialPage) {
     if (helpBtn) helpBtn.style.setProperty("display", "none", "important");
     if (logoutBtn) logoutBtn.style.setProperty("display", "none", "important");
