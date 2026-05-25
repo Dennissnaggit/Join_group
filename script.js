@@ -19,11 +19,19 @@ async function init() {
   await includeHTML();
   setActivePage();
   
+  let currentFile = window.location.pathname.split("/").pop();
+  // Agregamos help.html al grupo de páginas especiales
+  let isSpecialPage = currentFile === "legal_notice.html" || currentFile === "privacy_policy.html" || currentFile === "help.html";
+  
   let urlParams = new URLSearchParams(window.location.search);
   let isExternal = urlParams.get("view") === "external" || !localStorage.getItem("currentUser");
   
   setTimeout(() => {
-    isExternal ? handleExternalLayout() : handleInternalLayout();
+    if (isSpecialPage && isExternal) {
+      handleExternalLayout();
+    } else {
+      handleInternalLayout(isSpecialPage);
+    }
   }, 50);
   return true;
 }
@@ -71,7 +79,10 @@ function updateActiveNav(page) {
 /** Redirects unauthorized visitors back to the login page if not logged in. */
 function checkAuthentication() {
   let user = localStorage.getItem("currentUser");
-  if (!user && !window.location.pathname.includes("index.html")) {
+  let currentFile = window.location.pathname.split("/").pop();
+  let isLegalPage = currentFile === "legal_notice.html" || currentFile === "privacy_policy.html";
+  
+  if (!user && !window.location.pathname.includes("index.html") && !isLegalPage) {
     window.location.href = "../index.html";
   }
 }
@@ -93,28 +104,6 @@ function saveUser(newUser) {
   localStorage.setItem("users", JSON.stringify(users));
 }
 
-/** Toggles specific body classes depending on url parameters for external links. */
-function checkExternalView() {
-  let urlParams = new URLSearchParams(window.location.search);
-  let isExternal = urlParams.get("view") === "external";
-  let body = document.body;
-  if (!body) {
-    setTimeout(checkExternalView, 30);
-    return;
-  }
-  body.classList.add(isExternal ? "external-view" : "internal-view");
-}
-
-/** Strips down and modifies the sidebar structure for unauthenticated layouts. */
-function handleExternalLayout(navLinks) {
-  let loginBtn = document.getElementById("sidebar-login-btn");
-  if (navLinks) navLinks.style.setProperty("display", "none", "important");
-  if (loginBtn) {
-    loginBtn.classList.remove("d-none");
-    loginBtn.style.setProperty("display", "flex", "important");
-  }
-}
-
 /** Strips down and modifies the sidebar structure for unauthenticated layouts. */
 function handleExternalLayout() {
   let loginBtn = document.getElementById("sidebar-login-btn");
@@ -124,30 +113,27 @@ function handleExternalLayout() {
   if (loginBtn) {
     loginBtn.classList.remove("d-none");
     loginBtn.style.setProperty("display", "flex", "important");
-    loginBtn.style.setProperty("margin-top", "160px", "important"); // Lo empuja hacia el medio
+    loginBtn.style.setProperty("margin-top", "160px", "important");
   }
   if (mainNav) mainNav.style.setProperty("display", "none", "important");
   if (headerActions) headerActions.style.setProperty("display", "none", "important");
 }
 
-/** Strips down and modifies the sidebar structure for unauthenticated layouts. */
-function handleExternalLayout() {
+/** Optimizes the layout views for logged-in users inside the main panel. */
+function handleInternalLayout(isSpecialPage) {
+  let helpBtn = document.querySelector(".help-btn") || document.querySelector("header img[src*='help']");
+  let logoutBtn = document.querySelector(".logout-button") || Array.from(document.querySelectorAll("header button")).find(el => el.textContent.includes("Log out"));
   let loginBtn = document.getElementById("sidebar-login-btn");
-  let mainNav = document.getElementById("nav-links");
-  let headerActions = document.querySelector(".header-user-actions");
-
-  if (loginBtn) {
-    loginBtn.classList.remove("d-none");
-    loginBtn.style.setProperty("display", "flex", "important");
+  let userInitials = document.getElementById("userInitials") || document.querySelector(".header-user-actions");
+  
+  if (isSpecialPage) {
+    if (helpBtn) helpBtn.style.setProperty("display", "none", "important");
+    if (logoutBtn) logoutBtn.style.setProperty("display", "none", "important");
+  } else {
+    if (helpBtn) helpBtn.style.setProperty("display", "flex", "important");
+    if (logoutBtn) logoutBtn.style.setProperty("display", "flex", "important");
   }
-  if (mainNav) mainNav.style.setProperty("display", "none", "important");
-  if (headerActions) headerActions.style.setProperty("display", "none", "important");
-}
 
-/** Searches and completely hides the main application logout button interface. */
-function hideLogoutBtn() {
-  let logoutBtn = Array.from(
-    document.querySelectorAll("header button, header a, header div")
-  ).find((el) => el.textContent.includes("Log out"));
-  if (logoutBtn) logoutBtn.style.setProperty("display", "none", "important");
+  if (loginBtn) loginBtn.style.setProperty("display", "none", "important");
+  if (userInitials) userInitials.style.setProperty("display", "flex", "important");
 }
