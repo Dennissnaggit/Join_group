@@ -8,9 +8,10 @@
 }
 
 .legal-header h1 {
-    font-size: 61px;
+    font-size: 61px !important;
     font-weight: 700;
     color: #2A3647;
+    text-align: left !important;
     margin: 0;
 }
 
@@ -25,11 +26,12 @@
 }
 
 .legal-text-content h2 {
-    font-size: 27px;
+    font-size: 27px !important;
     font-weight: 700;
     color: #2A3647;
     margin-top: 16px;
     margin-bottom: 0;
+    text-align: left !important;
 }
 
 .legal-text-content p {

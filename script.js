@@ -18,7 +18,13 @@ async function init() {
   checkAuthentication();
   await includeHTML();
   setActivePage();
-  checkExternalView();
+  
+  let urlParams = new URLSearchParams(window.location.search);
+  let isExternal = urlParams.get("view") === "external" || !localStorage.getItem("currentUser");
+  
+  setTimeout(() => {
+    isExternal ? handleExternalLayout() : handleInternalLayout();
+  }, 50);
   return true;
 }
 
@@ -102,32 +108,40 @@ function checkExternalView() {
 /** Strips down and modifies the sidebar structure for unauthenticated layouts. */
 function handleExternalLayout(navLinks) {
   let loginBtn = document.getElementById("sidebar-login-btn");
-  let headerRight =
-    document.querySelector(".header-right-side") ||
-    document.querySelector(".user-initials-circle")?.parentElement;
-  navLinks.style.setProperty("display", "none", "important");
+  if (navLinks) navLinks.style.setProperty("display", "none", "important");
   if (loginBtn) {
     loginBtn.classList.remove("d-none");
     loginBtn.style.setProperty("display", "flex", "important");
   }
-  if (headerRight)
-    headerRight.style.setProperty("display", "none", "important");
 }
 
-/** Optimizes the layout views for logged-in users inside the main panel. */
-function handleInternalLayout() {
-  let userInitials = document.querySelector(".user-initials-circle");
-  let helpIcon =
-    document.querySelector('header img[src*="help"]') ||
-    document.querySelector('header a[href*="help"]');
-  if (userInitials)
-    userInitials.style.setProperty("display", "flex", "important");
-  if (helpIcon) {
-    helpIcon.style.setProperty("display", "none", "important");
-    if (helpIcon.parentElement?.tagName === "A")
-      helpIcon.parentElement.style.setProperty("display", "none", "important");
+/** Strips down and modifies the sidebar structure for unauthenticated layouts. */
+function handleExternalLayout() {
+  let loginBtn = document.getElementById("sidebar-login-btn");
+  let mainNav = document.getElementById("nav-links");
+  let headerActions = document.querySelector(".header-user-actions");
+
+  if (loginBtn) {
+    loginBtn.classList.remove("d-none");
+    loginBtn.style.setProperty("display", "flex", "important");
+    loginBtn.style.setProperty("margin-top", "160px", "important"); // Lo empuja hacia el medio
   }
-  hideLogoutBtn();
+  if (mainNav) mainNav.style.setProperty("display", "none", "important");
+  if (headerActions) headerActions.style.setProperty("display", "none", "important");
+}
+
+/** Strips down and modifies the sidebar structure for unauthenticated layouts. */
+function handleExternalLayout() {
+  let loginBtn = document.getElementById("sidebar-login-btn");
+  let mainNav = document.getElementById("nav-links");
+  let headerActions = document.querySelector(".header-user-actions");
+
+  if (loginBtn) {
+    loginBtn.classList.remove("d-none");
+    loginBtn.style.setProperty("display", "flex", "important");
+  }
+  if (mainNav) mainNav.style.setProperty("display", "none", "important");
+  if (headerActions) headerActions.style.setProperty("display", "none", "important");
 }
 
 /** Searches and completely hides the main application logout button interface. */
