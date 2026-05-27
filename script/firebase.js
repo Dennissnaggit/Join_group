@@ -15,3 +15,8 @@ const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+
+/** * Base URL for storing board tasks and contacts using Firebase REST API
+ * Points directly to Dennis's active project database
+ */
+export const FIREBASE_URL = "https://join-62d0d-default-rtdb.europe-west1.firebasedatabase.app/";
