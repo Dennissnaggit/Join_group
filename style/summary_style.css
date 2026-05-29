@@ -21,10 +21,27 @@
     opacity: 1;
 }
 
+.main-stats{
+    width: 560;
+    height: 562;
+    /* angle: 0 deg; */
+    opacity: 1;
+    top: 335px;
+    left: 328px;
+}
+
 .summary-header span {
     font-size: 27px;
     font-weight: 400;
-    color: #2A3647;
+    /* color: #2A3647; */
+    width: 625;
+    height: 73;
+    /* angle: 0 deg; */
+    opacity: 1;
+    top: 206px;
+    left: 328px;
+    gap: 30px;
+
 }
 
 .summary-wrapper {
@@ -117,7 +134,13 @@
 
 .metrics-row {
     display: flex;
+    justify-content: space-between;
     gap: 20px;
+    width: 560;
+    height: 170;
+    /* angle: 0 deg; */
+    opacity: 1;
+    top: 392px;
 }
 
 .tile-small, .tile-mini, .tile-wide {
