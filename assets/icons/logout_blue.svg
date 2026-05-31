@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 19.21 19">
+  <!-- Generator: Adobe Illustrator 30.5.0, SVG Export Plug-In . SVG Version: 2.1.4 Build 167)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: none;
+        stroke: #2babe2;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <path class="st0" d="M2.5,18.5c-.55,0-1.02-.2-1.41-.59-.39-.39-.59-.86-.59-1.41V2.5c0-.55.2-1.02.59-1.41.39-.39.86-.59,1.41-.59h7v2H2.5v14h7v2H2.5ZM13.5,14.5l-1.38-1.45,2.55-2.55H6.5v-2h8.18l-2.55-2.55,1.38-1.45,5,5-5,5Z"/>
+</svg>

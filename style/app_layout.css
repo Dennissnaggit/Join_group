@@ -50,22 +50,35 @@ body {
 
 /* --- LOGOUT BUTTON (Header) --- */
 .logout-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: transparent;
-    border: 1px solid var(--logout);
-    color: var(--logout);
-    padding: 6px 14px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
+    border: 2px solid var(--border-grey);
+    color: var(--navy-blue);
+    padding: 0;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
     cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.logout-button img {
+    width: 20px;
+    height: 20px;
     transition: all 0.2s ease-in-out;
 }
 
 .logout-button:hover {
     background-color: var(--navy-blue);
-    color: white;
     border-color: var(--navy-blue);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: scale(1.05);
+}
+
+.logout-button:hover img {
+    filter: brightness(0) invert(1);
 }
 
 /* --- SIDEBAR (Left) --- */
@@ -151,7 +164,7 @@ body {
 }
 
 /* --- LOGOUT BUTTON (Header) --- */
-.logout-button {
+/* .logout-button {
     background-color: transparent;
     border: 1px solid var(primary-color);
     color: #A8ABE0;
@@ -168,7 +181,7 @@ body {
     color: white;
     border-color: var(--navy-blue);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+} */
 
 /* --- MAIN WRAPPER (Topbar + Content) --- */
 .main-content-wrapper {
@@ -194,7 +207,7 @@ body {
     justify-content: center;
     align-items: center;
     font-weight: bold;
-    color: #29ABE2;
+    color: var(--secondary-color);
 }
 
 /* --- CONTENT AREA (Where Summary/Board lives) --- */
