@@ -46,6 +46,64 @@
     gap: 8px;
 }
 
+.multi-select {
+  width: 250px;
+  position: relative;
+  font-family: Arial, sans-serif;
+}
+
+.input-field {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  width: 100%;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-top: 5px;
+  padding: 10px;
+  box-sizing: border-box;
+  z-index: 100;
+}
+
+.dropdown.active {
+  display: block;
+}
+
+.dropdown label {
+  display: flex;
+  gap: 8px;
+  padding: 5px 0;
+  cursor: pointer;
+}
+
+.selected-items {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+
+.circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #2d3748;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
 /* Media 1000px */
 @media (max-width: 1000px) {
     .form-columns-wrapper {
