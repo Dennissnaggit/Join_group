@@ -30,7 +30,7 @@ loginForm.addEventListener("submit", async (event) => {
 
  
 
-    window.location.href = "../pages/main.html";
+    window.location.href = "../pages/summary.html";
 
   } catch (error) {
     console.error(error);

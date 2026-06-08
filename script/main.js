@@ -22,13 +22,13 @@ onAuthStateChanged(auth, async (user) => {
       console.log("Userdaten:", userData);
 
       // Namen anzeigen
-      document.getElementById("username").textContent = userData.name;
+      document.getElementById("userNameDisplay").textContent = userData.name;
 
       // E-Mail anzeigen
-      document.getElementById("userEmail").textContent = userData.email;
+      //document.getElementById("userEmail").textContent = userData.email;
 
       //Uid anzeigen 
-      document.getElementById("userId").textContent = "User ID: " + user.uid;
+      //document.getElementById("userId").textContent = "User ID: " + user.uid;
 
     } else {
       console.log("Kein User-Dokument gefunden.");
