@@ -1,8 +1,13 @@
-import { auth } from "./firebase.js";
+import { auth, db } from "./firebase.js";
 
 import {
   signInWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+import {
+  doc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 const loginForm = document.getElementById("loginForm");
 
@@ -18,19 +23,29 @@ loginForm.addEventListener("submit", async (event) => {
   }
 
   try {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
 
-    console.log("Eingeloggt:", userCredential.user);
-// User in der Datenban anlegen 
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
 
+    let userName = user.email;
 
- 
+    if (userSnap.exists()) {
+      const userData = userSnap.data();
+      userName = userData.name;
+    }
 
-    window.location.href = "../pages/summary.html";
+    localStorage.setItem("currentUser", JSON.stringify({
+      uid: user.uid,
+      email: user.email,
+      name: userName,
+      isGuest: false
+    }));
+
+    localStorage.setItem("userName", userName);
+
+    window.location.href = "./pages/summary.html";
 
   } catch (error) {
     console.error(error);

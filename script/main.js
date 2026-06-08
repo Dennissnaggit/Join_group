@@ -9,34 +9,24 @@ import {
   getDoc
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    console.log("Eingeloggt:", user.uid);
+const guestUser = JSON.parse(localStorage.getItem("currentUser"));
+
+if (guestUser && guestUser.name === "Guest User") {
+  document.getElementById("userNameDisplay").textContent = guestUser.name;
+} else {
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      window.location.href = "../index.html";
+      return;
+    }
 
     const userRef = doc(db, "users", user.uid);
     const userSnap = await getDoc(userRef);
 
     if (userSnap.exists()) {
       const userData = userSnap.data();
-
-      console.log("Userdaten:", userData);
-
-      // Namen anzeigen
       document.getElementById("userNameDisplay").textContent = userData.name;
-
-      // E-Mail anzeigen
-      //document.getElementById("userEmail").textContent = userData.email;
-
-      //Uid anzeigen 
-      //document.getElementById("userId").textContent = "User ID: " + user.uid;
-
-    } else {
-      console.log("Kein User-Dokument gefunden.");
+      localStorage.setItem("userName", userData.name);
     }
-
-  } else {
-    console.log("Nicht eingeloggt");
-    window.location.href = "../index.html";
-  }
-});
-
+  });
+}
