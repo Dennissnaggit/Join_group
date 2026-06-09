@@ -206,8 +206,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 32px;
-  padding-bottom: 24px;
+
+  width: 100%;
+  margin-top: 40px;
+  padding-top: 24px;
+}
+
+.footerTask h4 {
+  margin: 0;
 }
 
 .footerButtons {
@@ -215,15 +221,23 @@
   gap: 16px;
 }
 
-.footerTask button {
-  min-height: 48px;
+.footerButtons button {
+  height: 56px;
   border-radius: 10px;
   padding: 0 24px;
+  border: none;
+  cursor: pointer;
 }
 
-.footerTaskFull {
-  display: flex;
- flex-direction: row;
+.clearBtn {
+  background: white;
+  border: 1px solid #d1d1d1 !important;
+}
+
+.createBtn {
+  background: #2a3647;
+  color: white;
+  font-weight: 700;
 }
 
 /* buttons for urgent */
