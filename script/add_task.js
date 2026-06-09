@@ -90,3 +90,24 @@ document.addEventListener("click", (e) => {
     function removeSubtask(button) {
         button.closest('li').remove();
     }
+
+    //Prio img tausch 
+
+    document.querySelectorAll('input[name="priority"]').forEach((radio) => {
+  radio.addEventListener("change", () => {
+    document.querySelector(".urgentBtn img").src =
+      radio.id === "urgent"
+        ? "../assets/AdTask/prioUrgentActive.png"
+        : "../assets/AdTask/prioUrgentNotActive.png";
+
+    document.querySelector(".mediumBtn img").src =
+      radio.id === "medium"
+        ? "../assets/AdTask/prioMedActive.png"
+        : "../assets/AdTask/prioMedNotActive.png";
+
+    document.querySelector(".lowBtn img").src =
+      radio.id === "low"
+        ? "../assets/AdTask/prioLowActive.png"
+        : "../assets/AdTask/prioLowNotActive.png";
+  });
+});
