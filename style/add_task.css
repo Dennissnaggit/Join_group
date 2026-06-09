@@ -171,6 +171,60 @@
   display: flex;
  flex-direction: row;
 }
+
+/* buttons for urgent */
+
+.priorityButtons {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.priorityBtn {
+  width: 136px;
+  height: 56px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border-radius: 10px;
+  background: white;
+  border: 1px solid #d1d1d1;
+  padding: 0 16px;
+
+  font-size: 20px;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Hover */
+.priorityBtn:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Urgent aktiv */
+#urgent:checked + .urgentBtn {
+  background: #ff3d00;
+  color: white;
+  border-color: #ff3d00;
+}
+
+/* Medium aktiv */
+#medium:checked + .mediumBtn {
+  background: #ffa800;
+  color: white;
+  border-color: #ffa800;
+}
+
+/* Low aktiv */
+#low:checked + .lowBtn {
+  background: #7ae229;
+  color: white;
+  border-color: #7ae229;
+}
 /* Media 1000px */
 @media (max-width: 1000px) {
     .form-columns-wrapper {

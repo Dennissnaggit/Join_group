@@ -71,36 +71,48 @@
               </div>
             </div>
             <div class="inputRight">
-              <div>
-                <h3>Priority</h3>
-                <input
-                  type="radio"
-                  class="btn-check"
-                  name="options"
-                  id="option1"
-                  autocomplete="off"
-                  checked
-                />
-                <label class="btn btn-secondary" for="option1">Checked</label>
-                <input
-                  type="radio"
-                  class="btn-check"
-                  name="options"
-                  id="option2"
-                  autocomplete="off"
-                  checked
-                />
-                <label class="btn btn-secondary" for="option2">Checked</label>
-                <input
-                  type="radio"
-                  class="btn-check"
-                  name="options"
-                  id="option3"
-                  autocomplete="off"
-                  checked
-                />
-                <label class="btn btn-secondary" for="option3">Checked</label>
-              </div>
+             <div class="prioritySection">
+  <h3>Priority</h3>
+
+  <div class="priorityButtons">
+    <input
+      type="radio"
+      class="btn-check"
+      name="priority"
+      id="urgent"
+      autocomplete="off"
+    />
+    <label class="priorityBtn urgentBtn" for="urgent">
+  <span>Urgent</span>
+  <span>⏫</span>
+</label>
+
+    <input
+      type="radio"
+      class="btn-check"
+      name="priority"
+      id="medium"
+      autocomplete="off"
+    />
+   <label class="priorityBtn mediumBtn" for="medium">
+  <span>Medium</span>
+  <span>=</span>
+</label>
+
+    <input
+      type="radio"
+      class="btn-check"
+      name="priority"
+      id="low"
+      autocomplete="off"
+    />
+   
+<label class="priorityBtn lowBtn" for="low">
+  <span>Low</span>
+  <span>⏬</span>
+</label>
+  </div>
+</div>
               <div class="multi-select">
                 <div class="input-field" id="inputField">
                   Auswahl treffen
