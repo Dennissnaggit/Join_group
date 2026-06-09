@@ -32,106 +32,151 @@
         <div w3-include-html="../components/header.html"></div>
 
         <main class="content-panel" id="content">
-          <h1>Add Task</h1>
-          <div>
-            <div class="mb-3">
-              <label for="exampleFormControlInput1" class="form-label"
-                >Title</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="TitleOfTask"
-                placeholder="Title of the task"
-              />
+          <div class="headerTask">
+            <h1>Add Task</h1>
+          </div>
+          <div class="inputsTask">
+            <div class="inputLeft">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label"
+                  >Title</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="TitleOfTask"
+                  placeholder="Title of the task"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label"
+                  >Example textarea</label
+                >
+                <textarea
+                  class="form-control"
+                  id="exampleFormControlTextarea1"
+                  rows="3"
+                ></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label"
+                  >Datum</label
+                >
+                <input
+                  type="date"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder="name@example.com"
+                />
+              </div>
             </div>
-            <div class="mb-3">
-              <label for="exampleFormControlTextarea1" class="form-label"
-                >Example textarea</label
-              >
-              <textarea
-                class="form-control"
-                id="exampleFormControlTextarea1"
-                rows="3"
-              ></textarea>
-            </div>
-            <div class="mb-3">
-              <label for="exampleFormControlInput1" class="form-label"
-                >Email address</label
-              >
-              <input
-                type="date"
-                class="form-control"
-                id="exampleFormControlInput1"
-                placeholder="name@example.com"
-              />
+            <div class="inputRight">
+              <div>
+                <h3>Priority</h3>
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="options"
+                  id="option1"
+                  autocomplete="off"
+                  checked
+                />
+                <label class="btn btn-secondary" for="option1">Checked</label>
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="options"
+                  id="option2"
+                  autocomplete="off"
+                  checked
+                />
+                <label class="btn btn-secondary" for="option2">Checked</label>
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="options"
+                  id="option3"
+                  autocomplete="off"
+                  checked
+                />
+                <label class="btn btn-secondary" for="option3">Checked</label>
+              </div>
+              <div class="multi-select">
+                <div class="input-field" id="inputField">
+                  Auswahl treffen
+                  <span>▼</span>
+                </div>
+
+                <div class="dropdown" id="dropdown">
+                  <label>
+                    <input type="checkbox" value="Apfel" />
+                    Dennis
+                  </label>
+
+                  <label>
+                    <input type="checkbox" value="Banane" />
+                    Frank
+                  </label>
+
+                  <label>
+                    <input type="checkbox" value="Kirsche" />
+                    Thomas
+                  </label>
+
+                  <label>
+                    <input type="checkbox" value="Mango" />
+                    Uschi
+                  </label>
+
+                  <label>
+                    <input type="checkbox" value="Orange" />
+                    Banane
+                  </label>
+                </div>
+
+                <div class="selected-items" id="selectedItems"></div>
+              </div>
+              <div class="mb-3">
+                <label for="category" class="form-label">Categoriy*</label>
+                <select class="form-select" id="category" name="category">
+                  <option value="">Select task category</option>
+                  <option value="kategorie1">User Story</option>
+                  <option value="kategorie2">Technical Task</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-bold">Subtask</label>
+
+                <div class="position-relative">
+                  <input
+                    type="text"
+                    id="subtaskInput"
+                    class="form-control pe-5"
+                    placeholder="Neue Subtask eingeben"
+                  />
+
+                  <button
+                    type="button"
+                    id="addBtn"
+                    class="btn btn-success position-absolute top-50 end-0 translate-middle-y me-2 d-none"
+                    onclick="addSubtask()"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <ul id="subtaskList" class="list-group"></ul>
             </div>
           </div>
-          <div>
-            <div>
-                <h3>Priority</h3>
-              <input
-                type="radio"
-                class="btn-check"
-                name="options"
-                id="option1"
-                autocomplete="off"
-                checked
-              />
-              <label class="btn btn-secondary" for="option1">Checked</label>
-              <input
-                type="radio"
-                class="btn-check"
-                name="options"
-                id="option2"
-                autocomplete="off"
-                checked
-              />
-              <label class="btn btn-secondary" for="option2">Checked</label>
-              <input
-                type="radio"
-                class="btn-check"
-                name="options"
-                id="option3"
-                autocomplete="off"
-                checked
-              />
-              <label class="btn btn-secondary" for="option3">Checked</label>
+          <div clas="footerTaskFull">
+            <div class="footerTask">
+              <h4>*required fields</h4>
             </div>
-            <div class="multi-select">
-              <div class="input-field" id="inputField">
-                Auswahl treffen
-                <span>▼</span>
-              </div>
-
-              <div class="dropdown" id="dropdown">
-                <label>
-                  <input type="checkbox" value="Apfel" />
-                  Dennis
-                </label>
-
-                <label>
-                  <input type="checkbox" value="Banane" />
-                  Frank
-                </label>
-
-                <label>
-                  <input type="checkbox" value="Kirsche" />
-                  Thomas
-                </label>
-
-                <label>
-                  <input type="checkbox" value="Mango" />
-                  Uschi
-                </label>
-
-                <label>
-                  <input type="checkbox" value="Orange" />
-                  Banane
-                </label>
-              </div>
-
-              <div class="selected-items" id="selectedItems"></div>
+            <div class="footerButtons">
+              <button>X Clear</button>
+              <button>Create Task</button>
             </div>
           </div>
         </main>

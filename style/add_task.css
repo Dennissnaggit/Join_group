@@ -104,6 +104,73 @@
   align-items: center;
   font-weight: bold;
 }
+.content-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.headerTask {
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.headerTask h1 {
+  text-align: left;
+  font-size: 61px;
+  font-weight: 700;
+}
+
+.inputsTask {
+  display: flex;
+  gap: 48px;
+  align-items: flex-start;
+}
+
+.inputLeft,
+.inputRight {
+  width: 440px;
+}
+
+.inputLeft input,
+.inputRight input,
+.inputLeft textarea,
+.inputRight textarea,
+.inputLeft select,
+.inputRight select {
+  width: 440px;
+  min-height: 48px;
+  border-radius: 10px;
+}
+
+.inputLeft label,
+.inputRight label,
+.inputRight h3 {
+  font-size: 20px;
+}
+
+.footerTask {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 32px;
+  padding-bottom: 24px;
+}
+
+.footerButtons {
+  display: flex;
+  gap: 16px;
+}
+
+.footerTask button {
+  min-height: 48px;
+  border-radius: 10px;
+  padding: 0 24px;
+}
+
+.footerTaskFull {
+  display: flex;
+ flex-direction: row;
+}
 /* Media 1000px */
 @media (max-width: 1000px) {
     .form-columns-wrapper {

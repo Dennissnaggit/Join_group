@@ -42,3 +42,51 @@ document.addEventListener("click", (e) => {
     dropdown.classList.remove("active");
   }
 });
+
+//subtask hinzufügen
+ const input = document.getElementById('subtaskInput');
+    const addBtn = document.getElementById('addBtn');
+
+    input.addEventListener('input', function () {
+        if (this.value.trim() !== '') {
+            addBtn.classList.remove('d-none');
+        } else {
+            addBtn.classList.add('d-none');
+        }
+    });
+
+    input.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter' && this.value.trim() !== '') {
+            addSubtask();
+        }
+    });
+
+    function addSubtask() {
+        const text = input.value.trim();
+
+        if (!text) return;
+
+        const li = document.createElement('li');
+        li.className =
+            'list-group-item d-flex justify-content-between align-items-center';
+
+        li.innerHTML = `
+            <span> - ${text}</span>
+            <button
+                type="button"
+                class="btn btn-outline-danger btn-sm"
+                onclick="removeSubtask(this)">
+                −
+            </button>
+        `;
+
+        document.getElementById('subtaskList').appendChild(li);
+
+        input.value = '';
+        addBtn.classList.add('d-none');
+        input.focus();
+    }
+
+    function removeSubtask(button) {
+        button.closest('li').remove();
+    }
