@@ -84,7 +84,11 @@
                   />
                   <label class="priorityBtn urgentBtn" for="urgent">
                     <span>Urgent</span>
-                    <span><img src="../assets/AdTask/prioUrgentNotActive.png" alt=""></span>
+                    <span
+                      ><img
+                        src="../assets/AdTask/prioUrgentNotActive.png"
+                        alt=""
+                    /></span>
                   </label>
 
                   <input
@@ -96,7 +100,9 @@
                   />
                   <label class="priorityBtn mediumBtn" for="medium">
                     <span>Medium</span>
-                    <span><img src="../assets/AdTask/prioMedNotActive.png" alt=""></span>
+                    <span
+                      ><img src="../assets/AdTask/prioMedNotActive.png" alt=""
+                    /></span>
                   </label>
 
                   <input
@@ -109,7 +115,9 @@
 
                   <label class="priorityBtn lowBtn" for="low">
                     <span>Low</span>
-                    <span><img src="../assets/AdTask/prioLowNotActive.png" alt=""></span>
+                    <span
+                      ><img src="../assets/AdTask/prioLowNotActive.png" alt=""
+                    /></span>
                   </label>
                 </div>
               </div>
@@ -159,39 +167,45 @@
                 </select>
               </div>
 
-              <div class="mb-3">
-                <label class="form-label fw-bold">Subtask</label>
+              <div class="position-relative">
+                <input
+                  type="text"
+                  id="subtaskInput"
+                  class="form-control pe-5"
+                  placeholder="Neue Subtask eingeben"
+                />
 
-                <div class="position-relative">
-                  <input
-                    type="text"
-                    id="subtaskInput"
-                    class="form-control pe-5"
-                    placeholder="Neue Subtask eingeben"
+                <div
+                  id="inputActions"
+                  class="position-absolute top-50 end-0 translate-middle-y me-2 d-none d-flex align-items-center"
+                >
+                  <img
+                    src="../assets/AdTask/close.png"
+                    class="action-icon"
+                    onclick="clearSubtaskInput()"
                   />
 
-                  <button
-                    type="button"
-                    id="addBtn"
-                    class="btn btn-success position-absolute top-50 end-0 translate-middle-y me-2 d-none"
+                  <div class="action-divider"></div>
+
+                  <img
+                    src="../assets/AdTask/check.png"
+                    class="action-icon"
                     onclick="addSubtask()"
-                  >
-                    +
-                  </button>
+                  />
                 </div>
               </div>
 
-              <ul id="subtaskList" class="list-group"></ul>
+              <ul id="subtaskList" class="list-group mt-2"></ul>
             </div>
           </div>
           <div class="footerTask">
-  <h4>*required fields</h4>
+            <h4>*required fields</h4>
 
-  <div class="footerButtons">
-    <button class="clearBtn">✕ Clear</button>
-    <button class="createBtn">✓ Create Task</button>
-  </div>
-</div>
+            <div class="footerButtons">
+              <button class="clearBtn">✕ Clear</button>
+              <button class="createBtn">✓ Create Task</button>
+            </div>
+          </div>
         </main>
       </div>
     </div>

@@ -293,6 +293,32 @@
   color: white;
   border-color: #7ae229;
 }
+/* Subtasks */
+.action-icon {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.action-divider {
+    width: 1px;
+    height: 18px;
+    background: #dcdcdc;
+    margin: 0 8px;
+}
+
+.subtask-actions {
+    display: none;
+    align-items: center;
+}
+
+.subtask-item:hover .subtask-actions {
+    display: flex;
+}
+.list-group-item {
+  border: none;
+}
+
 /* Media 1000px */
 @media (max-width: 1000px) {
     .form-columns-wrapper {

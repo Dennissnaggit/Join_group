@@ -2,7 +2,7 @@ function initAddTask() {
   console.log("App initialized - Add Task Section");
   // Dennis and Jannis: You can start writing your contact list logic here...
 }
-// Damit die Seite Problemlos lädt bitte die die innitfunction so bennen 
+// Damit die Seite Problemlos lädt bitte die die innitfunction so bennen
 const inputField = document.getElementById("inputField");
 const dropdown = document.getElementById("dropdown");
 const selectedItems = document.getElementById("selectedItems");
@@ -44,56 +44,83 @@ document.addEventListener("click", (e) => {
 });
 
 //subtask hinzufügen
- const input = document.getElementById('subtaskInput');
-    const addBtn = document.getElementById('addBtn');
+const input = document.getElementById("subtaskInput");
+const inputActions = document.getElementById("inputActions");
 
-    input.addEventListener('input', function () {
-        if (this.value.trim() !== '') {
-            addBtn.classList.remove('d-none');
-        } else {
-            addBtn.classList.add('d-none');
-        }
-    });
+input.addEventListener("input", function () {
+  if (this.value.trim()) {
+    inputActions.classList.remove("d-none");
+  } else {
+    inputActions.classList.add("d-none");
+  }
+});
 
-    input.addEventListener('keypress', function (e) {
-        if (e.key === 'Enter' && this.value.trim() !== '') {
-            addSubtask();
-        }
-    });
+input.addEventListener("keypress", function (e) {
+  if (e.key === "Enter" && this.value.trim()) {
+    addSubtask();
+  }
+});
 
-    function addSubtask() {
-        const text = input.value.trim();
+function clearSubtaskInput() {
+  input.value = "";
+  inputActions.classList.add("d-none");
+}
 
-        if (!text) return;
+function addSubtask() {
+  const text = input.value.trim();
 
-        const li = document.createElement('li');
-        li.className =
-            'list-group-item d-flex justify-content-between align-items-center';
+  if (!text) return;
 
-        li.innerHTML = `
-            <span> - ${text}</span>
-            <button
-                type="button"
-                class="btn btn-outline-danger btn-sm"
-                onclick="removeSubtask(this)">
-                −
-            </button>
-        `;
+  const li = document.createElement("li");
 
-        document.getElementById('subtaskList').appendChild(li);
+  li.className =
+    "list-group-item d-flex justify-content-between align-items-center subtask-item";
 
-        input.value = '';
-        addBtn.classList.add('d-none');
-        input.focus();
-    }
+  li.innerHTML = `
+        <span>• ${text}</span>
 
-    function removeSubtask(button) {
-        button.closest('li').remove();
-    }
+        <div class="subtask-actions">
+            <img
+                src="../assets/AdTask/edit.png"
+                class="action-icon"
+                onclick="editSubtask(this)"
+            >
 
-    //Prio img tausch 
+            <div class="action-divider"></div>
 
-    document.querySelectorAll('input[name="priority"]').forEach((radio) => {
+            <img
+                src="../assets/AdTask/close.png"
+                class="action-icon"
+                onclick="removeSubtask(this)"
+            >
+        </div>
+    `;
+
+  document.getElementById("subtaskList").appendChild(li);
+
+  input.value = "";
+  inputActions.classList.add("d-none");
+}
+
+function removeSubtask(icon) {
+  icon.closest("li").remove();
+}
+
+function editSubtask(icon) {
+  const li = icon.closest("li");
+  const text = li.querySelector("span").textContent.replace("•", "").trim();
+
+  input.value = text;
+  input.focus();
+
+  li.remove();
+
+  inputActions.classList.remove("d-none");
+}
+
+//Prio img tausch
+
+document.querySelectorAll('input[name="priority"]').forEach((radio) => {
   radio.addEventListener("change", () => {
     document.querySelector(".urgentBtn img").src =
       radio.id === "urgent"
