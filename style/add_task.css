@@ -376,6 +376,59 @@
   .footerButtons button {
     flex: 1;
   }
+   .content-panel {
+    height: 100vh;
+    overflow-y: auto;
+    padding-bottom: 100px; /* Platz für Footer */
+    padding-top: 0px; /* Platz für Header */
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+    .headerTask {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 100;
+    padding-bottom: 0px;
+    padding-top: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+    width: 100%;
+  }
+
+.footerTask {
+    position: sticky;
+    bottom: 0;
+    background: white;
+    z-index: 100;
+    padding: 16px 16px;
+    border-top: 1px solid #d1d1d1;
+  }
+
+ .footerTask h4 {
+    display: none;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .footerButtons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+  }
+
+  .footerButtons button {
+    flex: 1;
+  }
+
+    .inputsTask {
+    padding-top: 32px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
 }
 @media (max-width: 480px) {
   .priorityBtn {
