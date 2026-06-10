@@ -3,38 +3,6 @@ function initAddTask() {
   // Dennis and Jannis: You can start writing your contact list logic here...
 }
 // Damit die Seite Problemlos lädt bitte die die innitfunction so bennen
-const inputField = document.getElementById("inputField");
-const dropdown = document.getElementById("dropdown");
-const selectedItems = document.getElementById("selectedItems");
-const checkboxes = dropdown.querySelectorAll('input[type="checkbox"]');
-
-// Dropdown öffnen/schließen
-inputField.addEventListener("click", () => {
-  dropdown.classList.toggle("active");
-});
-
-// Kreise aktualisieren
-function updateSelectedItems() {
-  selectedItems.innerHTML = "";
-
-  checkboxes.forEach((checkbox) => {
-    if (checkbox.checked) {
-      const circle = document.createElement("div");
-      circle.classList.add("circle");
-      circle.textContent = checkbox.value.charAt(0).toUpperCase();
-
-      // Optional Tooltip mit vollständigem Namen
-      circle.title = checkbox.value;
-
-      selectedItems.appendChild(circle);
-    }
-  });
-}
-
-// Checkboxen überwachen
-checkboxes.forEach((checkbox) => {
-  checkbox.addEventListener("change", updateSelectedItems);
-});
 
 // Dropdown schließen, wenn außerhalb geklickt wird
 document.addEventListener("click", (e) => {
@@ -137,4 +105,60 @@ document.querySelectorAll('input[name="priority"]').forEach((radio) => {
         ? "../assets/AdTask/prioLowActive.png"
         : "../assets/AdTask/prioLowNotActive.png";
   });
+});
+
+// Assigned To Dropdown
+const inputFieldMulti = document.getElementById("inputFieldMultiSelect");
+const searchInput = document.getElementById("searchInput");
+const dropdown = document.getElementById("dropdown");
+const selectedItems = document.getElementById("selectedItems");
+const checkboxes = document.querySelectorAll('.dropdown input[type="checkbox"]');
+const labels = document.querySelectorAll(".dropdown label");
+
+const uncheckedImg = "../assets/AdTask/personUnchecked.png";
+const checkedImg = "../assets/AdTask/personChecked.png";
+
+inputFieldMulti.addEventListener("click", () => {
+  dropdown.classList.add("active");
+  searchInput.focus();
+});
+
+function updateSelectedItems() {
+  selectedItems.innerHTML = "";
+
+  checkboxes.forEach((checkbox) => {
+    const label = checkbox.closest("label");
+    const img = label.querySelector(".checkbox-img");
+
+    img.src = checkbox.checked ? checkedImg : uncheckedImg;
+
+    if (checkbox.checked) {
+      const circle = document.createElement("div");
+      circle.classList.add("circle");
+      circle.textContent = checkbox.value.charAt(0).toUpperCase();
+      circle.title = checkbox.value;
+
+      selectedItems.appendChild(circle);
+    }
+  });
+}
+
+checkboxes.forEach((checkbox) => {
+  checkbox.addEventListener("change", updateSelectedItems);
+});
+
+searchInput.addEventListener("input", () => {
+  const searchValue = searchInput.value.toLowerCase();
+
+  labels.forEach((label) => {
+    const name = label.querySelector(".name-wrap").textContent.toLowerCase();
+
+    label.style.display = name.includes(searchValue) ? "flex" : "none";
+  });
+});
+
+document.addEventListener("click", (event) => {
+  if (!event.target.closest(".multi-select")) {
+    dropdown.classList.remove("active");
+  }
 });
