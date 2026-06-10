@@ -323,14 +323,68 @@
   border: none;
 }
 
-/* Media 1000px */
 @media (max-width: 1000px) {
-    .form-columns-wrapper {
-        flex-direction: column;
-        gap: 24px;
-    }
-    
-    .form-divider {
-        display: none;
-    }
+  .form-columns-wrapper,
+  .inputsTask {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .form-divider {
+    display: none;
+  }
+
+  .inputLeft,
+  .inputRight,
+  .multi-select {
+    width: 100%;
+  }
+
+  .inputLeft input,
+  .inputRight input,
+  .inputLeft textarea,
+  .inputRight textarea,
+  .inputLeft select,
+  .inputRight select {
+    width: 100%;
+  }
+
+  .task-main-header h1,
+  .headerTask h1 {
+    font-size: 40px;
+  }
+
+  .footerTask {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  /* Buttons bleiben nebeneinander */
+  .priorityButtons,
+  .footerButtons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .priorityBtn {
+    flex: 1;
+    width: auto;
+  }
+
+  .footerButtons button {
+    flex: 1;
+  }
+}
+@media (max-width: 480px) {
+  .priorityBtn {
+    font-size: 16px;
+    padding: 0 8px;
+  }
+
+  .task-main-header h1,
+  .headerTask h1 {
+    font-size: 32px;
+  }
 }
