@@ -9,7 +9,6 @@
     width: 100%;
     max-width: 1120px;
     margin: 0 auto;
-    /* padding: 3.5rem 2.5rem 2.5rem 4.5rem; */
     gap: clamp(1.5rem, 3vw, 4rem);
     flex-wrap: nowrap;
     box-sizing: border-box;
@@ -89,7 +88,6 @@
     width: 100%;
 }
 
-/* --- ESTADOS HOVER GENERALES --- */
 .summary-content-container .summary-card:hover {
     background-color: var(--primary-color);
     transform: scale(1.02);
@@ -154,7 +152,6 @@
     transition: filter 0.15s ease-in-out;
 }
 
-/* --- EFECTOS HOVER COMPARTIDOS --- */
 .summary-content-container .summary-card:hover .icon-circle.navy {
     background-color: var(--white);
 }
@@ -221,7 +218,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* Aligns perfectly side by side with the top title row */
     padding-top: 19rem;
     padding-right: 1rem;
 }
@@ -392,39 +388,35 @@
 
     .summary-header {
         display: flex !important;
-        flex-direction: column !important; /* Forzamos orden vertical */
-        align-items: flex-start !important; /* Alineación a la izquierda */
+        flex-direction: column !important;
+        align-items: flex-start !important;
         justify-content: flex-start !important;
         gap: 0.5rem !important;
         width: 100% !important;
         height: auto !important;
-        padding-top: 0 !important; /* Limpiamos el padding-top de 2rem que se ve en tu inspector */
+        padding-top: 0 !important;
         text-align: left !important;
     }
 
-    /* 🎯 1. El título principal se queda arriba de todo */
     .summary-header h1 {
         order: 1 !important;
         margin: 0 !important;
     }
 
-    /* 🎯 2. Forzamos al subtítulo a subir al segundo lugar */
     .summary-header span {
         order: 2 !important;
         margin: 0 !important;
     }
 
-    /* 🎯 3. Mandamos la línea azul al fondo del todo y la volvemos horizontal */
     .summary-header .vertical-separator {
-        order: 3 !important; /* Se va abajo de las letras */
+        order: 3 !important;
         width: 90px !important;
-        height: 3px !important; /* Su alto ahora es el grosor */
+        height: 3px !important;
         background-color: #29ABE2 !important;
         flex-shrink: 0 !important;
-        margin: 0.5rem 0 0 !important; /* Reseteamos los márgenes laterales viejos */
+        margin: 0.5rem 0 0 !important;
     }
 }
-
 /* ==========================================================================
    7. PURE MOBILE MATRIX (Ajustes finales de 428px para abajo)
    ========================================================================== */

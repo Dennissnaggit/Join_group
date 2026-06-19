@@ -3,13 +3,8 @@
    ========================================================================== */
 .app-shell {
     display: grid;
-    /* Column 1: Static Sidebar | Column 2: Remaining space */
     grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
-
-    /* 🎯 CAMBIO CLAVE: Quitamos las dos filas fijas y dejamos que el contenido maneje su altura */
     grid-template-rows: 1fr;
-
-    /* 🎯 CAMBIO CLAVE: El sidebar ocupa su columna y el wrapper ocupa todo el resto */
     grid-template-areas: "sidebar content";
 
     position: relative;
@@ -21,7 +16,6 @@
     background-color: var(--bg-color);
 }
 
-/* 🎯 HEADER INJECTOR CONTAINER CONTROL */
 .app-shell div[w3-include-html*="header"] {
     display: flex;
     flex-direction: column;
@@ -30,14 +24,12 @@
     box-sizing: border-box;
 }
 
-/* Forces the inner header component to fill the exact remainder of the grid cell */
 .app-shell div[w3-include-html*="header"] .app-header {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
 }
 
-/* 🎯 SIDEBAR INJECTOR CONTAINER CONTROL */
 .app-shell div[w3-include-html*="sidebar"] {
     grid-area: sidebar;
     display: flex;
@@ -46,16 +38,14 @@
     height: 100%;
 }
 
-/* 🎯 MAIN CONTENT CONTAINER */
 .app-shell .main-content-wrapper {
     grid-area: content;
-    display: grid; /* Cambiado a grid para controlar la bajada del Header de Dennis */
+    display: grid;
     grid-template-rows: auto 1fr;
     width: 100%;
     box-sizing: border-box;
 }
 
-/* 🎯 BASE ESTRUCTURAL DEL HEADER EN ESCRITORIO */
 .app-header {
     width: 100%;
     height: var(--topbar-height);
@@ -69,7 +59,6 @@
     z-index: 100;
 }
 
-/* The white content panel locks at 100% of the remaining column space (~1208px) */
 .app-shell .main-content-wrapper #content.content-panel {
     display: flex;
     flex-direction: column;
@@ -235,25 +224,23 @@ span.desktop-only {
     align-items: center !important;
     z-index: 99999 !important;
     animation: mobileWelcome 2.5s ease-in-out forwards !important;
-}
+    }
 
-/* 🎯 Apuntamos al <h2> (Good afternoon,) */
 .greeting-section h2 {
     font-size: 2.5rem !important;
     color: var(--primary-color, #2A3647) !important;
     text-align: center !important;
     margin: 0 0 0.5rem !important;
     font-weight: 400 !important;
-}
+    }
 
-/* 🎯 Apuntamos al <h1> (Guest) */
 .greeting-section h1 {
     font-size: 4rem !important;
-    color: #29ABE2 !important; /* El azul característico de Join */
+    color: #29ABE2 !important; 
     font-weight: 700 !important;
     text-align: center !important;
     margin: 0 !important;
-}
+    }
 
     .main-content-wrapper .app-header {
         padding: 0.75rem 1rem;
