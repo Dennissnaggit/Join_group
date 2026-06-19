@@ -18,6 +18,7 @@ async function init() {
   checkAuthentication();
   await includeHTML();
   setActivePage();
+  initSummaryMobileAnimation();
   
   let currentFile = window.location.pathname.split("/").pop();
   let isSpecialPage = currentFile === "legal_notice.html" || currentFile === "privacy_policy.html" || currentFile === "help.html";
@@ -126,13 +127,61 @@ function handleInternalLayout(isSpecialPage) {
   let userInitials = document.getElementById("userInitials") || document.querySelector(".header-user-actions");
 
   if (isSpecialPage) {
-    if (helpBtn) helpBtn.style.setProperty("display", "none", "important");
-    if (logoutBtn) logoutBtn.style.setProperty("display", "none", "important");
+    if (helpBtn) helpBtn.style.setProperty("display", "none");
+    if (logoutBtn) logoutBtn.style.setProperty("display", "none");
   } else {
-    if (helpBtn) helpBtn.style.setProperty("display", "flex", "important");
-    if (logoutBtn) logoutBtn.style.setProperty("display", "flex", "important");
+    if (helpBtn) helpBtn.style.setProperty("display", "flex");
+    if (logoutBtn) logoutBtn.style.setProperty("display", "flex");
   }
 
-  if (loginBtn) loginBtn.style.setProperty("display", "none", "important");
-  if (userInitials) userInitials.style.setProperty("display", "flex", "important");
+  if (loginBtn) loginBtn.style.setProperty("display", "none");
+  if (userInitials) userInitials.style.setProperty("display", "flex");
 }
+
+/**
+ * Handles the mobile splash/greeting animation for the Summary page.
+ * Strictly formatted in English as requested.
+ */
+function initSummaryMobileAnimation() {
+    // 1. Only execute on mobile screens (767px or less)
+    if (window.innerWidth > 767) {
+        return;
+    }
+
+    const mainStats = document.querySelector('.main-stats');
+    const greeting = document.querySelector('.greeting-section');
+
+    // 2. Shield: Only run if BOTH elements exist in the current DOM
+    if (!mainStats || !greeting) {
+        return;
+    }
+
+    // 3. Step 1: Hide stats, show only the big greeting
+    mainStats.classList.add('d-none');
+
+    // 4. Step 2: After 2 seconds, switch elements with a clean transition
+    setTimeout(() => {
+        greeting.classList.add('d-none');
+        mainStats.classList.remove('d-none');
+    }, 2000);
+}
+
+/**
+ * Toggles the visibility of the header user profile dropdown menu.
+ * @param {Event} event - The native DOM click event to handle propagation.
+ */
+function toggleLogoutMenu(event) {
+    event.stopPropagation();
+    const dropdown = document.getElementById('headerDropdown');
+    if (dropdown) {
+        dropdown.classList.toggle('d-none');
+    }
+}
+
+// Automatically closes the dropdown if the user clicks anywhere outside the profile element
+document.addEventListener('click', () => {
+    const dropdown = document.getElementById('headerDropdown');
+    if (dropdown && !dropdown.classList.contains('d-none')) {
+        dropdown.classList.add('d-none');
+    }
+});

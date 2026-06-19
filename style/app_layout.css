@@ -1,284 +1,359 @@
-body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-family: 'Open Sans', sans-serif;
-} 
-
+/* ==========================================================================
+   GLOBAL APP SHELL ARCHITECTURE (DESKTOP BASE)
+   ========================================================================== */
 .app-shell {
     display: grid;
-    grid-template-columns: var(--sidebar-width) 1fr;
+    /* Column 1: Static Sidebar | Column 2: Remaining space */
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+
+    /* 🎯 CAMBIO CLAVE: Quitamos las dos filas fijas y dejamos que el contenido maneje su altura */
+    grid-template-rows: 1fr;
+
+    /* 🎯 CAMBIO CLAVE: El sidebar ocupa su columna y el wrapper ocupa todo el resto */
+    grid-template-areas: "sidebar content";
+
     position: relative;
     min-height: 100vh;
-    max-width: 1440px;
+
+    width: 100%;
+    max-width: 90rem;
     margin: 0 auto;
-}
-/* --- Header --- */
-.app-header {
-    width: 100%; 
-    height: var(--topbar-height);
-    background-color: white; 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 40px;
-    box-shadow: 0 4px 4px rgba(0,0,0,0.1);
-    position: relative;
-    z-index: 100;
-    box-sizing: border-box; 
-}
-
-.help-btn {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.help-btn img {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-}
-
-.help-btn:hover {
-    background-color: rgba(0, 0, 0, 0.05); 
-    border-radius: 50%;
-}
-
-/* --- LOGOUT BUTTON (Header) --- */
-.logout-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: transparent;
-    border: 2px solid var(--border-grey);
-    color: var(--navy-blue);
-    padding: 0;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-}
-
-.logout-button img {
-    width: 20px;
-    height: 20px;
-    transition: all 0.2s ease-in-out;
-}
-
-.logout-button:hover {
-    background-color: var(--navy-blue);
-    border-color: var(--navy-blue);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transform: scale(1.05);
-}
-
-.logout-button:hover img {
-    filter: brightness(0) invert(1);
-}
-
-/* --- SIDEBAR (Left) --- */
-.sidebar {
-    background-color: var(--navy-blue);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 64px 0;
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    box-sizing: border-box;
-}
-
-.sidebar-top-group {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    width: 100%;
-}
-.sidebar-logo {
-    width: 100px;
-    margin: 0 auto 40px auto;
-    display: block;
-}
-
-.app-title {
-    font-size: 20px;
-    font-weight: 400;
-}
-
-.sidebar-footer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    padding: 64px 0px;
-    margin-top: auto;
-    width: 100%;
-}
-
-.footer-link {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    color: #A8ABE0;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 400;
-    padding: 8px 16px;
-    text-align: center;
-    transition: color 0.2s ease;
-}
-
-.footer-link:hover {
-    background-color: #091931;
-    color: var(--white);
-    font-weight: 700;
-    text-decoration: none;
-}
-
-.nav-links {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.nav-item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 12px 40px;
-    text-decoration: none;
-    color: #CDCDCD;
-    transition: background 0.2s;
-}
-
-.nav-item:hover, .nav-item.active {
-    background-color: #091931;
-    color: white;
-}
-
-/* --- LOGOUT BUTTON (Header) --- */
-/* .logout-button {
-    background-color: transparent;
-    border: 1px solid var(primary-color);
-    color: #A8ABE0;
-    padding: 6px 14px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-}
-
-.logout-button:hover {
-    background-color: var(--navy-blue);
-    color: white;
-    border-color: var(--navy-blue);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-} */
-
-/* --- MAIN WRAPPER (Topbar + Content) --- */
-.main-content-wrapper {
-    display: grid;
-    grid-template-rows: var(--topbar-height) 1fr;
     background-color: var(--bg-color);
+}
+
+/* 🎯 HEADER INJECTOR CONTAINER CONTROL */
+.app-shell div[w3-include-html*="header"] {
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    min-height: 100vh;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
-.header-user-actions {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.user-initials {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    border: 2px solid var(--navy-blue);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    color: var(--secondary-color);
-}
-
-/* --- CONTENT AREA (Where Summary/Board lives) --- */
-.content-panel {
-    display: flex;
-    justify-content: center;
-    padding: 40px;
-    background-color: #F6F7F8;
-    min-height: calc(100vh - 80px); 
-}
-
-.summary-content-container {
+/* Forces the inner header component to fill the exact remainder of the grid cell */
+.app-shell div[w3-include-html*="header"] .app-header {
     width: 100%;
-    max-width: 1200px;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* 🎯 SIDEBAR INJECTOR CONTAINER CONTROL */
+.app-shell div[w3-include-html*="sidebar"] {
+    grid-area: sidebar;
+    display: flex;
+    flex-direction: column;
+    width: var(--sidebar-width);
+    height: 100%;
+}
+
+/* 🎯 MAIN CONTENT CONTAINER */
+.app-shell .main-content-wrapper {
+    grid-area: content;
+    display: grid; /* Cambiado a grid para controlar la bajada del Header de Dennis */
+    grid-template-rows: auto 1fr;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 🎯 BASE ESTRUCTURAL DEL HEADER EN ESCRITORIO */
+.app-header {
+    width: 100%;
+    height: var(--topbar-height);
+    background-color: var(--white);
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    gap: 40px;
+    align-items: center;
+    padding: 0 2.5rem;
+    box-sizing: border-box;
+    box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.1);
+    z-index: 100;
 }
 
-/* RESPONSIVE (still 320px) */
-@media (max-width: 1024px) {
-    .app-shell {
-        grid-template-columns: 1fr;
-    }
-
-    .sidebar {
-        display: none;
-    }
+/* The white content panel locks at 100% of the remaining column space (~1208px) */
+.app-shell .main-content-wrapper #content.content-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 2.5rem;
 }
 
-.mobile-footer {
+/* Global Responsive Switches */
+.app-header .header-logo-mobile {
+    display: none;
+}
+.mobile-only {
+    display: none !important;
+}
+.desktop-only {
+    display: flex;
+}
+span.desktop-only {
+    display: inline;
+}
+.d-none {
     display: none;
 }
 
-@media (max-width: 1024px) {
-
-    .sidebar {
-        display: none;
+/* ==========================================================================
+   ⚡ BREAKPOINT: TABLETS (1024px and Below)
+   ========================================================================== */
+@media(max-width: 1024px) {
+    .app-shell {
+        display: flex;
+        flex-direction: column;
+        max-width: 100%;
+        width: 100%;
     }
 
-    .mobile-footer {
-        display: flex;
+    .app-shell div[w3-include-html*="sidebar"] {
+        width: 100%;
+        height: auto;
+    }
+
+    .app-shell .main-content-wrapper {
+        width: 100%;
+    }
+    .app-shell .sidebar {
         position: fixed;
         bottom: 0;
         left: 0;
+        right: 0;
+        top: auto;
         width: 100%;
-        height: 80px;
-        background-color: #2A3647;
+        height: 5rem;
+        background-color: var(--primary-color);
+        flex-direction: row;
         justify-content: space-around;
         align-items: center;
-        z-index: 100;
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+        padding: 0 !important;
+        z-index: 1000;
+        overflow: hidden;
+        box-sizing: border-box;
     }
 
-    .footer-item {
+    .sidebar-top-group {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        gap: 0;
+    }
+
+    .nav-links {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .sidebar-logo,
+    .sidebar-footer {
+        display: none !important;
+    }
+
+    .nav-item {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0 1rem;
+        color: var(--footer);
+        font-size: 0.75rem;
+        height: 100%;
+        width: 100%;
+        box-sizing: border-box;
+        transition: background-color 0.2s ease;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+        background-color: #091931;
+        color: var(--white);
+        border-radius: 0;
+    }
+
+    .nav-icon {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin: 0 auto;
+    }
+
+    .main-content-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        min-height: auto;
+    }
+
+    #content.content-panel {
+        padding: 1.5rem 1rem 7rem;
         display: flex;
         flex-direction: column;
         align-items: center;
-        color: #A8ABE0;
-        text-decoration: none;
-        font-size: 12px;
-        gap: 5px;
+        justify-content: flex-start;
+        width: 100%;
+        box-sizing: border-box;
     }
 
-    .footer-item:hover, .footer-item.active {
-        color: white;
+    .main-content-wrapper .app-header {
+        padding: 0 2.5rem;
     }
 
+    .header-logo-mobile.mobile-only {
+        display: block !important;
+        width: 2rem;
+        height: 2.438rem;
+    }
+}
 
-    .content-panel {
-        padding-bottom: 100px;
+/* ==========================================================================
+   ⚡ BREAKPOINT: PURE MOBILE (767px and Below)
+   ========================================================================== */
+@media(max-width: 767px) {
+.greeting-section {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    background-color: #F6F7F8 !important;
+    padding-top: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 99999 !important;
+    animation: mobileWelcome 2.5s ease-in-out forwards !important;
+}
+
+/* 🎯 Apuntamos al <h2> (Good afternoon,) */
+.greeting-section h2 {
+    font-size: 2.5rem !important;
+    color: var(--primary-color, #2A3647) !important;
+    text-align: center !important;
+    margin: 0 0 0.5rem !important;
+    font-weight: 400 !important;
+}
+
+/* 🎯 Apuntamos al <h1> (Guest) */
+.greeting-section h1 {
+    font-size: 4rem !important;
+    color: #29ABE2 !important; /* El azul característico de Join */
+    font-weight: 700 !important;
+    text-align: center !important;
+    margin: 0 !important;
+}
+
+    .main-content-wrapper .app-header {
+        padding: 0.75rem 1rem;
+        height: auto;
+    }
+
+    .main-content-wrapper .app-header .app-title.desktop-only,
+    .main-content-wrapper .app-header .help-btn.desktop-only {
+        display: none !important;
+    }
+
+    .header-user-actions {
+        display: flex;
+        align-items: center;
+        margin-left: auto;
+    }
+
+    .header-dropdown-menu {
+        top: 3.2rem;
+        right: 0;
+        left: auto;
+        min-width: 11rem;
+        background-color: var(--primary-color);
+        border-radius: 1.25rem 0 1.25rem 1.25rem;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .header-dropdown-menu .mobile-only-item {
+        display: block !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .dropdown-item {
+        font-size: 0.9rem !important;
+        padding: 0.8rem 1.25rem !important;
+        color: #CDCDCD !important;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .logout-item {
+        order: -1;
+        background-color: transparent;
+    }
+
+    .user-profile-wrapper .user-initials {
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 1rem;
+    }
+
+    .nav-links {
+        width: 100%;
+        height: 100%;
+    }
+
+    .nav-item {
+        flex: 1;
+        padding: 0;
+    }
+
+    .nav-icon {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+    .desktop-only {
+        display: none !important;
+    }
+    .mobile-only {
+        display: block !important;
+    }
+
+    #content.content-panel {
+        padding: 1rem 1rem 6rem;
+        min-height: calc(100dvh - 11rem);
+        box-sizing: border-box;
+    }
+}
+
+/* ==========================================================================
+   🎬 LOS KEYFRAMES (TOTALMENTE AFUERA DE LAS LLAVES, AL FINAL DEL TODO)
+   ========================================================================== */
+@keyframes mobileWelcome {
+    0% {
+        opacity: 1;
+        visibility: visible;
+    }
+    70% {
+        opacity: 1;
+        visibility: visible;
+    }
+    99% {
+        opacity: 0;
+        visibility: visible;
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
     }
 }

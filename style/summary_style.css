@@ -1,205 +1,187 @@
-.summary-header {
-    display: flex;
-    align-items: center;
-    /* gap: 30px; */
-    margin-bottom: 40px;
-}
-
-.summary-header h1 {
-    font-size: 61px;
-    font-weight: 700;
-    color: var(primary-color);
-    margin: 0;
-}
-
-.vertical-separator {
-    width: 3px;
-    height: 59px;
-    background-color: #29ABE2 !important;
-    display: inline-block;
-    margin: 0 30px;
-    opacity: 1;
-}
-
-.main-stats{
-    width: 560;
-    height: 562;
-    /* angle: 0 deg; */
-    opacity: 1;
-    top: 335px;
-    left: 328px;
-}
-
-.summary-header span {
-    font-size: 27px;
-    font-weight: 400;
-    /* color: #2A3647; */
-    width: 625;
-    height: 73;
-    /* angle: 0 deg; */
-    opacity: 1;
-    top: 206px;
-    left: 328px;
-    gap: 30px;
-
-}
-
-.summary-wrapper {
-    display: flex;
-    gap: 60px;
-    align-items: flex-start;
-}
+/* ==========================================================================
+   1. CONTENEDORES PRINCIPALES Y LAYOUT (Base Desktop Fiel a Figma)
+   ========================================================================== */
 .summary-content-container {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
-    align-items: center; 
-    gap: 40px;
-    margin-top: 40px;
+    align-items: flex-start;
     width: 100%;
-    max-width: 1000px;
+    max-width: 1120px;
+    margin: 0 auto;
+    /* padding: 3.5rem 2.5rem 2.5rem 4.5rem; */
+    gap: clamp(1.5rem, 3vw, 4rem);
+    flex-wrap: nowrap;
+    box-sizing: border-box;
 }
 
-.summary-title-section {
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    margin-bottom: 40px;
+/* 🎯 La sección de las tarjetas del panel izquierdo */
+.main-stats {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 39.063rem;
+    width: 100%;
 }
 
-.summary-title-section h1 {
-    font-size: 61px;
-    font-weight: 700;
-    color: #2A3647;
-    margin: 0;
-}
-.vertical-separator {
-    width: 3px;
-    height: 60px;
-    background-color: var(--secondary-color);
-}
-
-.summary-title-section span {
-    font-size: 27px;
-    font-weight: 400;
-    color: #2A3647;
-}
-.summary-card {
-    background-color: white; /* */
-    border-radius: 30px;    /* */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
-    transition: all 0.1s ease-in-out;
-    cursor: pointer;
-}
-
-.summary-card:hover {
-    background-color: #2A3647;
-    transform: scale(1.05);
-}
-
-.summary-card:hover .count, 
-.summary-card:hover .label {
-    color: white;
-}
-
-.card-small {
-    width: 264px;
-    height: 168px;
-    gap: 15px;
-}
-
-.card-wide {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding: 0 40px;
-    background-color: white;
-    border-radius: 30px;
-}
-
-.card-mini {
-    width: 168px;
-    height: 168px;
-    flex-direction: column;
-}
-
-/* --- Tiles General --- */
 .metrics-container {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 1.75rem;
+    width: 100%;
 }
 
 .metrics-row {
     display: flex;
     justify-content: space-between;
-    gap: 20px;
-    width: 560;
-    height: 170;
-    /* angle: 0 deg; */
+    width: 100%;
+    max-width: 35rem;
+    gap: 2rem;
+}
+
+/* ==========================================================================
+   2. HEADER (Join 360 | Key metrics at Glance)
+   ========================================================================== */
+.summary-header {
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 2vw, 1.875rem);
+    width: 100%;
+    max-width: 40rem;
+    margin-bottom: 2rem;
+}
+
+.summary-header h1 {
+    font-size: clamp(2.5rem, 4vw, 3.813rem);
+    font-weight: 700;
+    color: var(--black);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.vertical-separator {
+    width: 0.188rem;
+    height: 3.688rem;
+    background-color: var(--secondary-color);
     opacity: 1;
-    top: 392px;
+    flex-shrink: 0;
 }
 
-.tile-small, .tile-mini, .tile-wide {
-    background-color: white;
-    border-radius: 30px;
-    box-shadow: 0 0 4px rgba(0,0,0,0.1);
-    transition: all 0.1s ease-in-out;
+.summary-header span {
+    font-size: clamp(1.1rem, 2vw, 1.688rem);
+    font-weight: 400;
+    color: var(--primary-color);
+    line-height: 1.2;
+}
+
+/* ==========================================================================
+   3. TARJETAS DE MÉTRICAS (Estructura de Escritorio)
+   ========================================================================== */
+.summary-content-container .summary-card {
+    background-color: var(--white);
+    border-radius: 1.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0.25rem 0 rgba(0, 0, 0, 0.1);
+    transition: background-color 0.15s ease-in-out, transform 0.15s ease-in-out;
     cursor: pointer;
+    box-sizing: border-box;
+    width: 100%;
 }
 
-.tile-small:hover, .tile-mini:hover, .tile-wide:hover {
-    background-color: #2A3647;
-    color: white;
+/* --- ESTADOS HOVER GENERALES --- */
+.summary-content-container .summary-card:hover {
+    background-color: var(--primary-color);
     transform: scale(1.02);
 }
 
-/* --- Specific Tile Layouts --- */
-.tile-small {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    width: 260px;
-    height: 160px;
+.summary-content-container .summary-card:hover .count,
+.summary-content-container .summary-card:hover .label,
+.summary-content-container .summary-card:hover .date,
+.summary-content-container .summary-card:hover .date-label {
+    color: var(--white);
 }
 
-.tile-wide {
-    display: flex;
-    align-items: center;
-    padding: 30px 60px;
-    gap: 60px;
+.card-small {
+    width: 100%;
+    max-width: 16.5rem;
+    height: 10.5rem;
+    gap: 1.125rem;
 }
 
-.tile-mini {
-    display: flex;
+.card-wide {
+    justify-content: space-around;
+    width: 100%;
+    max-width: 35rem;
+    height: 10.5rem;
+}
+
+.card-mini {
+    width: 100%;
+    max-width: 10rem;
+    height: 10.5rem;
+    gap: 0.625rem;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 168px;
-    height: 160px;
 }
 
+.icon-circle {
+    width: 4.375rem;
+    height: 4.375rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.icon-circle.navy {
+    background-color: var(--primary-color);
+    transition: background-color 0.15s ease-in-out;
+}
+
+.icon-circle.orange {
+    background-color: var(--prio-urgent);
+}
+
+.icon-circle.navy img {
+    filter: brightness(0) invert(1);
+    object-fit: contain;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    transition: filter 0.15s ease-in-out;
+}
+
+/* --- EFECTOS HOVER COMPARTIDOS --- */
+.summary-content-container .summary-card:hover .icon-circle.navy {
+    background-color: var(--white);
+}
+
+.summary-content-container .summary-card:hover .icon-circle.navy img {
+    filter: brightness(0) saturate(100%) invert(18%) sepia(13%) saturate(1363%) hue-rotate(177deg) brightness(95%) contrast(93%);
+}
+
+/* ==========================================================================
+   4. INTERNAL ELEMENTS & CIRCLES
+   ========================================================================== */
 .tile-info {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
 }
-
 .tile-left {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 1.25rem;
 }
 
 .separator-v {
-    width: 4px;
-    height: 100px;
-    background-color: #D1D1D1;
-    margin: 16px 20px;
+    width: 0.25rem;
+    height: 6.25rem;
+    background-color: var(--border-grey);
+    margin: 1rem 1.25rem;
 }
 
 .tile-right {
@@ -208,80 +190,298 @@
     justify-content: center;
     align-items: flex-start;
 }
-
 .date {
-    font-size: 21px;
+    font-size: 1.313rem;
     font-weight: 700;
-    color: #2A3647;
+    color: var(--primary-color);
 }
-
 .date-label {
-    font-size: 16px;
-    color: #2A3647;
+    font-size: 1rem;
+    color: var(--primary-color);
 }
-
 .count {
-    font-size: 64px;
+    font-size: 3rem;
     font-weight: 700;
     line-height: 1;
-}
-
-.label {
-    font-size: 21px;
-    color: #2A3647;
-}
-/* --- Internal Elements --- */
-.icon-circle {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.icon-circle.navy { background-color: #2A3647; }
-.icon-circle.orange { background-color: #FF3D00; }
-
-.count {
-    font-size: 48px;
-    font-weight: 700;
     display: block;
+    color: var(--black);
 }
-
 .label {
-    font-size: 16px;
+    font-size: 1rem;
+    color: var(--primary-color);
 }
 
-/* --- Greeting --- */
+/* ==========================================================================
+   5. SECCIÓN GREETING (Escritorio)
+   ========================================================================== */
 .greeting-section {
+    flex: 0 0 auto;
+    min-width: 0;
+    text-align: left;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-width: 300px;
+    /* Aligns perfectly side by side with the top title row */
+    padding-top: 19rem;
+    padding-right: 1rem;
 }
 
-.greeting-section h2 {
-    font-size: 47px;
-    font-weight: 500;
+.greeting-section h2,
+#greetingText {
+    font-size: clamp(1.5rem, 2.5vw, 3rem);
+    font-weight: 400;
+    color: var(--primary-color);
+    line-height: 1.2;
+    white-space: nowrap;
     margin: 0;
 }
 
-.greeting-section h1 {
-    font-size: 64px;
+.greeting-section h1,
+#userNameDisplay {
+    font-size: clamp(2rem, 3.5vw, 4rem);
     font-weight: 700;
-    color: #29ABE2; 
+    color: var(--secondary-color);
+    line-height: 1.1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
     margin: 0;
 }
 
-/* Responsive tablets/móvil */
-@media (max-width: 1200px) {
-    .summary-wrapper {
+/* ==========================================================================
+   6. RESPONSIVE DESIGN: TABLETS & MOBILE COMPACT (De 1024px para abajo)
+   ========================================================================== */
+@media(max-width: 1024px) {
+    .summary-content-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        display: flex;
         flex-direction: column-reverse;
+        align-items: center;
+        padding: 0 1rem;
+        gap: 1.5rem;
     }
-    
-    .metrics-row {
-        flex-wrap: wrap;
+
+    .greeting-section {
+        display: none;
+    }
+
+    .main-stats {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        gap: 2rem;
+    }
+
+    .summary-header {
+        display: flex;
         justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+        text-align: center;
+        padding-top: 2rem;
+    }
+
+    .summary-header h1 {
+        font-size: 2.5rem;
+    }
+
+    .summary-header span {
+        font-size: 1.25rem;
+    }
+
+    .metrics-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .metrics-row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 28rem;
+        gap: 0.75rem;
+        margin: 0 auto;
+    }
+
+    .summary-card.card-small {
+        flex: 1 1 50%;
+        max-width: 100%;
+        height: 5.5rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem;
+        border-radius: 1.25rem;
+    }
+
+    .summary-card.card-wide {
+        width: 100%;
+        max-width: 28rem;
+        height: 7rem;
+        padding: 0 1rem;
+        border-radius: 1.25rem;
+    }
+
+    .summary-card.card-mini {
+        flex: 1 1 33.33%;
+        max-width: 100%;
+        width: auto;
+        height: 5.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.5rem;
+        border-radius: 1.25rem;
+    }
+
+    .card-mini .tile-info {
+        align-items: center;
+    }
+
+    .summary-content-container .summary-card .icon-circle.navy {
+        background-color: var(--primary-color);
+        width: 3.2rem;
+        height: 3.2rem;
+    }
+    .summary-content-container .summary-card .icon-circle.orange {
+        background-color: #FF3D00;
+        width: 3.2rem;
+        height: 3.2rem;
+    }
+
+    .count {
+        font-size: 2rem;
+    }
+    .label {
+        font-size: 0.8rem;
+        text-align: center;
+        line-height: 1.1;
+    }
+    .separator-v {
+        height: 3.75rem;
+        margin: 0 0.5rem;
+    }
+    .date {
+        font-size: 1rem;
+    }
+    .date-label {
+        font-size: 0.8rem;
+    }
+}
+
+/* ==========================================================================
+   ⚡ BREAKPOINT MÓVIL EN SU ARCHIVO CORRECTO (summary_style.css)
+   ========================================================================== */
+@media(max-width: 767px) {
+
+    .summary-header {
+        display: flex !important;
+        flex-direction: column !important; /* Forzamos orden vertical */
+        align-items: flex-start !important; /* Alineación a la izquierda */
+        justify-content: flex-start !important;
+        gap: 0.5rem !important;
+        width: 100% !important;
+        height: auto !important;
+        padding-top: 0 !important; /* Limpiamos el padding-top de 2rem que se ve en tu inspector */
+        text-align: left !important;
+    }
+
+    /* 🎯 1. El título principal se queda arriba de todo */
+    .summary-header h1 {
+        order: 1 !important;
+        margin: 0 !important;
+    }
+
+    /* 🎯 2. Forzamos al subtítulo a subir al segundo lugar */
+    .summary-header span {
+        order: 2 !important;
+        margin: 0 !important;
+    }
+
+    /* 🎯 3. Mandamos la línea azul al fondo del todo y la volvemos horizontal */
+    .summary-header .vertical-separator {
+        order: 3 !important; /* Se va abajo de las letras */
+        width: 90px !important;
+        height: 3px !important; /* Su alto ahora es el grosor */
+        background-color: #29ABE2 !important;
+        flex-shrink: 0 !important;
+        margin: 0.5rem 0 0 !important; /* Reseteamos los márgenes laterales viejos */
+    }
+}
+
+/* ==========================================================================
+   7. PURE MOBILE MATRIX (Ajustes finales de 428px para abajo)
+   ========================================================================== */
+@media(max-width: 428px) {
+    .metrics-row {
+        max-width: 100%;
+        gap: 0.5rem;
+    }
+
+    .summary-card.card-small,
+    .summary-card.card-mini {
+        height: 5rem;
+    }
+
+    .summary-content-container .summary-card .icon-circle.navy,
+    .summary-content-container .summary-card .icon-circle.orange {
+        width: 2.8rem;
+        height: 2.8rem;
+    }
+
+    .count {
+        font-size: 1.75rem;
+    }
+    .label {
+        font-size: 0.75rem;
+    }
+
+    .summary-content-container .summary-card.card-wide {
+        max-width: 100%;
+        height: 6.5rem;
+        padding: 1rem;
+        gap: 0.75rem;
+    }
+
+    .summary-content-container .summary-card.card-wide .separator-v {
+        margin: 0 0.25rem;
+    }
+
+    .tile-right {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .tile-right .date {
+        font-size: 1rem;
+    }
+
+    .tile-right .date-label {
+        font-size: 0.8rem;
+    }
+
+    .tile-left {
+        gap: 0.5rem;
+    }
+
+    .tile-left .urgent-count {
+        font-size: 2rem;
     }
 }

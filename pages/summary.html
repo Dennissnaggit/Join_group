@@ -7,6 +7,7 @@
     <link rel="icon" type="image/png" href="../assets/logo/fav_icon.png">
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="../style/app_layout.css">
+    <link rel="stylesheet" href="../style/components.css">
     <link rel="stylesheet" href="../style/summary_style.css">
     <script src="../script.js"></script>
     <script src="../script/summary.js" defer></script>
@@ -15,18 +16,20 @@
 </head>
 <body onload="init().then(() => { if (typeof initSummary === 'function') initSummary(); })">
 
-
     <div class="app-shell">
 
+        <!-- JS Injector Sidebar Container -->
         <div w3-include-html="../components/sidebar.html"></div>
 
         <div class="main-content-wrapper">
 
+            <!-- JS Injector Header Container -->
             <div w3-include-html="../components/header.html"></div>
 
             <main class="content-panel" id="content">
                 <div class="summary-content-container">
 
+                    <!-- Left Side: Header and Cards Matrix -->
                     <div class="main-stats">
                         <div class="summary-header">
                             <h1>Join 360</h1>
@@ -38,7 +41,7 @@
                             <div class="metrics-row">
                                 <div class="summary-card card-small">
                                     <div class="icon-circle navy">
-                                        <img src="../assets/icons/summary_todo_hover.svg" alt="Todo">
+                                        <img src="../assets/icons/summary_todo.svg" alt="Todo">
                                     </div>
                                     <div class="tile-info">
                                         <span class="count" id="todo-count">1</span>
@@ -48,7 +51,7 @@
 
                                 <div class="summary-card card-small">
                                     <div class="icon-circle navy">
-                                        <img src="../assets/icons/summary_done_hover.svg" alt="Done">
+                                        <img src="../assets/icons/summary_done.svg" alt="Done">
                                     </div>
                                     <div class="tile-info">
                                         <span class="count" id="done-count">0</span>
@@ -57,6 +60,7 @@
                                 </div>
                             </div>
 
+                            <!-- Urgent Wide Card -->
                             <div class="summary-card card-wide">
                                 <div class="tile-left">
                                     <div class="icon-circle orange">
@@ -74,6 +78,7 @@
                                 </div>
                             </div>
 
+                            <!-- Bottom Row Mini Cards -->
                             <div class="metrics-row">
                                 <div class="summary-card card-mini">
                                     <span class="count" id="board-count">5</span>
@@ -91,9 +96,10 @@
                         </div>
                     </div>
 
+                    <!-- Right Side: Elastic Greeting Section -->
                     <div class="greeting-section">
-                        <h2 id="greetingText">Good morning,</h2>
-                        <h1 id="userNameDisplay">User Name</h1>
+                        <h2 id="greetingText">Good afternoon,</h2>
+                        <h1 id="userNameDisplay">Guest</h1>
                     </div>
 
                 </div>
@@ -101,30 +107,5 @@
         </div>
     </div>
 
-
-
-
-
-
-    <nav class="mobile-footer">
-        <a href="summary.html" class="footer-item">
-            <img src="../assets/icons/summary.svg" alt="">
-            <span>Summary</span>
-        </a>
-        <a href="add_task.html" class="footer-item">
-            <img src="../assets/icons/add_task.svg" alt="">
-            <span>Add Task</span>
-        </a>
-        <a href="board.html" class="footer-item">
-            <img src="../assets/icons/board.svg" alt="">
-            <span>Board</span>
-        </a>
-        <a href="contacts.html" class="footer-item">
-            <img src="../assets/icons/contacts.svg" alt="">
-            <span>Contacts</span>
-        </a>
-    </nav>
-
 </body>
 </html>
-

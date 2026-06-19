@@ -323,6 +323,7 @@
   border: none;
 }
 
+<<<<<<< Updated upstream
 @media (max-width: 1000px) {
   .form-columns-wrapper,
   .inputsTask {
@@ -440,4 +441,16 @@
   .headerTask h1 {
     font-size: 32px;
   }
+=======
+/* Media 1000px */
+@media (max-width: 1024px) {
+    .form-columns-wrapper {
+        flex-direction: column;
+        gap: 24px;
+    }
+    
+    .form-divider {
+        display: none;
+    }
+>>>>>>> Stashed changes
 }

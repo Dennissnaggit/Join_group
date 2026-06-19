@@ -1,25 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    
-</head>
-<body>
-    
-<header class="app-header">
-    <span class="app-title">Kanban Project Management Tool</span>
-    
+<header class="header app-header">
+    <img src="../assets/logo/logo_mobile.svg" alt="Join Logo" class="header-logo-mobile mobile-only">
+
+    <span class="app-title desktop-only">Kanban Project Management Tool</span>
+
     <div class="header-user-actions">
-        <button class="icon-btn help-btn" onclick="window.location.href='help.html'">
+        <a href="help.html" class="help-btn desktop-only">
             <img src="../assets/icons/help.png" alt="Help">
-        </button>
-        <div class="user-initials" id="userInitials">CS</div>
-        <button class="logout-button" onclick="logout()" title="Log out">
-            <img src="../assets/icons/logout.svg" alt="Log out" class="logout-icon">
-        </button>
+        </a>
+
+        <div class="user-profile-wrapper" onclick="toggleLogoutMenu(event)">
+            <div class="user-initials" id="userInitials">CS</div>
+
+            <div class="header-dropdown-menu d-none" id="headerDropdown">
+                <a href="help.html" class="dropdown-item mobile-only-item">Help</a>
+                <a href="privacy_policy.html" class="dropdown-item mobile-only-item">Privacy Policy</a>
+                <a href="legal_notice.html" class="dropdown-item mobile-only-item">Legal Notice</a>
+                <button class="dropdown-item logout-item" onclick="logout()">Log out</button>
+            </div>
+        </div>
     </div>
 </header>
-</body>
-</html>
