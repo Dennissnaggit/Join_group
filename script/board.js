@@ -109,10 +109,7 @@ function createTaskCard(task) {
     <h3 class="board-task-title">${task.title}</h3>
     <p class="board-task-description">${task.description}</p>
     <div class="board-task-priority-row">
-      <img class="board-task-priority-icon" src="${getPriorityIconPath(task.priority)}" alt="${getPriorityLabel(task.priority)} priority">
-      <select class="board-task-priority-select" aria-label="Change priority">
-        ${buildPriorityOptions(task.priority)}
-      </select>
+      ${buildPriorityButtons(task)}
     </div>
     <div class="board-task-footer">
       <p class="board-task-users">${userText}</p>
@@ -127,39 +124,60 @@ function createTaskCard(task) {
     moveTaskToStatus(task.id, event.target.value);
   });
 
-  let prioritySelect = card.querySelector(".board-task-priority-select");
-  prioritySelect.addEventListener("change", (event) => {
-    updateTaskPriority(task.id, event.target.value);
+  let priorityButtons = card.querySelectorAll(".board-priority-btn");
+  priorityButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      updateTaskPriority(task.id, button.dataset.priority);
+    });
   });
 
   return card;
 }
 
-/** Builds select options for all priority values. */
-function buildPriorityOptions(currentPriority) {
-  let priorities = [
-    { value: "low", label: "Easy" },
-    { value: "medium", label: "Medium" },
-    { value: "urgent", label: "Hard" },
-  ];
+/** Builds icon-only buttons for task priority. */
+function buildPriorityButtons(task) {
+  let priorities = ["urgent", "medium", "low"];
 
   return priorities
     .map((priority) => {
-      let selected = priority.value === currentPriority ? "selected" : "";
-      return `<option value="${priority.value}" ${selected}>${priority.label}</option>`;
+      let isActive = task.priority === priority;
+      return `
+        <button
+          type="button"
+          class="board-priority-btn"
+          data-priority="${priority}"
+          aria-label="Set ${getPriorityLabel(priority)} priority"
+        >
+          <img
+            class="board-task-priority-icon"
+            src="${getPriorityIconPath(priority, isActive)}"
+            alt="${getPriorityLabel(priority)}"
+          >
+        </button>
+      `;
     })
     .join("");
 }
 
-/** Returns the Add Task icon path for one priority value. */
-function getPriorityIconPath(priority) {
+/** Returns the Add Task icon path for one priority value and state. */
+function getPriorityIconPath(priority, isActive) {
   let iconMap = {
-    urgent: "../assets/AdTask/prioUrgentActive.png",
-    medium: "../assets/AdTask/prioMedActive.png",
-    low: "../assets/AdTask/prioLowActive.png",
+    urgent: {
+      active: "../assets/AdTask/prioUrgentActive.png",
+      inactive: "../assets/AdTask/prioUrgentNotActive.png",
+    },
+    medium: {
+      active: "../assets/AdTask/prioMedActive.png",
+      inactive: "../assets/AdTask/prioMedNotActive.png",
+    },
+    low: {
+      active: "../assets/AdTask/prioLowActive.png",
+      inactive: "../assets/AdTask/prioLowNotActive.png",
+    },
   };
 
-  return iconMap[priority] || iconMap.medium;
+  let priorityIcons = iconMap[priority] || iconMap.medium;
+  return isActive ? priorityIcons.active : priorityIcons.inactive;
 }
 
 /** Returns text label for one priority value. */
