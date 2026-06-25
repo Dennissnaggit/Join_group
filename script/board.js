@@ -7,6 +7,8 @@ let boardTasks = [
     status: "in-progress",
     priority: "urgent",
     assignedTo: ["AM", "EM", "MB"],
+    subtasksDone: 1,
+    subtasksTotal: 2,
   },
   {
     id: "task-2",
@@ -16,6 +18,8 @@ let boardTasks = [
     status: "await-feedback",
     priority: "medium",
     assignedTo: ["AM", "EM", "MB"],
+    subtasksDone: 0,
+    subtasksTotal: 0,
   },
   {
     id: "task-3",
@@ -25,6 +29,8 @@ let boardTasks = [
     status: "await-feedback",
     priority: "low",
     assignedTo: ["AM", "EM", "MB"],
+    subtasksDone: 0,
+    subtasksTotal: 0,
   },
   {
     id: "task-4",
@@ -34,6 +40,8 @@ let boardTasks = [
     status: "done",
     priority: "medium",
     assignedTo: ["AM", "EM", "MB"],
+    subtasksDone: 2,
+    subtasksTotal: 2,
   },
 ];
 
@@ -102,18 +110,15 @@ function createTaskCard(task) {
   card.className = "board-task-card";
 
   let typeClass = task.type === "Technical Task" ? "technical-task" : "user-story";
-  let userText = task.assignedTo.join(", ");
 
   card.innerHTML = `
     <span class="board-task-type ${typeClass}">${task.type}</span>
     <h3 class="board-task-title">${task.title}</h3>
     <p class="board-task-description">${task.description}</p>
+    ${buildSubtasksSection(task)}
     <div class="board-task-footer">
-      <p class="board-task-users">${userText}</p>
+      <div class="board-task-users">${buildAvatarGroup(task.assignedTo)}</div>
       <div class="board-task-right">
-        <select class="board-task-move" aria-label="Move task">
-          ${buildStatusOptions(task.status)}
-        </select>
         <img
           class="board-task-priority-icon board-task-priority-fixed"
           src="${getPriorityIconPath(task.priority)}"
@@ -124,12 +129,46 @@ function createTaskCard(task) {
     </div>
   `;
 
-  let moveSelect = card.querySelector(".board-task-move");
-  moveSelect.addEventListener("change", (event) => {
-    moveTaskToStatus(task.id, event.target.value);
-  });
-
   return card;
+}
+
+/** Builds subtask progress section. */
+function buildSubtasksSection(task) {
+  if (!task.subtasksTotal) return "";
+
+  let progress = Math.round((task.subtasksDone / task.subtasksTotal) * 100);
+  return `
+    <div class="board-subtasks-row">
+      <div class="board-subtasks-bar" aria-hidden="true">
+        <div class="board-subtasks-fill" style="width: ${progress}%"></div>
+      </div>
+      <p class="board-subtasks-text">${task.subtasksDone}/${task.subtasksTotal} Subtasks</p>
+    </div>
+  `;
+}
+
+/** Builds avatar circles for assigned users. */
+function buildAvatarGroup(users) {
+  return users
+    .map((initials, index) => {
+      return `
+        <span class="board-avatar" style="background-color: ${getAvatarColor(initials)}; z-index: ${100 - index};">
+          ${initials}
+        </span>
+      `;
+    })
+    .join("");
+}
+
+/** Returns avatar color based on initials. */
+function getAvatarColor(initials) {
+  let colorMap = {
+    AM: "#ff7a00",
+    EM: "#2fd7c4",
+    MB: "#5a42b2",
+  };
+
+  return colorMap[initials] || "#8795a8";
 }
 
 /** Returns the Add Task icon path for one priority value. */
@@ -152,23 +191,6 @@ function getPriorityLabel(priority) {
   };
 
   return labelMap[priority] || "Medium";
-}
-
-/** Builds select options for all task statuses. */
-function buildStatusOptions(currentStatus) {
-  let statuses = [
-    { value: "todo", label: "To do" },
-    { value: "in-progress", label: "In progress" },
-    { value: "await-feedback", label: "Await feedback" },
-    { value: "done", label: "Done" },
-  ];
-
-  return statuses
-    .map((status) => {
-      let selected = status.value === currentStatus ? "selected" : "";
-      return `<option value="${status.value}" ${selected}>${status.label}</option>`;
-    })
-    .join("");
 }
 
 /** Updates one task status and re-renders the board. */
