@@ -174,9 +174,9 @@ function getAvatarColor(initials) {
 /** Returns the Add Task icon path for one priority value. */
 function getPriorityIconPath(priority) {
   let iconMap = {
-    urgent: "../assets/AdTask/prioUrgentActive.png",
-    medium: "../assets/AdTask/prioMedActive.png",
-    low: "../assets/AdTask/prioLowActive.png",
+    urgent: "../assets/icons/board/high.png",
+    medium: "../assets/icons/board/medium.png",
+    low: "../assets/icons/board/low.png",
   };
 
   return iconMap[priority] || iconMap.medium;
