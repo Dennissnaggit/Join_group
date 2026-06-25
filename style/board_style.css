@@ -117,6 +117,17 @@
   display: block;
 }
 
+.board-column {
+  border-radius: 0.75rem;
+  transition: background-color 0.15s ease, outline-color 0.15s ease;
+}
+
+.board-column-drop-active {
+  background-color: #eef4ff;
+  outline: 2px dashed #4589ff;
+  outline-offset: 4px;
+}
+
 .board-task-list {
   display: flex;
   flex-direction: column;
@@ -141,6 +152,15 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  cursor: grab;
+}
+
+.board-task-card:active {
+  cursor: grabbing;
+}
+
+.board-task-dragging {
+  opacity: 0.55;
 }
 
 .board-task-type {
