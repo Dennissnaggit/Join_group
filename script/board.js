@@ -57,46 +57,58 @@ function initBoard() {
 
 /** Sets up all board columns as drop zones. */
 function setupBoardDropZones() {
-  let columns = document.querySelectorAll(".board-column");
+  let taskLists = document.querySelectorAll(".board-task-list");
 
-  columns.forEach((column) => {
-    column.addEventListener("dragover", handleColumnDragOver);
-    column.addEventListener("drop", handleColumnDrop);
-    column.addEventListener("dragenter", handleColumnDragEnter);
-    column.addEventListener("dragleave", handleColumnDragLeave);
+  taskLists.forEach((taskList) => {
+    taskList.addEventListener("dragover", handleListDragOver);
+    taskList.addEventListener("drop", handleListDrop);
+    taskList.addEventListener("dragenter", handleListDragEnter);
+    taskList.addEventListener("dragleave", handleListDragLeave);
   });
 }
 
 /** Allows dropping on a column. */
-function handleColumnDragOver(event) {
+function handleListDragOver(event) {
   event.preventDefault();
 }
 
-/** Marks column as active while dragging card over it. */
-function handleColumnDragEnter(event) {
-  let column = event.currentTarget;
-  column.classList.add("board-column-drop-active");
+/** Marks list as active while dragging card over it. */
+function handleListDragEnter(event) {
+  let taskList = event.currentTarget;
+  taskList.classList.add("board-task-list-drop-active");
 }
 
-/** Removes active marker when leaving a column. */
-function handleColumnDragLeave(event) {
-  let column = event.currentTarget;
-  if (column.contains(event.relatedTarget)) return;
-  column.classList.remove("board-column-drop-active");
+/** Removes active marker when leaving a list. */
+function handleListDragLeave(event) {
+  let taskList = event.currentTarget;
+  if (taskList.contains(event.relatedTarget)) return;
+  taskList.classList.remove("board-task-list-drop-active");
 }
 
 /** Drops task into a new status column. */
-function handleColumnDrop(event) {
+function handleListDrop(event) {
   event.preventDefault();
-  let column = event.currentTarget;
-  let newStatus = column.dataset.status;
+  let taskList = event.currentTarget;
+  let newStatus = getStatusFromTaskList(taskList.id);
   let droppedTaskId = draggedTaskId || event.dataTransfer.getData("text/plain");
 
-  column.classList.remove("board-column-drop-active");
+  taskList.classList.remove("board-task-list-drop-active");
   if (!droppedTaskId || !newStatus) return;
 
   moveTaskToStatus(droppedTaskId, newStatus);
   draggedTaskId = null;
+}
+
+/** Maps a task list id to a board status. */
+function getStatusFromTaskList(taskListId) {
+  let statusMap = {
+    boardColumnTodo: "todo",
+    boardColumnInProgress: "in-progress",
+    boardColumnAwaitFeedback: "await-feedback",
+    boardColumnDone: "done",
+  };
+
+  return statusMap[taskListId] || null;
 }
 
 /** Adds input event listener for board search. */
