@@ -5,6 +5,7 @@ let boardTasks = [
     description: "Build start page with recipe recommendation section.",
     type: "User Story",
     status: "in-progress",
+    priority: "urgent",
     assignedTo: ["AM", "EM", "MB"],
   },
   {
@@ -13,6 +14,7 @@ let boardTasks = [
     description: "Create reusable HTML base templates.",
     type: "Technical Task",
     status: "await-feedback",
+    priority: "medium",
     assignedTo: ["AM", "EM", "MB"],
   },
   {
@@ -21,6 +23,7 @@ let boardTasks = [
     description: "Implement daily recipe and portion calculator.",
     type: "User Story",
     status: "await-feedback",
+    priority: "low",
     assignedTo: ["AM", "EM", "MB"],
   },
   {
@@ -29,6 +32,7 @@ let boardTasks = [
     description: "Define CSS naming rules and folder structure.",
     type: "Technical Task",
     status: "done",
+    priority: "medium",
     assignedTo: ["AM", "EM", "MB"],
   },
 ];
@@ -104,6 +108,12 @@ function createTaskCard(task) {
     <span class="board-task-type ${typeClass}">${task.type}</span>
     <h3 class="board-task-title">${task.title}</h3>
     <p class="board-task-description">${task.description}</p>
+    <div class="board-task-priority-row">
+      <img class="board-task-priority-icon" src="${getPriorityIconPath(task.priority)}" alt="${getPriorityLabel(task.priority)} priority">
+      <select class="board-task-priority-select" aria-label="Change priority">
+        ${buildPriorityOptions(task.priority)}
+      </select>
+    </div>
     <div class="board-task-footer">
       <p class="board-task-users">${userText}</p>
       <select class="board-task-move" aria-label="Move task">
@@ -117,7 +127,50 @@ function createTaskCard(task) {
     moveTaskToStatus(task.id, event.target.value);
   });
 
+  let prioritySelect = card.querySelector(".board-task-priority-select");
+  prioritySelect.addEventListener("change", (event) => {
+    updateTaskPriority(task.id, event.target.value);
+  });
+
   return card;
+}
+
+/** Builds select options for all priority values. */
+function buildPriorityOptions(currentPriority) {
+  let priorities = [
+    { value: "low", label: "Easy" },
+    { value: "medium", label: "Medium" },
+    { value: "urgent", label: "Hard" },
+  ];
+
+  return priorities
+    .map((priority) => {
+      let selected = priority.value === currentPriority ? "selected" : "";
+      return `<option value="${priority.value}" ${selected}>${priority.label}</option>`;
+    })
+    .join("");
+}
+
+/** Returns the Add Task icon path for one priority value. */
+function getPriorityIconPath(priority) {
+  let iconMap = {
+    urgent: "../assets/AdTask/prioUrgentActive.png",
+    medium: "../assets/AdTask/prioMedActive.png",
+    low: "../assets/AdTask/prioLowActive.png",
+  };
+
+  return iconMap[priority] || iconMap.medium;
+}
+
+/** Returns text label for one priority value. */
+function getPriorityLabel(priority) {
+  let labelMap = {
+    urgent: "Hard",
+    medium: "Medium",
+    low: "Easy",
+  };
+
+  return labelMap[priority] || "Medium";
 }
 
 /** Builds select options for all task statuses. */
@@ -143,5 +196,14 @@ function moveTaskToStatus(taskId, newStatus) {
   if (!task) return;
 
   task.status = newStatus;
+  renderBoard();
+}
+
+/** Updates one task priority and re-renders the board. */
+function updateTaskPriority(taskId, newPriority) {
+  let task = boardTasks.find((entry) => entry.id === taskId);
+  if (!task) return;
+
+  task.priority = newPriority;
   renderBoard();
 }
