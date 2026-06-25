@@ -22,9 +22,51 @@
 
             <main class="content-panel" id="content">
                 <div class="board-content-container">
-                    
                     <h1>Board</h1>
-                    
+
+                    <section class="board-toolbar" aria-label="Board actions">
+                        <div class="board-search-wrapper">
+                            <input
+                                id="boardSearchInput"
+                                class="board-search-input"
+                                type="search"
+                                placeholder="Find task"
+                                aria-label="Find task"
+                            >
+                        </div>
+
+                        <a class="board-add-task-btn" href="./add_task.html">Add task +</a>
+                    </section>
+
+                    <section class="board-columns" aria-label="Kanban columns">
+                        <article class="board-column" data-status="todo">
+                            <header class="board-column-header">
+                                <h2>To do</h2>
+                            </header>
+                            <div id="boardColumnTodo" class="board-task-list"></div>
+                        </article>
+
+                        <article class="board-column" data-status="in-progress">
+                            <header class="board-column-header">
+                                <h2>In progress</h2>
+                            </header>
+                            <div id="boardColumnInProgress" class="board-task-list"></div>
+                        </article>
+
+                        <article class="board-column" data-status="await-feedback">
+                            <header class="board-column-header">
+                                <h2>Await feedback</h2>
+                            </header>
+                            <div id="boardColumnAwaitFeedback" class="board-task-list"></div>
+                        </article>
+
+                        <article class="board-column" data-status="done">
+                            <header class="board-column-header">
+                                <h2>Done</h2>
+                            </header>
+                            <div id="boardColumnDone" class="board-task-list"></div>
+                        </article>
+                    </section>
                 </div>
             </main>
         </div>
