@@ -46,11 +46,56 @@ let boardTasks = [
 ];
 
 let boardSearchValue = "";
+let draggedTaskId = null;
 
 /** Initializes board page behavior. */
 function initBoard() {
   setupBoardSearch();
+  setupBoardDropZones();
   renderBoard();
+}
+
+/** Sets up all board columns as drop zones. */
+function setupBoardDropZones() {
+  let columns = document.querySelectorAll(".board-column");
+
+  columns.forEach((column) => {
+    column.addEventListener("dragover", handleColumnDragOver);
+    column.addEventListener("drop", handleColumnDrop);
+    column.addEventListener("dragenter", handleColumnDragEnter);
+    column.addEventListener("dragleave", handleColumnDragLeave);
+  });
+}
+
+/** Allows dropping on a column. */
+function handleColumnDragOver(event) {
+  event.preventDefault();
+}
+
+/** Marks column as active while dragging card over it. */
+function handleColumnDragEnter(event) {
+  let column = event.currentTarget;
+  column.classList.add("board-column-drop-active");
+}
+
+/** Removes active marker when leaving a column. */
+function handleColumnDragLeave(event) {
+  let column = event.currentTarget;
+  if (column.contains(event.relatedTarget)) return;
+  column.classList.remove("board-column-drop-active");
+}
+
+/** Drops task into a new status column. */
+function handleColumnDrop(event) {
+  event.preventDefault();
+  let column = event.currentTarget;
+  let newStatus = column.dataset.status;
+
+  column.classList.remove("board-column-drop-active");
+  if (!draggedTaskId || !newStatus) return;
+
+  moveTaskToStatus(draggedTaskId, newStatus);
+  draggedTaskId = null;
 }
 
 /** Adds input event listener for board search. */
@@ -108,6 +153,8 @@ function getFilteredTasksByStatus(status) {
 function createTaskCard(task) {
   let card = document.createElement("article");
   card.className = "board-task-card";
+  card.draggable = true;
+  card.dataset.taskId = task.id;
 
   let typeClass = task.type === "Technical Task" ? "technical-task" : "user-story";
 
@@ -129,7 +176,30 @@ function createTaskCard(task) {
     </div>
   `;
 
+  card.addEventListener("dragstart", handleTaskDragStart);
+  card.addEventListener("dragend", handleTaskDragEnd);
+
   return card;
+}
+
+/** Starts dragging one task card. */
+function handleTaskDragStart(event) {
+  let card = event.currentTarget;
+  draggedTaskId = card.dataset.taskId;
+
+  event.dataTransfer.effectAllowed = "move";
+  event.dataTransfer.setData("text/plain", draggedTaskId);
+  card.classList.add("board-task-dragging");
+}
+
+/** Ends dragging and resets visual states. */
+function handleTaskDragEnd(event) {
+  let card = event.currentTarget;
+  card.classList.remove("board-task-dragging");
+
+  document
+    .querySelectorAll(".board-column-drop-active")
+    .forEach((column) => column.classList.remove("board-column-drop-active"));
 }
 
 /** Builds subtask progress section. */
