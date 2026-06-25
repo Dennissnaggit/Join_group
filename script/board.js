@@ -108,14 +108,19 @@ function createTaskCard(task) {
     <span class="board-task-type ${typeClass}">${task.type}</span>
     <h3 class="board-task-title">${task.title}</h3>
     <p class="board-task-description">${task.description}</p>
-    <div class="board-task-priority-row">
-      ${buildPriorityButtons(task)}
-    </div>
     <div class="board-task-footer">
       <p class="board-task-users">${userText}</p>
-      <select class="board-task-move" aria-label="Move task">
-        ${buildStatusOptions(task.status)}
-      </select>
+      <div class="board-task-right">
+        <select class="board-task-move" aria-label="Move task">
+          ${buildStatusOptions(task.status)}
+        </select>
+        <img
+          class="board-task-priority-icon board-task-priority-fixed"
+          src="${getPriorityIconPath(task.priority)}"
+          alt="${getPriorityLabel(task.priority)} priority"
+          title="${getPriorityLabel(task.priority)} priority"
+        >
+      </div>
     </div>
   `;
 
@@ -124,60 +129,18 @@ function createTaskCard(task) {
     moveTaskToStatus(task.id, event.target.value);
   });
 
-  let priorityButtons = card.querySelectorAll(".board-priority-btn");
-  priorityButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      updateTaskPriority(task.id, button.dataset.priority);
-    });
-  });
-
   return card;
 }
 
-/** Builds icon-only buttons for task priority. */
-function buildPriorityButtons(task) {
-  let priorities = ["urgent", "medium", "low"];
-
-  return priorities
-    .map((priority) => {
-      let isActive = task.priority === priority;
-      return `
-        <button
-          type="button"
-          class="board-priority-btn"
-          data-priority="${priority}"
-          aria-label="Set ${getPriorityLabel(priority)} priority"
-        >
-          <img
-            class="board-task-priority-icon"
-            src="${getPriorityIconPath(priority, isActive)}"
-            alt="${getPriorityLabel(priority)}"
-          >
-        </button>
-      `;
-    })
-    .join("");
-}
-
-/** Returns the Add Task icon path for one priority value and state. */
-function getPriorityIconPath(priority, isActive) {
+/** Returns the Add Task icon path for one priority value. */
+function getPriorityIconPath(priority) {
   let iconMap = {
-    urgent: {
-      active: "../assets/AdTask/prioUrgentActive.png",
-      inactive: "../assets/AdTask/prioUrgentNotActive.png",
-    },
-    medium: {
-      active: "../assets/AdTask/prioMedActive.png",
-      inactive: "../assets/AdTask/prioMedNotActive.png",
-    },
-    low: {
-      active: "../assets/AdTask/prioLowActive.png",
-      inactive: "../assets/AdTask/prioLowNotActive.png",
-    },
+    urgent: "../assets/AdTask/prioUrgentActive.png",
+    medium: "../assets/AdTask/prioMedActive.png",
+    low: "../assets/AdTask/prioLowActive.png",
   };
 
-  let priorityIcons = iconMap[priority] || iconMap.medium;
-  return isActive ? priorityIcons.active : priorityIcons.inactive;
+  return iconMap[priority] || iconMap.medium;
 }
 
 /** Returns text label for one priority value. */
@@ -214,14 +177,5 @@ function moveTaskToStatus(taskId, newStatus) {
   if (!task) return;
 
   task.status = newStatus;
-  renderBoard();
-}
-
-/** Updates one task priority and re-renders the board. */
-function updateTaskPriority(taskId, newPriority) {
-  let task = boardTasks.find((entry) => entry.id === taskId);
-  if (!task) return;
-
-  task.priority = newPriority;
   renderBoard();
 }
