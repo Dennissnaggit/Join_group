@@ -90,11 +90,12 @@ function handleColumnDrop(event) {
   event.preventDefault();
   let column = event.currentTarget;
   let newStatus = column.dataset.status;
+  let droppedTaskId = draggedTaskId || event.dataTransfer.getData("text/plain");
 
   column.classList.remove("board-column-drop-active");
-  if (!draggedTaskId || !newStatus) return;
+  if (!droppedTaskId || !newStatus) return;
 
-  moveTaskToStatus(draggedTaskId, newStatus);
+  moveTaskToStatus(droppedTaskId, newStatus);
   draggedTaskId = null;
 }
 
