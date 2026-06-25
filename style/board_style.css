@@ -48,10 +48,33 @@
   align-items: start;
 }
 
+.board-column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
 .board-column-header h2 {
-  margin: 0 0 0.75rem;
+  margin: 0;
   font-size: 1.25rem;
   color: var(--primary-color);
+}
+
+.board-column-add-btn {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 50%;
+  color: var(--primary-color);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .board-task-list {
