@@ -22,10 +22,11 @@
 
             <main class="content-panel" id="content">
                 <div class="board-content-container">
-                    <h1>Board</h1>
+                    <section class="board-top-row" aria-label="Board header and actions">
+                        <h1>Board</h1>
 
-                    <section class="board-toolbar" aria-label="Board actions">
-                        <div class="board-search-wrapper">
+                        <div class="board-toolbar" aria-label="Board actions">
+                            <div class="board-search-wrapper">
                             <input
                                 id="boardSearchInput"
                                 class="board-search-input"
@@ -33,9 +34,14 @@
                                 placeholder="Find task"
                                 aria-label="Find task"
                             >
-                        </div>
+                            <span class="board-search-right" aria-hidden="true">
+                                <span class="board-search-divider"></span>
+                                <span class="board-search-icon"></span>
+                            </span>
+                            </div>
 
-                        <a class="board-add-task-btn" href="./add_task.html">Add task +</a>
+                            <a class="board-add-task-btn" href="./add_task.html">Add task +</a>
+                        </div>
                     </section>
 
                     <section class="board-columns" aria-label="Kanban columns">
