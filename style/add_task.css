@@ -47,7 +47,8 @@
 }
 /* Assigned To Feld */
 .multi-select {
-  width: 440px;
+  width: 100%; /*neu dazu*/
+  max-width: 440px;/*vorher war nur width*/
   position: relative;
   font-family: Arial, sans-serif;
 }
@@ -182,10 +183,12 @@
   display: flex;
   gap: 48px;
   align-items: flex-start;
+  width: 100%;/*neu*/
 }
 
 .inputLeft,
 .inputRight {
+  width: 100%;/*neu*/
   width: 440px;
 }
 
@@ -250,6 +253,7 @@
   display: flex;
   gap: 16px;
   margin-top: 12px;
+  width: 100%;/*neu*/
 }
 
 .priorityBtn {
@@ -323,7 +327,7 @@
   border: none;
 }
 
-<<<<<<< Updated upstream
+
 @media (max-width: 1000px) {
   .form-columns-wrapper,
   .inputsTask {
@@ -441,7 +445,7 @@
   .headerTask h1 {
     font-size: 32px;
   }
-=======
+}
 /* Media 1000px */
 @media (max-width: 1024px) {
     .form-columns-wrapper {
@@ -452,5 +456,4 @@
     .form-divider {
         display: none;
     }
->>>>>>> Stashed changes
 }

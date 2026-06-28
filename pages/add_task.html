@@ -1,40 +1,24 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Join - Add Task</title>
-<<<<<<< Updated upstream
-    <link rel="icon" type="image/png" href="../assets/logo/fav_icon.png" />
-    <link
-      rel="stylesheet"
-      href="../node_modules/bootstrap/dist/css/bootstrap.min.css"
-    />
-
-    <link rel="stylesheet" href="../style.css" />
-    <link rel="stylesheet" href="../style/app_layout.css" />
-    <link rel="stylesheet" href="../style/add_task.css" />
-    <script type="module" src="../script/firebase.js"></script>
-=======
-    <link rel="icon" type="image/png" href="../assets/logo/fav_icon.png">    
-    <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="../style/app_layout.css">
-    <link rel="stylesheet" href="../style/components.css">
-    <link rel="stylesheet" href="../style/add_task_style.css"> 
-    <script src="../script/firebase.js"></script>
->>>>>>> Stashed changes
-    <script src="../script.js"></script>
-    <script src="../script/add_task.js" defer></script>
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+      <meta charset="UTF-8"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <title>Join - Add Task</title>
+      <link rel="icon" type="image/png" href="../assets/logo/fav_icon.png"/>
+      <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+      <link rel="stylesheet" href="../style.css"/>
+      <link rel="stylesheet" href="../style/app_layout.css"/>
+      <link rel="stylesheet" href="../style/components.css"/>
+      <link rel="stylesheet" href="../style/add_task.css"/>
+      <script type="medule" src="../script/firebase.js"></script>
+      <script src="../script.js"></script>
+      <script src="../script/add_task.js" defer="defer"></script>
+      <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
   </head>
-  <body
-    onload="
-      init().then(() => {
-        if (typeof initAddTask === 'function') initAddTask();
-      })
-    "
-  >
-    <div class="app-shell">
+  <body onload="init().then(() => { if (typeof initAddTask === 'function') initAddTask(); })">
+
+      <div class="app-shell">
+
       <div w3-include-html="../components/sidebar.html"></div>
 
       <div class="main-content-wrapper">
@@ -44,90 +28,43 @@
           <div class="headerTask">
             <h1>Add Task</h1>
           </div>
+
           <div class="inputsTask">
             <div class="inputLeft">
               <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label"
-                  >Title*</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="TitleOfTask"
-                  placeholder="Title of the task"
-                />
+                <label for="exampleFormControlInput1" class="form-label">Title*</label>
+                <input type="text"class="form-control"id="TitleOfTask"placeholder="Title of the task"/>
               </div>
               <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label"
-                  >Description</label
-                >
-                <textarea
-                  class="form-control"
-                  id="exampleFormControlTextarea1"
-                  rows="3"
-                  placeholder="Description of the task"
-                ></textarea>
+                <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Description of the task"></textarea>
               </div>
               <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label"
-                  >Due date*</label
-                >
-                <input
-                  type="date"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                  placeholder="name@example.com"
-                />
+                <label for="exampleFormControlInput1" class="form-label">Due date*</label>
+                <input type="date" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com"/>
               </div>
             </div>
+
             <div class="inputRight">
               <div class="prioritySection">
                 <h3>Priority</h3>
-
                 <div class="priorityButtons">
-                  <input
-                    type="radio"
-                    class="btn-check"
-                    name="priority"
-                    id="urgent"
-                    autocomplete="off"
-                  />
+                  <input type="radio" class="btn-check" name="priority" id="urgent" autocomplete="off"/>
                   <label class="priorityBtn urgentBtn" for="urgent">
                     <span>Urgent</span>
-                    <span
-                      ><img
-                        src="../assets/AdTask/prioUrgentNotActive.png"
-                        alt=""
-                    /></span>
+                    <span><img src="../assets/AdTask/prioUrgentNotActive.png" alt=""/></span>
                   </label>
 
-                  <input
-                    type="radio"
-                    class="btn-check"
-                    name="priority"
-                    id="medium"
-                    autocomplete="off"
-                  />
+                  <input type="radio" class="btn-check" name="priority" id="medium" autocomplete="off"/>
                   <label class="priorityBtn mediumBtn" for="medium">
                     <span>Medium</span>
-                    <span
-                      ><img src="../assets/AdTask/prioMedNotActive.png" alt=""
-                    /></span>
+                    <span><img src="../assets/AdTask/prioMedNotActive.png" alt=""/></span>
                   </label>
 
-                  <input
-                    type="radio"
-                    class="btn-check"
-                    name="priority"
-                    id="low"
-                    autocomplete="off"
-                  />
-
+                  <input type="radio" class="btn-check" name="priority" id="low" autocomplete="off"/>
                   <label class="priorityBtn lowBtn" for="low">
                     <span>Low</span>
-                    <span
-                      ><img src="../assets/AdTask/prioLowNotActive.png" alt=""
-                    /></span>
+                    <span><img src="../assets/AdTask/prioLowNotActive.png" alt=""/></span>
                   </label>
                 </div>
               </div>
@@ -136,73 +73,44 @@
                 <label class="multi-select-title">Assigned to</label>
 
                 <div class="input-field" id="inputFieldMultiSelect">
-                  <input
-                    id="searchInput"
-                    type="text"
-                    placeholder="Auswahl treffen"
-                  />
+                  <input id="searchInput" type="text" placeholder="Auswahl treffen"/>
                   <span>▼</span>
                 </div>
 
                 <div class="dropdown" id="dropdown">
                   <label>
                     <div class="name-wrap">
-                      <div class="circle">D</div>
-                      Dennis
-                    </div>
+                      <div class="circle">D</div>Dennis</div>
                     <input type="checkbox" value="Dennis" />
-                    <img
-                      class="checkbox-img"
-                      src="../assets/AdTask/personUnchecked.png"
-                    />
+                    <img class="checkbox-img" src="../assets/AdTask/personUnchecked.png"/>
                   </label>
 
                   <label>
                     <div class="name-wrap">
-                      <div class="circle">F</div>
-                      Frank
-                    </div>
+                      <div class="circle">F</div>Frank</div>
                     <input type="checkbox" value="Frank" />
-                    <img
-                      class="checkbox-img"
-                      src="../assets/AdTask/personUnchecked.png"
-                    />
+                    <img class="checkbox-img" src="../assets/AdTask/personUnchecked.png"/>
                   </label>
 
                   <label>
                     <div class="name-wrap">
-                      <div class="circle">T</div>
-                      Thomas
-                    </div>
+                      <div class="circle">T</div>Thomas</div>
                     <input type="checkbox" value="Thomas" />
-                    <img
-                      class="checkbox-img"
-                      src="../assets/AdTask/personUnchecked.png"
-                    />
+                    <img class="checkbox-img" src="../assets/AdTask/personUnchecked.png"/>
                   </label>
 
                   <label>
                     <div class="name-wrap">
-                      <div class="circle">U</div>
-                      Uschi
-                    </div>
+                      <div class="circle">U</div>Uschi</div>
                     <input type="checkbox" value="Uschi" />
-                    <img
-                      class="checkbox-img"
-                      src="../assets/AdTask/personUnchecked.png"
-                    />
+                    <img class="checkbox-img" src="../assets/AdTask/personUnchecked.png"/>
                   </label>
 
                   <label>
                     <div class="name-wrap">
-                      <div class="circle">B</div>
-                      Banane
-                    </div>
+                      <div class="circle">B</div>Banane</div>
                     <input type="checkbox" value="Banane" />
-                    <img
-                      class="checkbox-img"
-                      src="../assets/AdTask/personUnchecked.png"
-                    />
+                    <img class="checkbox-img" src="../assets/AdTask/personUnchecked.png"/>
                   </label>
                 </div>
 
@@ -219,30 +127,12 @@
               </div>
               <label for="subtask" class="form-label">Subtasks</label>
               <div class="position-relative">
-                <input
-                  type="text"
-                  id="subtaskInput"
-                  class="form-control pe-5"
-                  placeholder="Neue Subtask eingeben"
-                />
+                <input type="text" id="subtaskInput" class="form-control pe-5" placeholder="Neue Subtask eingeben"/>
 
-                <div
-                  id="inputActions"
-                  class="position-absolute top-50 end-0 translate-middle-y me-2 d-none d-flex align-items-center"
-                >
-                  <img
-                    src="../assets/AdTask/close.png"
-                    class="action-icon"
-                    onclick="clearSubtaskInput()"
-                  />
-
+                <div id="inputActions" class="position-absolute top-50 end-0 translate-middle-y me-2 d-none d-flex align-items-center">
+                  <img src="../assets/AdTask/close.png" class="action-icon" onclick="clearSubtaskInput()"/>
                   <div class="action-divider"></div>
-
-                  <img
-                    src="../assets/AdTask/check.png"
-                    class="action-icon"
-                    onclick="addSubtask()"
-                  />
+                  <img src="../assets/AdTask/check.png" class="action-icon" onclick="addSubtask()"/>
                 </div>
               </div>
 
