@@ -22,9 +22,69 @@
 
             <main class="content-panel" id="content">
                 <div class="board-content-container">
-                    
-                    <h1>Board</h1>
-                    
+                    <section class="board-top-row" aria-label="Board header and actions">
+                        <h1>Board</h1>
+
+                        <div class="board-toolbar" aria-label="Board actions">
+                            <div class="board-search-wrapper">
+                            <input
+                                id="boardSearchInput"
+                                class="board-search-input"
+                                type="search"
+                                placeholder="Find task"
+                                aria-label="Find task"
+                            >
+                            <span class="board-search-right" aria-hidden="true">
+                                <span class="board-search-divider"></span>
+                                <span class="board-search-icon"></span>
+                            </span>
+                            </div>
+
+                            <a class="board-add-task-btn" href="./add_task.html">Add task +</a>
+                        </div>
+                    </section>
+
+                    <section class="board-columns" aria-label="Kanban columns">
+                        <article class="board-column" data-status="todo">
+                            <header class="board-column-header">
+                                <h2>To do</h2>
+                                <a class="board-column-add-btn" href="./add_task.html" aria-label="Add task to To do">
+                                    <img src="../assets/icons/board/plus_button.png" alt="">
+                                </a>
+                            </header>
+                            <div id="boardColumnTodo" class="board-task-list"></div>
+                        </article>
+
+                        <article class="board-column" data-status="in-progress">
+                            <header class="board-column-header">
+                                <h2>In progress</h2>
+                                <a class="board-column-add-btn" href="./add_task.html" aria-label="Add task to In progress">
+                                    <img src="../assets/icons/board/plus_button.png" alt="">
+                                </a>
+                            </header>
+                            <div id="boardColumnInProgress" class="board-task-list"></div>
+                        </article>
+
+                        <article class="board-column" data-status="await-feedback">
+                            <header class="board-column-header">
+                                <h2>Await feedback</h2>
+                                <a class="board-column-add-btn" href="./add_task.html" aria-label="Add task to Await feedback">
+                                    <img src="../assets/icons/board/plus_button.png" alt="">
+                                </a>
+                            </header>
+                            <div id="boardColumnAwaitFeedback" class="board-task-list"></div>
+                        </article>
+
+                        <article class="board-column" data-status="done">
+                            <header class="board-column-header">
+                                <h2>Done</h2>
+                                <a class="board-column-add-btn" href="./add_task.html" aria-label="Add task to Done">
+                                    <img src="../assets/icons/board/plus_button.png" alt="">
+                                </a>
+                            </header>
+                            <div id="boardColumnDone" class="board-task-list"></div>
+                        </article>
+                    </section>
                 </div>
             </main>
         </div>
