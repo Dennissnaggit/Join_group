@@ -1,0 +1,410 @@
+/* ==========================================================================
+   1. LAYOUT PRINCIPAL (Dos columnas)
+   ========================================================================== */
+.contacts-main-grid {
+    display: flex;
+    width: 100%;
+    height: calc(100vh - 90px);
+    background-color: #F6F7F8;
+}
+
+.contacts-sidebar-list {
+    width: 350px;
+    min-width: 350px;
+    background-color: white;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-shell .main-content-wrapper #content.content-panel {
+    padding-right: 0;
+}
+
+.contacts-scrollable-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 24px 24px 24px;
+}
+
+/* ==========================================================================
+   2. BOTÓN PRINCIPAL (Sidebar)
+   ========================================================================== */
+.button-wrapper {
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+}
+
+.add-new-contact-btn {
+    width: 100%;
+    padding: 16px;
+    background-color: #2A3647;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 21px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+/* ==========================================================================
+   3. COLUMNA DETALLE Y ELEMENTOS
+   ========================================================================== */
+.contacts-detail-panel {
+    flex: 1;
+    padding: 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background-color);
+}
+
+.contacts-header-title {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.title-divider {
+    width: 3px;
+    height: 60px;
+    background-color: #29ABE2;
+}
+
+.letter-divider {
+    padding: 16px 0;
+    font-size: 20px;
+    border-bottom: 1px solid #D1D1D1;
+    margin-top: 16px;
+}
+
+.contact-detail-header {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.contact-header-titles {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.contact-header-titles h2 {
+    font-size: 36px;
+    margin: 0;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.contact-actions {
+    display: flex;
+    gap: 16px;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* ==========================================================================
+   4. ELEMENTOS DE LA LISTA E INFORMACIÓN
+   ========================================================================== */
+.contact-list-item {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+    padding: 15px 24px;
+    margin: 8px 0;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.contact-list-item.active {
+    background-color: #2A3647;
+    color: white;
+}
+
+.contact-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    border: 2px solid white;
+}
+
+.contact-avatar-large {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 700;
+    border: 3px solid white;
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.1);
+}
+
+.contact-info-short {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.contact-name {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.contact-email-link {
+    font-size: 14px;
+    color: var(--email);
+}
+
+.contact-list-item.active .contact-email-link {
+    color: var(--footer) !important;
+}
+
+/* ==========================================================================
+   5. MODAL / OVERLAY HORIZONTAL
+   ========================================================================== */
+.modal-overlay .modal-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent; /* Quitamos el blanco de acá */
+    box-shadow: none; /* Quitamos la sombra repetida */
+}
+
+/* --- LA TARJETA REAL (La que maneja los 900px y los dos paneles) --- */
+.modal-card {
+    width: 1212px;
+    max-width: 95vw;
+    height: 592px; /* Altura exacta del screen */
+    background-color: white;
+    border-radius: 30px;
+    overflow: hidden;
+    display: flex; /* Une panel izquierdo y panel derecho en fila */
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
+    position: relative;
+    box-sizing: border-box;
+}
+
+/* El contenedor que cubre TODA la pantalla y oscurece el fondo */
+.modal-overlay {
+    position: fixed; /* Hace que se quede fijo en la pantalla, sin importar el scroll */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4); /* El "0.4" es el nivel de oscuridad del fondo */
+    display: flex;
+    justify-content: center; /* Centra el modal horizontalmente */
+    align-items: center;     /* Centra el modal verticalmente */
+    z-index: 999; /* Lo pone por encima de absolutamente todo el contenido de la página */
+}
+
+/* Panel Izquierdo */
+.modal-left-panel {
+    width: 453px; /* El ancho exacto que te marca tu primera captura */
+    background-color: #2A3647;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 48px;
+    box-sizing: border-box;
+}
+
+.modal-left-panel .modal-logo {
+    width: 50px;
+    margin-bottom: 24px;
+}
+
+.modal-left-panel h1 {
+    font-size: 55px;
+    margin: 0 0 16px 0;
+    font-weight: 700;
+}
+
+.modal-left-panel p {
+    font-size: 20px;
+    margin: 0;
+}
+
+.blue-line-horizontal {
+    width: 90px;
+    height: 3px;
+    background-color: var(--secondary-color);
+    margin-top: 16px;
+}
+
+/* Panel Derecho */
+.modal-right-panel {
+    flex: 1;
+    background-color: white;
+    display: flex;
+    flex-direction: row; /* ¡CLAVE! Pone el Avatar al lado del Formulario */
+    align-items: center;
+    justify-content: center;
+    gap: 40px; /* Separación entre el círculo del avatar y los inputs */
+    padding: 60px;
+    position: relative;
+    box-sizing: border-box;
+}
+
+/* --- EL AVATAR DEL MODAL (Círculo grande) --- */
+.modal-avatar-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #FFB800; /* El naranja o amarillo dinámico */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 47px;
+    font-weight: 700;
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.1);
+}
+
+.close-btn-container {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* --- CONTENEDOR DEL FORMULARIO --- */
+.modal-form-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    max-width: 400px; /* Para que los inputs no se estiren infinitamente y queden finos */
+}
+
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+/* Inputs con Iconos Nativos */
+.input-icon-container {
+        width: 100%;
+        position: relative;
+}
+
+.input-icon-container input {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 1rem;
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.input-icon-container img {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.input-icon-container input:focus {
+    border-color: #29ABE2; /* Se ilumina al hacer clic para escribir */
+}
+
+/* Botones del Formulario */
+.modal-actions-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+    margin-top: 30px;
+}
+
+.modal-actions-container button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.btn-cancel {
+    background-color: white;
+    border: 1px solid #2A3647;
+    color: #2A3647;
+}
+
+.btn-cancel:hover {
+    border-color: #29ABE2;
+    color: #29ABE2;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    transform: translateY(-1px); /* Mini efecto de subida */
+}
+
+.btn-create {
+    background-color: #2A3647;
+    border: none;
+    color: white;
+}
+
+.btn-create:hover {
+    background-color: #29ABE2;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    transform: translateY(-1px); /* Mini efecto de subida */
+}
+
+/* ==========================================================================
+   6. RESPONSIVE Y UTILITARIOS
+   ========================================================================== */
+.d-none { display: none !important; }
+.mobile-back-arrow { display: none; }
+
+@media (max-width: 850px) {
+    .contacts-sidebar-list { width: 100%; }
+    .contacts-detail-panel { display: none; width: 100%; }
+    
+    .d-none-mobile { display: none !important; }
+    .d-show-mobile { display: flex !important; }
+    .mobile-back-arrow { display: block; cursor: pointer; margin-bottom: 24px; }
+    
+    .modal-overlay .modal-card {
+        flex-direction: column;
+        width: 90%; 
+        height: 85%;
+    }
+    
+    .modal-left-panel { 
+        width: 100%; 
+        height: 35%; 
+        flex: none;
+    }
+}

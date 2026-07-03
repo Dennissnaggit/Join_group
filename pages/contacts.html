@@ -9,9 +9,11 @@
     <link rel="stylesheet" href="../style/app_layout.css">
     <link rel="stylesheet" href="../style/components.css">
     <link rel="stylesheet" href="../style/contacts_style.css"> 
-    <script src="../script/firebase.js"></script>
+    <script type="module" src="../script/firebase.js"></script>
     <script src="../script.js"></script>
-    <script src="../script/contacts.js" defer></script> </head>
+    <script src="../script/contacts_template.js"></script>
+    <script src="../script/contacts.js"></script> 
+</head>
 <body onload="init().then(() => { if (typeof initContacts === 'function') initContacts(); })">
 
     <div class="app-shell">
@@ -21,14 +23,37 @@
             <div w3-include-html="../components/header.html"></div>
 
             <main class="content-panel" id="content">
-                <div class="contacts-content-container">
-                    
-                    <h1>Contacts</h1>
-                    
+                <div class="contacts-main-grid">
+
+                    <div class="contacts-sidebar-list">
+                        <div class="button-wrapper">
+                            <button class="add-new-contact-btn" onclick="openAddContactModal()">
+                                Add new contact
+                                <img src="../assets/icons/edit_person.svg"></button>
+                            </div>
+                            <div id="contactsListContainer" class="contacts-scrollable-area"></div>
+                        </div>
+
+                        <div class="contacts-detail-panel">
+                            <div class="contacts-header-title">
+                                <h1>Contacts</h1>
+                                <div class="title-divider"></div>
+                                <span>Better with a team</span>
+                            </div>
+                            <div id="contactDetailContainer" class="detail-content-placeholder">
+                                <p class="select-hint">Select a contact to view details.</p>
+                        </div>
+                    </div>
+
                 </div>
             </main>
+
         </div>
+    </div>
+    <!-- Contenedor del Modal/Overlay oculto por defecto -->
+    <div id="contactModalOverlay" class="modal-overlay d-none" onclick="closeContactModal()">
+        <div id="contactModalContent" class="modal-content" onclick="event.stopPropagation()"></div>
     </div>
 
 </body>
-</html>
+</html> 
