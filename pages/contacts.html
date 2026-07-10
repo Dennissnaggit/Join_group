@@ -54,6 +54,14 @@
     <div id="contactModalOverlay" class="modal-overlay d-none" onclick="closeContactModal()">
         <div id="contactModalContent" class="modal-content" onclick="event.stopPropagation()"></div>
     </div>
+    <div id="mobileActionMenu" class="mobile-action-menu d-none-desktop">
+        <button class="action-btn-edit" onclick="openEditModal('${contact.id}')">
+            <img src="../assets/icons/edit.svg" alt="Edit"> Edit
+        </button>
+        <button class="action-btn-delete" onclick="deleteContact('${contact.id}')">
+            <img src="../assets/icons/delete.svg" alt="Delete"> Delete
+        </button>
+    </div>
 
 </body>
 </html> 

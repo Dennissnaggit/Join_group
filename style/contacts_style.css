@@ -17,9 +17,9 @@
     flex-direction: column;
 }
 
-.app-shell .main-content-wrapper #content.content-panel {
+/* .app-shell .main-content-wrapper #content.content-panel {
     padding-right: 0;
-}
+} */
 
 .contacts-scrollable-area {
     flex: 1;
@@ -127,6 +127,12 @@
     border-radius: 10px;
     cursor: pointer;
 }
+
+#contacts-list-container {
+    flex-grow: 1; /* Ocupa todo el espacio vertical disponible en el medio */
+    overflow-y: auto; /* Genera el scroll solo para los nombres, protegiendo los menús */
+}
+
 
 .contact-list-item.active {
     background-color: #2A3647;
@@ -383,28 +389,297 @@
 }
 
 /* ==========================================================================
-   6. RESPONSIVE Y UTILITARIOS
+   6. RESPONSIVE AND UTILITIES
    ========================================================================== */
-.d-none { display: none !important; }
-.mobile-back-arrow { display: none; }
 
-@media (max-width: 850px) {
-    .contacts-sidebar-list { width: 100%; }
-    .contacts-detail-panel { display: none; width: 100%; }
-    
-    .d-none-mobile { display: none !important; }
-    .d-show-mobile { display: flex !important; }
-    .mobile-back-arrow { display: block; cursor: pointer; margin-bottom: 24px; }
-    
-    .modal-overlay .modal-card {
-        flex-direction: column;
-        width: 90%; 
-        height: 85%;
+/* 🌍 GLOBAL OVERLAY STYLES (Applies to ALL screen sizes) */
+/* .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100dvh;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 999;
+    display: none; 
+} */
+
+/* Triggers flex center alignment when JavaScript removes .d-none */
+/* .modal-overlay:not(.d-none) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0; /* 🔑 NEW: Anchors the right side perfectly */
+    bottom: 0; /* 🔑 NEW: Anchors the bottom side perfectly */
+    width: 100%;
+    height: 100%; /* 🔄 Changed from 100vh to 100% to follow the fixed boundaries */
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 999;
+    display: none; /* Hidden by default everywhere */
+}
+
+/* Triggers flex center alignment when JavaScript removes .d-none */
+.modal-overlay:not(.d-none) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* ==========================================================================
+   💻 📐 DESKTOP & HORIZONTAL TABLET (From 1000px and up)
+   Text sizes and panels shrink slightly so it holds perfectly down to 1000px.
+   ========================================================================== */
+@media(min-width: 1000px) {
+    .modal-card {
+        display: flex;
+        flex-direction: row;
+        width: clamp(58rem, 90vw, 75.75rem); /* De 928px a 1212px dinámico */
+        height: 35.25rem; /* 564px */
+        background-color: #ffffff;
+        border-radius: 1.875rem;
+        overflow: hidden;
+        position: relative;
+        box-sizing: border-box;
     }
-    
-    .modal-left-panel { 
-        width: 100%; 
-        height: 35%; 
-        flex: none;
+
+    /* 🔵 BLUE LEFT PANEL */
+    .modal-left-panel {
+        width: 37.3%; /* Proporción exacta de Figma */
+        flex-shrink: 0;
+        background-color: #2a3647;
+        padding: clamp(2rem, 3.5vw, 3rem);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        box-sizing: border-box;
+    }
+
+    /* 🔤 Ajuste elástico de las letras para que "Add contact" no se rompa */
+    .modal-left-panel h1 {
+        font-size: clamp(2.5rem, 4vw, 3.75rem); /* Se achica suavemente si baja la pantalla */
+        line-height: 1.2;
+        margin-bottom: 0.5rem;
+    }
+
+    .modal-left-panel p {
+        font-size: clamp(1rem, 1.5vw, 1.25rem);
+    }
+
+    /* ⚪ WHITE RIGHT PANEL */
+    .modal-right-panel {
+        flex-grow: 1;
+        flex-shrink: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(1.5rem, 3vw, 3rem);
+        padding: 3rem clamp(1.5rem, 4vw, 4rem);
+        box-sizing: border-box;
+    }
+
+    .modal-avatar-circle {
+        position: static;
+        transform: none;
+        width: clamp(6.25rem, 8vw, 7.5rem); /* De 100px a 120px */
+        height: clamp(6.25rem, 8vw, 7.5rem);
+        aspect-ratio: 1 / 1;
+        flex-shrink: 0 !important;
+    }
+
+    .modal-form-container {
+        flex-grow: 1;
+        flex-shrink: 1;
+        min-width: 0;
+        max-width: 26.25rem; /* 420px */
+        width: 100%;
+    }
+
+    .close-btn-container {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        cursor: pointer;
     }
 }
+
+/* ==========================================================================
+   📱 VERTICAL MOBILE & TABLET (From 999px down)
+   Adjusted spacing to prevent avatar clipping and give inputs more breathing room.
+   ========================================================================== */
+@media(max-width: 999px) {
+.modal-overlay:not(.d-none) {
+        padding: 1rem; /* 🔄 Evita que la tarjeta toque el borde de la pantalla en 320px */
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-overlay .modal-card {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 33.75rem; /* 540px */
+        height: auto; /* 760px */
+        background-color: #ffffff;
+        border-radius: 1.875rem;
+        overflow: visible;
+        position: relative;
+        box-sizing: border-box;
+    }
+
+    /* 🔵 BLUE LEFT PANEL: Added more height and padding to protect text */
+    .modal-left-panel {
+        width: 100%;
+        max-width: 24.75rem;
+        height: 19.5rem; /* 🔄 Subimos de 17.5rem a 19.5rem para ganar espacio vertical */
+        background-color: #2a3647;
+        padding: 3rem 2rem 4rem; /* 🔄 Más aire abajo para que el texto respire */
+        box-sizing: border-box;
+        border-top-left-radius: 1.875rem;
+        border-top-right-radius: 1.875rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start; /* 🔄 Empuja el título hacia arriba lejos del avatar */
+    }
+
+    .modal-logo {
+        display: none;
+    }
+        
+    /* ⚪ WHITE RIGHT PANEL: Pushes the form downwards */
+    .modal-right-panel {
+        width: 100%;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* 🔄 Subimos el padding-top de 5rem a 6.5rem para empujar los inputs hacia abajo */
+        padding: 6.5rem 1.5rem 2rem;
+        box-sizing: border-box;
+        border-bottom-left-radius: 1.875rem;
+        border-bottom-right-radius: 1.875rem;
+        position: relative;
+    }
+
+    .modal-avatar-circle {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+        width: 7.5rem;
+        height: 7.5rem;
+        border-radius: 50%;
+        border: 0.1875rem solid #ffffff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .modal-form-container {
+        width: 100%;
+        max-width: 22.75rem; /* 364px inputs */
+    }
+
+    /* 🔄 Agregamos un pequeño margen superior para despegar el formulario aún más si es necesario */
+    .modal-form {
+        margin-top: 0.5rem;
+    }
+
+    .close-btn-container {
+        position: absolute;
+        /* top: -16.25rem; */
+        top: 1.5rem;
+        right: 1.5rem;
+        z-index: 20;
+    }
+
+    .close-btn-container img {
+        filter: brightness(0) invert(1);
+    }
+    .btn-cancel {
+        display: none !important;
+    }
+
+    .btn-create {
+        width: 100% !important;
+        max-width: 100%;
+        margin-top: 1.5rem;
+    }
+
+/* ==========================================================================
+       📱 MOBILE ACTION MENU (Edit & Delete Buttons)
+       Colocado aquí adentro para que SOLO exista en celulares y tablets.
+       ========================================================================== */
+.mobile-action-menu {
+    position: fixed;
+    bottom: 6rem; /* Arriba de la barra oscura */
+    right: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    z-index: 99;
+}
+
+.mobile-action-menu .action-btn-edit {
+    background-color: #2a3647;
+    color: #ffffff;
+    border: none;
+    border-radius: 0.625rem;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
+}
+
+.mobile-action-menu .action-btn-delete {
+    background-color: #ffffff;
+    color: #2a3647;
+    border: 1px solid #2a3647;
+    border-radius: 0.625rem;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
+}
+
+.mobile-action-menu button img {
+    width: 1.25rem;
+    height: 1.25rem;
+    object-fit: contain;
+}
+
+
+}
+
+
+/* ==========================================================================
+   📱 SMALL PHONE OPTIMIZATION (From 450px down)
+   Squeezes the card to the final 396px width for true mobile devices.
+   ========================================================================== */
+@media(max-width: 450px) {
+    .modal-overlay .modal-card {
+        max-width: 24.75rem; /* 396px final for small phones */
+    }
+
+    .modal-right-panel {
+        padding: 5rem 0.5rem 2rem; /* Back to your 8px padding on tight edges */
+    }
+}
+

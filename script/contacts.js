@@ -100,83 +100,12 @@ function hideMobileDetail() {
 }
 
 /** Injects the creation form template and makes the contact modal visible. */
-// function openAddContactModal() {
-//   let card = document.querySelector("#contactModal .modal-card");
-//   card.innerHTML = createAddModalTemplate();
-//   document.getElementById("contactModal").classList.remove("d-none");
-// }
-/** Injects the creation form template and makes the contact modal visible. */
-// function openAddContactModal() {
-  // 1. Buscamos el contenedor interno usando la clase exacta de tu HTML (.modal-content)
-  // let card = document.querySelector("#contactModalOverlay .modal-content");
-  
-  // 2. Le inyectamos el template que creaste
-  // card.innerHTML = createAddModalTemplate();
-  
-  // 3. Le quitamos el d-none al ID exacto de tu HTML (contactModalOverlay)
-  // document.getElementById("contactModalOverlay").classList.remove("d-none");
-// }
-
-/** Injects the creation form template and makes the contact modal visible. */
-// function openAddContactModal() {
-//   let container = document.getElementById("modalTemplateContainer");
-//   container.innerHTML = createAddModalTemplate();
-//   document.getElementById("contactModalOverlay").classList.remove("d-none");
-// }
-
-/** Injects the creation form template and makes the contact modal visible. */
-// function openAddContactModal() {
-//   let card = document.getElementById("contactModalContent");
-//   card.innerHTML = createAddModalTemplate();
-//   document.getElementById("contactModalOverlay").classList.remove("d-none");
-// }
-// function openAddContactModal() {
-//   let overlay = document.getElementById("contactModalOverlay");
-//   let content = document.getElementById("contactModalContent");
-
-//   content.innerHTML = createAddModalTemplate();
-//   overlay.classList.remove("d-none");
-// }
 function openAddContactModal() {
   let overlay = document.getElementById("contactModalOverlay");
   let content = document.getElementById("contactModalContent");
   content.innerHTML = createAddModalTemplate();
   overlay.classList.remove("d-none");
 }
-
-/*
-function openAddContactModal() {
-  let card = document.getElementById("contactModalContent");
-  card.innerHTML = createAddModalTemplate(); // Inyecta el panel azul de Add + Formulario vacío
-  document.getElementById("contactModalOverlay").classList.remove("d-none");
-}*/
-/*
-function openEditContactModal(contactId) {
-  let card = document.getElementById("contactModalContent");
-  card.innerHTML = createEditModalTemplate(contactId); // Inyecta el panel azul de Edit + Avatar + Datos del contacto
-  document.getElementById("contactModalOverlay").classList.remove("d-none");
-}*/
-/** Loads the target contact's data into the modification form template and opens the modal. */
-// function openEditModal(id) {
-//   let contact = contacts.find((c) => c.id === id);
-//   if (!contact) return;
-//   let card = document.querySelector("#contactModal .modal-card");
-//   let initials = getInitials(contact.name);
-//   card.innerHTML = createEditModalTemplate(contact, initials);
-//   document.getElementById("contactModal").classList.remove("d-none");
-// }
-
-// function closeContactModal() {
-//   document.getElementById("contactModal").classList.add("d-none");
-/*
-function openEditContactModal(contactId) {
-  let overlay = document.getElementById("contactModalOverlay");
-  let content = document.getElementById("contactModalContent");
-
-  // Suponiendo que 'currentContact' es el objeto con los datos obtenidos
-  content.innerHTML = createEditModalTemplate(currentContact);
-  overlay.classList.remove("d-none");
-}*/
 
 function openEditModal(id) {
   let contact = contacts.find((c) => c.id === id);
@@ -189,7 +118,14 @@ function openEditModal(id) {
 }
 
 function closeContactModal() {
-  document.getElementById("contactModalOverlay").classList.add("d-none");
+  let overlay = document.getElementById("contactModalOverlay");
+  let content = document.getElementById("contactModalContent");
+  
+  overlay.classList.add("d-none");
+  // Limpiamos el contenido para evitar duplicación de IDs en el DOM
+  if (content) {
+    content.innerHTML = "";
+  }
 }
 
 /** Prevents form submission default behavior, creates a new contact object, and saves it. */

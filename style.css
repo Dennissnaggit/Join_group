@@ -39,7 +39,8 @@
 
 body {
     margin: 0;
-    height: 100vh;
-    background: var(--white); /* Uses variable instead of hardcoded word */
+    min-height: 100vh;
+    height: auto;
+    background: var(--background-color); /* Uses variable instead of hardcoded word */
     font-family: "Inter", sans-serif;
 }

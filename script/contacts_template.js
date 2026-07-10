@@ -1,6 +1,3 @@
-/**
- * Generates the HTML for a letter category divider
- */
 function createLetterDividerTemplate(letter) {
   return `<div class="letter-divider">${letter}</div>`;
 }
@@ -60,7 +57,6 @@ function getDetailBodyTemplate(contact) {
     `;
 }
 
-// Exactamente 14 líneas de código para el formulario de edición
 function getEditFormTemplate(c) {
   return `
     <form class="modal-form" onsubmit="updateContact(event, '${c.id}')">
@@ -99,12 +95,12 @@ function createAddModalTemplate() {
     <div class="modal-card">
         <div class="modal-left-panel">
             <img class="modal-logo" src="../assets/logo/logo_white.svg" alt="Logo">
+            <div class="close-btn-container" onclick="closeContactModal()"><img src="../assets/icons/close.svg"></div>
             <h1>Add contact</h1>
             <p>Tasks are better with a team!</p>
             <div class="blue-line-horizontal"></div>
         </div>
         <div class="modal-right-panel">
-            <div class="close-btn-container" onclick="closeContactModal()"><img src="../assets/icons/close.svg"></div>
             <div class="modal-avatar-circle" style="background-color: #D1D1D1;"><img src="../assets/icons/person.svg" style="filter: brightness(0) invert(1); width: 40px; height: 40px;"></div>
             <div class="modal-form-container">
                 <form class="modal-form" onsubmit="saveNewContact(event)">

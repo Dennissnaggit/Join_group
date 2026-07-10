@@ -6,10 +6,8 @@
     grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
     grid-template-rows: 1fr;
     grid-template-areas: "sidebar content";
-
     position: relative;
     min-height: 100vh;
-
     width: 100%;
     max-width: 90rem;
     margin: 0 auto;
@@ -86,6 +84,24 @@ span.desktop-only {
 .d-none {
     display: none;
 }
+/* 1. Le damos el fondo gris claro al contenedor que envuelve a TODAS las páginas */
+.main-content-wrapper {
+    background-color: var(--background-color); /* El color gris claro de tu Figma */
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 2. Dejamos el panel de contenido transparente para que herede el gris de fondo */
+#content.content-panel {
+    background-color: transparent !important;
+
+    /* ¡Ahora sí podemos recuperar tus 56px simétricos en móvil de forma segura! */
+    padding-left: 56px;
+    padding-right: 56px;
+}
+
 
 /* ==========================================================================
    ⚡ BREAKPOINT: TABLETS (1024px and Below)
