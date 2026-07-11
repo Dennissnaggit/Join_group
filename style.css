@@ -2,7 +2,7 @@
     /* Main Brand Colors */
     --primary-color: #2A3647;
     --secondary-color: #29ABE2;
-    --background-color: #F6F7F8; /* 🎯 Unified background name */
+    --background-color: #F6F7F8; 
     --white: #FFFFFF;
     --black: #000000;
     --footer: #A8A8A8;
@@ -43,4 +43,21 @@ body {
     height: auto;
     background: var(--background-color); /* Uses variable instead of hardcoded word */
     font-family: "Inter", sans-serif;
+}
+
+/* ==========================================================================
+   📺 GLOBAL WIDESCREEN BREAKPOINT (Para todas las pantallas > 1440px)
+   ========================================================================== */
+@media(min-width: 1440px) {
+    .main-content-wrapper {
+        max-width: 1208px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .add-task-container {
+        max-width: 1208px; /* Ancho exacto del diseño de Figma */
+        width: 100%;
+        margin: 0; /* 🔑 Clave: Eliminamos el centrado para que se quede en su lugar */
+    }
 }
