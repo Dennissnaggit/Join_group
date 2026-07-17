@@ -25,6 +25,11 @@
                     <section class="board-top-row" aria-label="Board header and actions">
                         <h1>Board</h1>
 
+                        <a class="board-add-task-btn" href="./add_task.html" aria-label="Add task">
+                            <span class="board-add-task-text">Add task</span>
+                            <span class="board-add-task-plus">+</span>
+                        </a>
+
                         <div class="board-toolbar" aria-label="Board actions">
                             <div class="board-search-wrapper">
                             <input
@@ -39,8 +44,6 @@
                                 <span class="board-search-icon"></span>
                             </span>
                             </div>
-
-                            <a class="board-add-task-btn" href="./add_task.html">Add task +</a>
                         </div>
                     </section>
 
@@ -85,6 +88,10 @@
                             <div id="boardColumnDone" class="board-task-list"></div>
                         </article>
                     </section>
+
+                    <div id="boardTaskOverlay" class="board-task-overlay" role="dialog" aria-modal="true" aria-label="Task details">
+                        <article id="boardTaskModalContent" class="board-task-modal"></article>
+                    </div>
                 </div>
             </main>
         </div>
