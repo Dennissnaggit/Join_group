@@ -131,14 +131,19 @@ body.board-no-scroll {
 
 .board-task-list {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
+  flex-wrap: nowrap;
   align-items: flex-start;
   justify-content: flex-start;
   gap: 0.75rem;
   min-height: 8rem;
+  width: 100%;
   border-radius: 0.75rem;
   transition: background-color 0.15s ease, outline-color 0.15s ease;
+}
+
+.board-task-list > * {
+  max-width: 100%;
 }
 
 .board-task-list-drop-active {
@@ -155,6 +160,7 @@ body.board-no-scroll {
   background-color: #e7e7e7;
   text-align: center;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .board-task-card {
@@ -166,9 +172,12 @@ body.board-no-scroll {
   flex-direction: column;
   gap: 0.75rem;
   cursor: grab;
-  width: 15.75rem;
-  min-width: 15.75rem;
-  height: auto;
+  width: 252px;
+  min-width: 252px;
+  max-width: 252px;
+  flex: 0 0 252px;
+  height: fit-content;
+  box-sizing: border-box;
 }
 
 .board-task-card:active {
@@ -504,16 +513,17 @@ body.board-no-scroll {
 
   .board-task-list {
     gap: 0.625rem;
+    flex-direction: row;
     flex-wrap: wrap;
     overflow-x: visible;
     padding-bottom: 0;
   }
 
   .board-task-card {
-    width: calc(50% - 0.313rem);
-    min-width: 9.75rem;
-    max-width: 15.75rem;
-    flex: 1 1 calc(50% - 0.313rem);
+    width: 252px;
+    min-width: 252px;
+    max-width: 252px;
+    flex: 0 0 252px;
   }
 
   .board-task-modal {
