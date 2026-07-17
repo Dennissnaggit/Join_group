@@ -401,6 +401,30 @@ function getPriorityLabel(priority) {
   return labelMap[priority] || "Medium";
 }
 
+/** Returns inline SVG icon for task overlay priority. */
+function getOverlayPriorityIconMarkup(priority) {
+  let iconMap = {
+    urgent:
+      '<svg class="board-modal-priority-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 11l6-6 6 6" fill="none" stroke="#FF3D00" stroke-width="2" stroke-linecap="round"/><path d="M4 16l6-6 6 6" fill="none" stroke="#FF3D00" stroke-width="2" stroke-linecap="round"/></svg>',
+    medium:
+      '<svg class="board-modal-priority-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 8h12" fill="none" stroke="#FFA800" stroke-width="2" stroke-linecap="round"/><path d="M4 12h12" fill="none" stroke="#FFA800" stroke-width="2" stroke-linecap="round"/></svg>',
+    low:
+      '<svg class="board-modal-priority-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 9l6 6 6-6" fill="none" stroke="#7AE229" stroke-width="2" stroke-linecap="round"/><path d="M4 4l6 6 6-6" fill="none" stroke="#7AE229" stroke-width="2" stroke-linecap="round"/></svg>',
+  };
+
+  return iconMap[priority] || iconMap.medium;
+}
+
+/** Returns inline SVG icon for delete action. */
+function getOverlayDeleteIconMarkup() {
+  return '<svg class="board-modal-action-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 21c-.55 0-1.02-.2-1.41-.59C5.2 20.02 5 19.55 5 19V6h14v13c0 .55-.2 1.02-.59 1.41-.39.39-.86.59-1.41.59H7Zm2-4h2V9H9v8Zm4 0h2V9h-2v8ZM5 4h4V3h6v1h4v2H5V4Z" fill="#2A3647"/></svg>';
+}
+
+/** Returns inline SVG icon for edit action. */
+function getOverlayEditIconMarkup() {
+  return '<svg class="board-modal-action-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25Zm17.71-10.04a1 1 0 0 0 0-1.42l-2.5-2.5a1 1 0 0 0-1.42 0l-1.96 1.96 3.75 3.75 2.13-2.13Z" fill="#2A3647"/></svg>';
+}
+
 /** Updates one task status and re-renders the board. */
 function moveTaskToStatus(taskId, newStatus) {
   let task = boardTasks.find((entry) => entry.id === taskId);
@@ -421,6 +445,7 @@ function openTaskOverlay(taskId) {
 
   modalContent.innerHTML = buildTaskOverlayContent(task);
   overlay.classList.add("is-open");
+  document.body.classList.add("board-no-scroll");
 
   let closeButton = document.getElementById("boardTaskOverlayClose");
   if (closeButton) {
@@ -434,6 +459,7 @@ function closeTaskOverlay() {
   if (!overlay) return;
 
   overlay.classList.remove("is-open");
+  document.body.classList.remove("board-no-scroll");
 }
 
 /** Builds HTML content for task detail overlay. */
@@ -465,6 +491,10 @@ function buildTaskOverlayContent(task) {
     )
     .join("");
 
+  if (!subtasks) {
+    subtasks = '<li class="board-modal-no-subtasks">No subtasks</li>';
+  }
+
   return `
     <div class="board-modal-head">
       <span class="board-task-type ${typeClass}">${task.type}</span>
@@ -480,7 +510,7 @@ function buildTaskOverlayContent(task) {
       <span class="board-modal-label">Priority:</span>
       <span class="board-modal-priority">
         ${getPriorityLabel(task.priority)}
-        <img src="${getPriorityIconPath(task.priority)}" alt="${getPriorityLabel(task.priority)}">
+        ${getOverlayPriorityIconMarkup(task.priority)}
       </span>
     </div>
     <div class="board-modal-section">
@@ -490,6 +520,17 @@ function buildTaskOverlayContent(task) {
     <div class="board-modal-section">
       <p class="board-modal-label">Subtasks</p>
       <ul class="board-modal-subtask-list">${subtasks}</ul>
+    </div>
+    <div class="board-modal-actions" aria-label="Task actions">
+      <button type="button" class="board-modal-action-btn">
+        ${getOverlayDeleteIconMarkup()}
+        <span>Delete</span>
+      </button>
+      <span class="board-modal-action-divider" aria-hidden="true"></span>
+      <button type="button" class="board-modal-action-btn">
+        ${getOverlayEditIconMarkup()}
+        <span>Edit</span>
+      </button>
     </div>
   `;
 }
