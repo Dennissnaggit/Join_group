@@ -166,7 +166,7 @@
 .tile-info {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
 }
 .tile-left {
     display: flex;
@@ -451,7 +451,7 @@
         white-space: nowrap;
     }
     .tile-right span:not(.date) {
-        font-size: 0.85rem !important; /* Achica el mensaje de estado */
+        font-size: 0.85rem !important;
         line-height: 1.2;
     }
     .tile-left {

@@ -62,7 +62,7 @@
 .contacts-header-title {
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 0.9rem;
 }
 
 .title-divider {
@@ -128,7 +128,6 @@
     flex-grow: 1;
     overflow-y: auto; 
 }
-
 
 .contact-list-item.active {
     background-color: var(--primary-color);
@@ -220,7 +219,7 @@
 
 .modal-left-panel {
     width: 453px;
-    background-color: #2A3647;
+    background-color: var(--secondary-color);
     color: white;
     display: flex;
     flex-direction: column;
@@ -389,7 +388,6 @@
     display: none;
 }
 
-/* Triggers flex center alignment when JavaScript removes .d-none */
 .modal-overlay:not(.d-none) {
     display: flex;
     justify-content: center;
@@ -410,7 +408,7 @@
         z-index: 999;
     }
 
-
+}
 /* ==========================================================================
    💻 📐 DESKTOP & HORIZONTAL TABLET (From 1000px and up)
    Text sizes and panels shrink slightly so it holds perfectly down to 1000px.
@@ -721,5 +719,5 @@
         font-size: 18px;
         padding: 12px;
     }
-}
+
 }
