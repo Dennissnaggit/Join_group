@@ -1,0 +1,246 @@
+/* ==========================================================================
+   6. RESPONSIVE DESIGN: TABLETS & MOBILE COMPACT (1024px)
+   ========================================================================== */
+@media(max-width: 1024px) {
+    .summary-content-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        padding: 0 1rem;
+        gap: 1.5rem;
+        box-sizing: border-box;
+    }
+    .greeting-section {
+        display: none;
+    }
+    .main-stats {
+        width: 100%;
+        max-width: 56rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .main-stats > div {
+        width: 100%;
+    }
+    .summary-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+        text-align: center;
+        padding-top: 2rem;
+    }
+    .summary-header h1 {
+        font-size: 2.5rem;
+    }
+    .summary-header span {
+        font-size: 1.25rem;
+    }
+    .metrics-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+        gap: 1rem;
+    }
+    .metrics-row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 56rem;
+        gap: 0.75rem;
+        margin: 0 auto;
+    }
+    .summary-card.card-small {
+        flex: 1 1 50%;
+        max-width: 100%;
+        height: 7.5rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.5rem;
+        border-radius: 1.25rem;
+    }
+    .summary-card.card-wide {
+        width: 100%;
+        max-width: 56rem;
+        height: 8.5rem;
+        padding: 0 1.5rem;
+        border-radius: 1.25rem;
+    }
+    .summary-card.card-mini {
+        flex: 1 1 33.33%;
+        max-width: 100%;
+        width: auto;
+        height: 7.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.5rem;
+        border-radius: 1.25rem;
+    }
+    .card-mini .tile-info {
+        align-items: center;
+    }
+    .summary-content-container .summary-card .icon-circle.navy {
+        background-color: var(--primary-color);
+        width: 3.5rem;
+        height: 3.5rem;
+    }
+    .summary-content-container .summary-card .icon-circle.orange {
+        background-color: #FF3D00;
+        width: 3.5rem;
+        height: 3.5rem;
+    }
+
+    .count {
+        font-size: 2rem;
+    }
+    .label {
+        font-size: 0.8rem;
+        text-align: center;
+        line-height: 1.1;
+    }
+    .separator-v {
+        height: 3.75rem;
+        margin: 0 0.5rem;
+    }
+    .date {
+        font-size: 1rem;
+    }
+    .date-label {
+        font-size: 0.8rem;
+    }
+}
+
+/* ==========================================================================
+   ⚡ BREAKPOINT MÓVIL EN SU ARCHIVO CORRECTO (summary_style.css)
+   ========================================================================== */
+@media(max-width: 767px) {
+
+    .summary-header {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 0.5rem;
+        width: 100%;
+        height: auto;
+        padding-top: 0;
+        text-align: left;
+    }
+    .summary-header h1 {
+        order: 1;
+        margin: 0;
+    }
+    .summary-header span {
+        order: 2;
+        margin: 0;
+    }
+    .summary-header .vertical-separator {
+        order: 3;
+        width: 90px;
+        height: 3px;
+        background-color: #29ABE2;
+        flex-shrink: 0;
+        margin: 0.5rem 0 0;
+    }
+}
+
+/* ==========================================================================
+   7. PURE MOBILE MATRIX (428px)
+   ========================================================================== */
+@media(max-width: 428px) {
+    .metrics-row {
+        max-width: 100%;
+        gap: 0.5rem;
+    }
+    .summary-card.card-small,
+    .summary-card.card-mini {
+        height: 5rem;
+    }
+    .summary-content-container .summary-card .icon-circle.navy,
+    .summary-content-container .summary-card .icon-circle.orange {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+    .count {
+        font-size: 1.75rem;
+    }
+    .label {
+        font-size: 0.75rem;
+    }
+    .summary-content-container .summary-card.card-wide {
+        max-width: 100%;
+        height: 6.5rem;
+        padding: 0.75rem;
+        gap: 0.5rem;
+    }
+    .summary-content-container .summary-card.card-wide .separator-v {
+        margin: 0 0.25rem;
+    }
+    .tile-right {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .tile-right .date {
+        font-size: 0.9rem;
+        font-weight: 700;
+    }
+    .tile-right .date-label {
+        font-size: 0.75rem;
+        white-space: nowrap;
+    }
+    .tile-right span:not(.date) {
+        font-size: 0.85rem !important;
+        line-height: 1.2;
+    }
+    .tile-left {
+        gap: 0.5rem;
+    }
+    .tile-left .urgent-count {
+        font-size: 1.75rem;
+    }
+    .summary-content-container .summary-card .icon-circle.orange img {
+        width: 90%;
+        height: 90%;
+        object-fit: contain;
+    }
+}
+/* ==========================================================================
+   📱 ULTRA-MOBILE RESCUE SHIELD (375px)
+   ========================================================================== */
+@media(max-width: 375px) {
+    .summary-content-container .summary-card.card-wide {
+        flex-direction: column;
+        height: auto;
+        padding: 1rem;
+        gap: 0.75rem;
+    }
+    .summary-content-container .summary-card.card-wide .separator-v {
+        display: none;
+    }
+    .tile-left,
+    .tile-right {
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    .summary-card.card-small,
+    .summary-card.card-mini {
+        height: 6rem;
+    }
+}

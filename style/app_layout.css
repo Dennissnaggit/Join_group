@@ -99,6 +99,11 @@ span.desktop-only {
     padding-right: 56px;
 }
 
+.required-star {
+    color: red;
+    font-weight: bold; 
+}
+
 
 /* ==========================================================================
    ⚡ BREAKPOINT: TABLETS (1024px and Below)

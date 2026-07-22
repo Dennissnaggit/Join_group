@@ -96,7 +96,6 @@
     margin: 0;
 }
 
-/* Responsive for tablets y moviles */
 @media (max-width: 768px) {
     .help-header h1 {
         font-size: 47px;
