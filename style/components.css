@@ -36,7 +36,7 @@
     border: none;
     padding: 0;
     cursor: pointer;
-    display: flex !important;
+    display: flex;
     align-items: center;
     justify-content: center;
 }
@@ -105,7 +105,7 @@
     flex-shrink: 0;
 }
 
-.header-dropdown-menu {
+/* .header-dropdown-menu {
     position: absolute;
     top: 100%;
     right: 0;
@@ -122,11 +122,33 @@
     visibility: hidden;
     transition: opacity 0.15s ease-in-out, visibility 0.15s ease-in-out;
     overflow: hidden;
+} */
+
+.header-dropdown-menu {
+    position: fixed !important;
+    top: 80px !important;
+    right: 20px !important;
+    overflow: visible !important;
+    width: 180px !important;
+    min-width: 180px !important;
+    background-color: var(--primary-color);
+    border-radius: 1.25rem 0 1.25rem 1.25rem;
+    padding: 10px 0;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
+    display: flex !important;
+    flex-direction: column;
+    box-sizing: border-box;
+    z-index: 99999 !important;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease-in-out, visibility 0.15s ease-in-out;
 }
 
-.user-profile-wrapper:hover .header-dropdown-menu {
-    opacity: 1;
-    visibility: visible;
+.user-profile-wrapper:hover .header-dropdown-menu,
+.header-dropdown-menu.show-menu {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: flex !important;
 }
 
 .dropdown-item {
@@ -142,6 +164,22 @@
     box-sizing: border-box;
     transition: background-color 0.2s ease, color 0.2s ease;
     display: block;
+}
+
+.header-dropdown-menu .mobile-only-item {
+    display: none !important;
+}
+
+.header-dropdown-menu .logout-item {
+    display: flex !important;
+    color: white !important;
+    padding: 10px 16px !important;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    white-space: nowrap;
 }
 
 .dropdown-item:hover {
@@ -194,11 +232,11 @@
     gap: 1rem;
     padding: 0.75rem 2.5rem;
     text-decoration: none;
-    color: #CDCDCD;
+    color: var(--dropdown);
 }
 .nav-item:hover,
 .nav-item.active {
-    background-color: #091931;
+    background-color: var(--hover);
     color: var(--white);
 }
 .sidebar-footer {
@@ -218,7 +256,7 @@
     text-align: center;
 }
 .footer-link:hover {
-    background-color: #091931;
+    background-color: var(--hover);
     color: var(--white);
     font-weight: 700;
 }
@@ -267,7 +305,7 @@
         justify-content: center;
         align-items: center;
         gap: 0.25rem;
-        padding: 0 1rem;
+        padding: 0 0.8rem;
         color: var(--footer);
         font-size: 0.75rem;
         height: 100%;
@@ -277,7 +315,7 @@
 
     .nav-item:hover,
     .nav-item.active {
-        background-color: #091931;
+        background-color: var(--hover);
         color: var(--white);
         border-radius: 0;
     }
@@ -291,7 +329,7 @@
 
 @media(max-width: 767px) {
     .header-dropdown-menu .mobile-only-item {
-        display: block !important;
+        display: block;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
@@ -308,9 +346,9 @@
     }
 
     .dropdown-item {
-        font-size: 0.9rem !important;
-        padding: 0.8rem 1.25rem !important;
-        color: #CDCDCD !important;
+        font-size: 0.9rem;
+        padding: 0.8rem 1.25rem ;
+        color: var(--dropdown);
         width: 100%;
         box-sizing: border-box;
     }
@@ -324,5 +362,41 @@
     .logout-item {
         order: -1;
         background-color: transparent;
+    }
+    .header-dropdown-menu .mobile-only-item {
+        display: flex !important;
+        color: white !important;
+        padding: 10px 16px !important;
+        text-decoration: none !important;
+        white-space: nowrap !important;
+    }
+
+}
+/* ==========================================================================
+   🖥️ GLOBAL WIDESCREEN FLOW (Above 1440px) - Left Aligned Layout
+   ========================================================================== */
+@media(min-width: 1441px) {
+    .app-shell,
+    .main-content-wrapper {
+        max-width: 100%;
+        width: 100%;
+        margin: 0;
+    }
+
+    #content.content-panel,
+    .contacts-main-grid {
+        max-width: 1200px;
+        margin-left: 0;
+        margin-right: auto;
+        width: 100%;
+    }
+}
+
+/* ==========================================================================
+   💻 LAPTOP STANDARD (1440px and Below)
+   ========================================================================== */
+@media(max-width: 1440px) {
+    .app-header {
+        padding: 0 2rem;
     }
 }

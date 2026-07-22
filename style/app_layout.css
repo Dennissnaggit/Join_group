@@ -131,7 +131,7 @@ span.desktop-only {
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
-        padding: 0 !important;
+        padding: 0;
         z-index: 1000;
         overflow: hidden;
         box-sizing: border-box;
@@ -180,7 +180,7 @@ span.desktop-only {
 
     .nav-item:hover,
     .nav-item.active {
-        background-color: #091931;
+        background-color: var(--hover);
         color: var(--white);
         border-radius: 0;
     }
@@ -224,35 +224,35 @@ span.desktop-only {
    ========================================================================== */
 @media(max-width: 767px) {
 .greeting-section {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;
-    height: 100dvh !important;
-    background-color: #F6F7F8 !important;
-    padding-top: 0 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    align-items: center !important;
-    z-index: 99999 !important;
-    animation: mobileWelcome 2.5s ease-in-out forwards !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    background-color: var(--background-color);
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    animation: mobileWelcome 2.5s ease-in-out forwards;
     }
 
 .greeting-section h2 {
-    font-size: 2.5rem !important;
-    color: var(--primary-color, #2A3647) !important;
-    text-align: center !important;
-    margin: 0 0 0.5rem !important;
-    font-weight: 400 !important;
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    text-align: center;
+    margin: 0 0 0.5rem;
+    font-weight: 400;
     }
 
 .greeting-section h1 {
-    font-size: 4rem !important;
-    color: #29ABE2 !important; 
-    font-weight: 700 !important;
-    text-align: center !important;
-    margin: 0 !important;
+    font-size: 4rem;
+    color: var(--secondary-color); 
+    font-weight: 700;
+    text-align: center;
+    margin: 0;
     }
 
     .main-content-wrapper .app-header {
@@ -284,14 +284,14 @@ span.desktop-only {
     }
 
     .header-dropdown-menu .mobile-only-item {
-        display: block !important;
+        display: block;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .dropdown-item {
-        font-size: 0.9rem !important;
-        padding: 0.8rem 1.25rem !important;
-        color: #CDCDCD !important;
+        font-size: 0.9rem;
+        padding: 0.8rem 1.25rem;
+        color: var(--dropdawn);
         width: 100%;
         box-sizing: border-box;
     }
@@ -355,5 +355,23 @@ span.desktop-only {
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
+    }
+}
+
+/* ==========================================================================
+   📱 GLOBAL MOBILE OVERRIDE (For all pages)
+   ========================================================================== */
+@media (max-width: 767px) {
+    /* Base padding for all mobile panels */
+    #content.content-panel {
+        padding-top: 1rem;
+        padding-left: 16px;
+        padding-right: 16px;
+        padding-bottom: 100px;
+    }
+
+    /* Clean override for contacts page - No !important needed! */
+    .app-shell .main-content-wrapper #content.content-panel:has(.contacts-main-grid) {
+        padding: 0;
     }
 }

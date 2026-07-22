@@ -22,9 +22,30 @@ let contacts = [
   },
   {
     id: "c4",
+    name: "David Eisenberg",
+    email: "davidberg@gmail.com",
+    phone: "+49 444 444 444",
+    color: "#29ABE2",
+  },
+  {
+    id: "c5",
+    name: "Eva Fischer",
+    email: "eva@gmail.com",
+    phone: "+49 555 555 555",
+    color: "#FF82FF",
+  },
+  {
+    id: "c6",
+    name: "Emanuel Mauer",
+    email: "emanuelma@gmail.com",
+    phone: "+49 666 666 666",
+    color: "#C3FF2B",
+  },
+  {
+    id: "c7",
     name: "Tatjana Wolf",
     email: "wolf@gmail.com",
-    phone: "+49 444 444 444",
+    phone: "+49 777 777 777",
     color: "#FFC700",
   },
 ];

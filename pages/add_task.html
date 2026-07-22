@@ -17,137 +17,137 @@
   </head>
   <body onload="init().then(() => { if (typeof initAddTask === 'function') initAddTask(); })">
 
-      <div class="app-shell">
-
+    <div class="app-shell">
+      <!-- Sidebar -->
       <div w3-include-html="../components/sidebar.html"></div>
 
       <div class="main-content-wrapper">
+        <!-- Header -->
         <div w3-include-html="../components/header.html"></div>
 
+        <!-- Main Content Area -->
         <main class="content-panel" id="content">
-          <div class="headerTask">
-            <h1>Add Task</h1>
-          </div>
+          <form class="add-task-container" id="addTaskForm" onsubmit="return false;">
+            
+            <header class="headerTask">
+              <h1>Add Task</h1>
+            </header>
 
-          <div class="inputsTask">
-            <div class="inputLeft">
-              <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Title*</label>
-                <input type="text"class="form-control"id="TitleOfTask"placeholder="Title of the task"/>
+            <div class="inputsTask">
+              <!-- Left Column -->
+              <div class="inputLeft">
+                <div class="form-group">
+                  <label for="TitleOfTask" class="form-label">Title*</label>
+                  <input type="text" class="form-control" id="TitleOfTask" placeholder="Title of the task" required />
+                </div>
+                
+                <div class="form-group">
+                  <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Description of the task"></textarea>
+                </div>
+                
+                <div class="form-group">
+                  <label for="exampleFormControlInput1" class="form-label">Due date*</label>
+                  <input type="date" class="form-control" id="exampleFormControlInput1" required />
+                </div>
               </div>
-              <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label">Description</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Description of the task"></textarea>
-              </div>
-              <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Due date*</label>
-                <input type="date" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com"/>
+
+              <!-- Right Column -->
+              <div class="inputRight">
+                <div class="prioritySection">
+                  <span class="form-label-style">Priority</span>
+                  <div class="priorityButtons">
+                    <input type="radio" class="btn-check" name="priority" id="urgent" autocomplete="off" />
+                    <label class="priorityBtn urgentBtn" for="urgent">
+                      <span>Urgent</span>
+                      <img src="../assets/AdTask/prioUrgentNotActive.png" alt="" />
+                    </label>
+
+                    <input type="radio" class="btn-check" name="priority" id="medium" autocomplete="off" />
+                    <label class="priorityBtn mediumBtn" for="medium">
+                      <span>Medium</span>
+                      <img src="../assets/AdTask/prioMedNotActive.png" alt="" />
+                    </label>
+
+                    <input type="radio" class="btn-check" name="priority" id="low" autocomplete="off" />
+                    <label class="priorityBtn lowBtn" for="low">
+                      <span>Low</span>
+                      <img src="../assets/AdTask/prioLowNotActive.png" alt="" />
+                    </label>
+                  </div>
+                </div>
+
+                <div class="multi-select">
+                  <label class="multi-select-title">Assigned to</label>
+                  <div class="input-field" id="inputFieldMultiSelect">
+                    <input id="searchInput" type="text" placeholder="Auswahl treffen" />
+                    <span>▼</span>
+                  </div>
+
+                  <div class="dropdown" id="dropdown">
+                    <label>
+                      <div class="name-wrap"><div class="circle">D</div>Dennis</div>
+                      <input type="checkbox" value="Dennis" />
+                      <img class="checkbox-img" src="../assets/AdTask/personUnchecked.png" alt="" />
+                    </label>
+                    <label>
+                      <div class="name-wrap"><div class="circle">F</div>Frank</div>
+                      <input type="checkbox" value="Frank" />
+                      <img class="checkbox-img" src="../assets/AdTask/personUnchecked.png" alt="" />
+                    </label>
+                    <label>
+                      <div class="name-wrap"><div class="circle">T</div>Thomas</div>
+                      <input type="checkbox" value="Thomas" />
+                      <img class="checkbox-img" src="../assets/AdTask/personUnchecked.png" alt="" />
+                    </label>
+                    <label>
+                      <div class="name-wrap"><div class="circle">U</div>Uschi</div>
+                      <input type="checkbox" value="Uschi" />
+                      <img class="checkbox-img" src="../assets/AdTask/personUnchecked.png" alt="" />
+                    </label>
+                    <label>
+                      <div class="name-wrap"><div class="circle">B</div>Banane</div>
+                      <input type="checkbox" value="Banane" />
+                      <img class="checkbox-img" src="../assets/AdTask/personUnchecked.png" alt="" />
+                    </label>
+                  </div>
+                  <div class="selected-items" id="selectedItems"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="category" class="form-label">Category*</label>
+                  <select class="form-select" id="category" name="category" required>
+                    <option value="">Select task category</option>
+                    <option value="kategorie1">User Story</option>
+                    <option value="kategorie2">Technical Task</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="subtaskInput" class="form-label">Subtasks</label>
+                  <div class="position-relative">
+                    <input type="text" id="subtaskInput" class="form-control pe-5" placeholder="Neue Subtask eingeben" />
+                    <div id="inputActions" class="position-absolute top-50 end-0 translate-middle-y me-2 d-none d-flex align-items-center">
+                      <img src="../assets/AdTask/close.png" class="action-icon" onclick="clearSubtaskInput()" alt="" />
+                      <div class="action-divider"></div>
+                      <img src="../assets/AdTask/check.png" class="action-icon" onclick="addSubtask()" alt="" />
+                    </div>
+                  </div>
+                  <ul id="subtaskList" class="list-group mt-2"></ul>
+                </div>
               </div>
             </div>
 
-            <div class="inputRight">
-              <div class="prioritySection">
-                <h3>Priority</h3>
-                <div class="priorityButtons">
-                  <input type="radio" class="btn-check" name="priority" id="urgent" autocomplete="off"/>
-                  <label class="priorityBtn urgentBtn" for="urgent">
-                    <span>Urgent</span>
-                    <span><img src="../assets/AdTask/prioUrgentNotActive.png" alt=""/></span>
-                  </label>
-
-                  <input type="radio" class="btn-check" name="priority" id="medium" autocomplete="off"/>
-                  <label class="priorityBtn mediumBtn" for="medium">
-                    <span>Medium</span>
-                    <span><img src="../assets/AdTask/prioMedNotActive.png" alt=""/></span>
-                  </label>
-
-                  <input type="radio" class="btn-check" name="priority" id="low" autocomplete="off"/>
-                  <label class="priorityBtn lowBtn" for="low">
-                    <span>Low</span>
-                    <span><img src="../assets/AdTask/prioLowNotActive.png" alt=""/></span>
-                  </label>
-                </div>
+            <!-- Footer Area inside the form container -->
+            <footer class="footerTask">
+              <span class="required-notice">*This field is required</span>
+              <div class="footerButtons">
+                <button type="button" class="clearBtn">✕ Clear</button>
+                <button type="submit" class="createBtn">✓ Create Task</button>
               </div>
+            </footer>
 
-              <div class="multi-select">
-                <label class="multi-select-title">Assigned to</label>
-
-                <div class="input-field" id="inputFieldMultiSelect">
-                  <input id="searchInput" type="text" placeholder="Auswahl treffen"/>
-                  <span>▼</span>
-                </div>
-
-                <div class="dropdown" id="dropdown">
-                  <label>
-                    <div class="name-wrap">
-                      <div class="circle">D</div>Dennis</div>
-                    <input type="checkbox" value="Dennis" />
-                    <img class="checkbox-img" src="../assets/AdTask/personUnchecked.png"/>
-                  </label>
-
-                  <label>
-                    <div class="name-wrap">
-                      <div class="circle">F</div>Frank</div>
-                    <input type="checkbox" value="Frank" />
-                    <img class="checkbox-img" src="../assets/AdTask/personUnchecked.png"/>
-                  </label>
-
-                  <label>
-                    <div class="name-wrap">
-                      <div class="circle">T</div>Thomas</div>
-                    <input type="checkbox" value="Thomas" />
-                    <img class="checkbox-img" src="../assets/AdTask/personUnchecked.png"/>
-                  </label>
-
-                  <label>
-                    <div class="name-wrap">
-                      <div class="circle">U</div>Uschi</div>
-                    <input type="checkbox" value="Uschi" />
-                    <img class="checkbox-img" src="../assets/AdTask/personUnchecked.png"/>
-                  </label>
-
-                  <label>
-                    <div class="name-wrap">
-                      <div class="circle">B</div>Banane</div>
-                    <input type="checkbox" value="Banane" />
-                    <img class="checkbox-img" src="../assets/AdTask/personUnchecked.png"/>
-                  </label>
-                </div>
-
-                <div class="selected-items" id="selectedItems"></div>
-              </div>
-
-              <div class="mb-3">
-                <label for="category" class="form-label">Categoriy*</label>
-                <select class="form-select" id="category" name="category">
-                  <option value="">Select task category</option>
-                  <option value="kategorie1">User Story</option>
-                  <option value="kategorie2">Technical Task</option>
-                </select>
-              </div>
-              <label for="subtask" class="form-label">Subtasks</label>
-              <div class="position-relative">
-                <input type="text" id="subtaskInput" class="form-control pe-5" placeholder="Neue Subtask eingeben"/>
-
-                <div id="inputActions" class="position-absolute top-50 end-0 translate-middle-y me-2 d-none d-flex align-items-center">
-                  <img src="../assets/AdTask/close.png" class="action-icon" onclick="clearSubtaskInput()"/>
-                  <div class="action-divider"></div>
-                  <img src="../assets/AdTask/check.png" class="action-icon" onclick="addSubtask()"/>
-                </div>
-              </div>
-
-              <ul id="subtaskList" class="list-group mt-2"></ul>
-            </div>
-          </div>
-
-          <div class="footerTask">
-            <h4>*required fields</h4>
-
-            <div class="footerButtons">
-              <button class="clearBtn">✕ Clear</button>
-              <button class="createBtn">✓ Create Task</button>
-            </div>
-          </div>
+          </form>
         </main>
       </div>
     </div>

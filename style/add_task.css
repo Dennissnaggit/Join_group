@@ -1,459 +1,332 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Open Sans', sans-serif;
-
-}
-
+/* ==========================================================================
+   💻 1. DESKTOP BASE (Widescreen to Laptop)
+   ========================================================================== */
 .add-task-container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1208px;
+    margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 30px;
-}
-
-.task-main-header h1 {
-    font-size: 61px;
-    font-weight: 700;
-    color: var(--navy-blue);
-}
-
-.form-columns-wrapper {
-    display: flex;
-    justify-content: space-between;
-    gap: 40px;
-    width: 100%;
-}
-
-.form-column-left, .form-column-right {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
-
-.form-divider {
-    width: 1px;
-    background-color: #D1D1D1;
-    min-height: 400px;
-}
-
-.input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-/* Assigned To Feld */
-.multi-select {
-  width: 100%; /*neu dazu*/
-  max-width: 440px;/*vorher war nur width*/
-  position: relative;
-  font-family: Arial, sans-serif;
-}
-
-.multi-select-title {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #374151;
-}
-
-.input-field {
-  width: 100%;
-  min-height: 46px;
-  border: 1px solid #d1d5db;
-  border-radius: 12px;
-  padding: 0 14px;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #fff;
-  box-sizing: border-box;
-}
-
-.input-field input {
-  border: none;
-  outline: none;
-  width: 100%;
-  font-size: 15px;
-  color: #111827;
-}
-
-.dropdown {
-  display: none;
-  position: absolute;
-  width: 100%;
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 14px;
-  margin-top: 8px;
-  padding: 8px;
-  box-sizing: border-box;
-  z-index: 100;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-}
-
-.dropdown.active {
-  display: block;
-}
-
-.dropdown label {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 10px;
-  border-radius: 10px;
-  cursor: pointer;
-  color: #111827;
-  font-size: 15px;
-}
-
-.dropdown label:hover {
-  background: #f3f4f6;
-}
-
-.name-wrap {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.circle {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: #22c55e;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-}
-
-.dropdown input[type="checkbox"] {
-  display: none;
-}
-
-.checkbox-img {
-  width: 22px;
-  height: 22px;
-}
-
-.selected-items {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 15px;
-}
-
-.circle {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #111827;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-}
-
-
-.content-panel {
-  display: flex;
-  flex-direction: column;
-}
-
-.headerTask {
-  width: 100%;
-  margin-bottom: 32px;
+    gap: 1.5rem;
+    box-sizing: border-box;
 }
 
 .headerTask h1 {
-  text-align: left;
-  font-size: 61px;
-  font-weight: 700;
+    font-size: 3.8125rem; 
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0;
 }
 
 .inputsTask {
-  display: flex;
-  gap: 48px;
-  align-items: flex-start;
-  width: 100%;/*neu*/
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 3rem;
+    position: relative;
+    width: 100%;
+}
+
+.inputsTask::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: var(--border-grey);
+    transform: translateX(-50%);
 }
 
 .inputLeft,
 .inputRight {
-  width: 100%;/*neu*/
-  width: 440px;
+    flex: 1;
+    max-width: 440px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
 }
 
-.inputLeft input,
-.inputRight input,
-.inputLeft textarea,
-.inputRight textarea,
-.inputLeft select,
-.inputRight select {
-  width: 440px;
-  
-  border-radius: 10px;
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
-.inputLeft label,
-.inputRight label,
-.inputRight h3 {
-  font-size: 20px;
+.form-label,
+.form-label-style,
+.multi-select-title {
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--primary-color);
+    margin: 0;
 }
-
-.footerTask {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  width: 100%;
-  margin-top: 40px;
-  padding-top: 24px;
-}
-
-.footerTask h4 {
-  margin: 0;
-}
-
-.footerButtons {
-  display: flex;
-  gap: 16px;
-}
-
-.footerButtons button {
-  height: 56px;
-  border-radius: 10px;
-  padding: 0 24px;
-  border: none;
-  cursor: pointer;
-}
-
-.clearBtn {
-  background: white;
-  border: 1px solid #d1d1d1 !important;
-}
-
-.createBtn {
-  background: #2a3647;
-  color: white;
-  font-weight: 700;
-}
-
-/* buttons for urgent */
 
 .priorityButtons {
-  display: flex;
-  gap: 16px;
-  margin-top: 12px;
-  width: 100%;/*neu*/
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+    margin-top: 0.5rem;
 }
 
 .priorityBtn {
-  width: 136px;
-  height: 56px;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  border-radius: 10px;
-  background: white;
-  border: 1px solid #d1d1d1;
-  padding: 0 16px;
-
-  font-size: 20px;
-  font-weight: 500;
-
-  cursor: pointer;
-  transition: all 0.2s ease;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 3.5rem;
+    background-color: var(--white);
+    border: 1px solid var(--border-grey);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.25rem;
+    transition: all 0.1s ease-in-out;
 }
 
-/* Hover */
-.priorityBtn:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+.footerTask {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
 }
 
-/* Urgent aktiv */
-#urgent:checked + .urgentBtn {
-  background: #ff3d00;
-  color: white;
-  border-color: #ff3d00;
+.required-notice {
+    font-size: 1rem;
+    color: var(--black);
 }
 
-/* Medium aktiv */
-#medium:checked + .mediumBtn {
-  background: #ffa800;
-  color: white;
-  border-color: #ffa800;
+.footerButtons {
+    display: flex;
+    gap: 1rem;
 }
 
-/* Low aktiv */
-#low:checked + .lowBtn {
-  background: #7ae229;
-  color: white;
-  border-color: #7ae229;
+.clearBtn,
+.createBtn {
+    height: 3.5rem;
+    border-radius: 10px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1.5rem;
 }
-/* Subtasks */
-.action-icon {
-    width: 18px;
-    height: 18px;
+
+.clearBtn {
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.clearBtn:hover {
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+}
+
+.createBtn {
+    background-color: var(--primary-color);
+    border: none;
+    color: var(--white);
+}
+
+.createBtn:hover {
+    background-color: var(--secondary-color);
+}
+
+/* ==========================================================================
+   👥 MULTI-SELECT DROPDOWN STYLES
+   ========================================================================== */
+.multi-select {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+}
+
+.input-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--border-grey);
+    border-radius: 10px;
+    padding: 0 1rem;
+    height: 3.125rem;
+    background-color: var(--white);
     cursor: pointer;
 }
 
-.action-divider {
-    width: 1px;
-    height: 18px;
-    background: #dcdcdc;
-    margin: 0 8px;
+.input-field input {
+    border: none;
+    outline: none;
+    background: transparent;
+    width: 100%;
+    cursor: pointer;
+    font-size: 1.25rem;
 }
 
-.subtask-actions {
+.multi-select .dropdown {
     display: none;
-    align-items: center;
-}
-
-.subtask-item:hover .subtask-actions {
-    display: flex;
-}
-.list-group-item {
-  border: none;
-}
-
-
-@media (max-width: 1000px) {
-  .form-columns-wrapper,
-  .inputsTask {
     flex-direction: column;
-    gap: 24px;
-  }
-
-  .form-divider {
-    display: none;
-  }
-
-  .inputLeft,
-  .inputRight,
-  .multi-select {
-    width: 100%;
-  }
-
-  .inputLeft input,
-  .inputRight input,
-  .inputLeft textarea,
-  .inputRight textarea,
-  .inputLeft select,
-  .inputRight select {
-    width: 100%;
-  }
-
-  .task-main-header h1,
-  .headerTask h1 {
-    font-size: 40px;
-  }
-
-  .footerTask {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 24px;
-  }
-
-  /* Buttons bleiben nebeneinander */
-  .priorityButtons,
-  .footerButtons {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-  }
-
-  .priorityBtn {
-    flex: 1;
-    width: auto;
-  }
-
-  .footerButtons button {
-    flex: 1;
-  }
-   .content-panel {
-    height: 100vh;
+    background-color: var(--white);
+    border: 1px solid var(--border-grey);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    max-height: 200px;
     overflow-y: auto;
-    padding-bottom: 100px; /* Platz für Footer */
-    padding-top: 0px; /* Platz für Header */
-    padding-left: 0px;
-    padding-right: 0px;
-  }
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    box-shadow: var(--card-shadow);
+}
 
-    .headerTask {
-    position: sticky;
-    top: 0;
-    background: white;
-    z-index: 100;
-    padding-bottom: 0px;
-    padding-top: 16px;
-    padding-left: 16px;
-    padding-right: 16px;
-    width: 100%;
-  }
-
-.footerTask {
-    position: sticky;
-    bottom: 0;
-    background: white;
-    z-index: 100;
-    padding: 16px 16px;
-    border-top: 1px solid #d1d1d1;
-  }
-
- .footerTask h4 {
-    display: none;
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
-  .footerButtons {
-    width: 100%;
+.multi-select .dropdown.show {
     display: flex;
-    flex-direction: row;
-    gap: 16px;
-  }
+}
 
-  .footerButtons button {
-    flex: 1;
-  }
+.multi-select .dropdown label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    margin: 0;
+    cursor: pointer;
+    transition: background-color 0.1s ease;
+}
+
+.multi-select .dropdown label:hover {
+    background-color: var(--background-color);
+}
+
+.name-wrap {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.25rem;
+    color: var(--black);
+}
+
+.circle {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-weight: 700;
+    font-size: 0.875rem;
+    background-color: var(--avatar-orange);
+}
+
+.multi-select .dropdown input[type="checkbox"] {
+    display: none;
+}
+
+.checkbox-img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.selected-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+/* ==========================================================================
+   ⚡ 2. TABLET RESPONSIVE (1024px and Below)
+   ========================================================================== */
+@media(max-width: 1024px) {
+    .add-task-container {
+        max-width: 100%;
+        margin-bottom: 80px;
+    }
+
+    .headerTask h1 {
+        font-size: 2.5rem;
+    }
 
     .inputsTask {
-    padding-top: 32px;
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
-}
-@media (max-width: 480px) {
-  .priorityBtn {
-    font-size: 16px;
-    padding: 0 8px;
-  }
-
-  .task-main-header h1,
-  .headerTask h1 {
-    font-size: 32px;
-  }
-}
-/* Media 1000px */
-@media (max-width: 1024px) {
-    .form-columns-wrapper {
         flex-direction: column;
-        gap: 24px;
+        align-items: center;
+        gap: 1.5rem;
     }
-    
-    .form-divider {
+
+    .inputsTask::before {
         display: none;
+    }
+
+    .inputLeft,
+    .inputRight {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .footerTask {
+        margin-top: 3rem; 
+        padding-bottom: 1.5rem; 
+    }
+}
+
+/* ==========================================================================
+   ⚡ 3. MOBILE RESPONSIVE (767px to 320px)
+   ========================================================================== */
+@media(max-width: 767px) {
+    #content.content-panel {
+        padding: 2.5rem 1rem !important;
+    }
+    .headerTask h1 {
+        font-size: 2rem;
+    }
+
+    .priorityBtn {
+        font-size: 1rem;
+        height: 3rem;
+    }
+
+    .priorityBtn img {
+        width: 14px;
+        height: auto;
+    }
+
+    .footerTask {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+
+    .footerButtons {
+        width: 100%;
+    }
+
+    .clearBtn,
+    .createBtn {
+        flex: 1;
+        font-size: 1rem;
+        height: 3rem;
+    }
+}
+
+/* ==========================================================================
+   ⚡ 4. ULTRA MOBILE 
+   ========================================================================== */
+@media(max-width: 406px) {
+    .footerButtons {
+        gap: 0.5rem; 
+    }
+
+    .clearBtn,
+    .createBtn {
+        padding: 0 0.5rem;
+        font-size: 0.85rem;
+        white-space: nowrap;
     }
 }

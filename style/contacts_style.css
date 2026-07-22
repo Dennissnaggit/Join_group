@@ -1,11 +1,11 @@
 /* ==========================================================================
-   1. LAYOUT PRINCIPAL (Dos columnas)
+   1. LAYOUT PRINCIPAL (2 columns)
    ========================================================================== */
 .contacts-main-grid {
     display: flex;
     width: 100%;
     height: calc(100vh - 90px);
-    background-color: #F6F7F8;
+    background-color: var(--background-color);
 }
 
 .contacts-sidebar-list {
@@ -16,10 +16,6 @@
     display: flex;
     flex-direction: column;
 }
-
-/* .app-shell .main-content-wrapper #content.content-panel {
-    padding-right: 0;
-} */
 
 .contacts-scrollable-area {
     flex: 1;
@@ -39,7 +35,7 @@
 .add-new-contact-btn {
     width: 100%;
     padding: 16px;
-    background-color: #2A3647;
+    background-color: var(--primary-color);
     color: white;
     border: none;
     border-radius: 10px;
@@ -72,13 +68,13 @@
 .title-divider {
     width: 3px;
     height: 60px;
-    background-color: #29ABE2;
+    background-color: var(--secondary-color);
 }
 
 .letter-divider {
     padding: 16px 0;
     font-size: 20px;
-    border-bottom: 1px solid #D1D1D1;
+    border-bottom: 1px solid var(--border-grey);
     margin-top: 16px;
 }
 
@@ -129,13 +125,13 @@
 }
 
 #contacts-list-container {
-    flex-grow: 1; /* Ocupa todo el espacio vertical disponible en el medio */
-    overflow-y: auto; /* Genera el scroll solo para los nombres, protegiendo los menús */
+    flex-grow: 1;
+    overflow-y: auto; 
 }
 
 
 .contact-list-item.active {
-    background-color: #2A3647;
+    background-color: var(--primary-color);
     color: white;
 }
 
@@ -192,41 +188,38 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: transparent; /* Quitamos el blanco de acá */
-    box-shadow: none; /* Quitamos la sombra repetida */
+    background-color: transparent;
+    box-shadow: none;
 }
 
-/* --- LA TARJETA REAL (La que maneja los 900px y los dos paneles) --- */
 .modal-card {
     width: 1212px;
     max-width: 95vw;
-    height: 592px; /* Altura exacta del screen */
+    height: 592px; 
     background-color: white;
     border-radius: 30px;
     overflow: hidden;
-    display: flex; /* Une panel izquierdo y panel derecho en fila */
+    display: flex; 
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
     position: relative;
     box-sizing: border-box;
 }
 
-/* El contenedor que cubre TODA la pantalla y oscurece el fondo */
 .modal-overlay {
-    position: fixed; /* Hace que se quede fijo en la pantalla, sin importar el scroll */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.4); /* El "0.4" es el nivel de oscuridad del fondo */
+    background-color: rgba(0, 0, 0, 0.4);
     display: flex;
-    justify-content: center; /* Centra el modal horizontalmente */
-    align-items: center;     /* Centra el modal verticalmente */
-    z-index: 999; /* Lo pone por encima de absolutamente todo el contenido de la página */
+    justify-content: center;
+    align-items: center; 
+    z-index: 999;
 }
 
-/* Panel Izquierdo */
 .modal-left-panel {
-    width: 453px; /* El ancho exacto que te marca tu primera captura */
+    width: 453px;
     background-color: #2A3647;
     color: white;
     display: flex;
@@ -260,26 +253,24 @@
     margin-top: 16px;
 }
 
-/* Panel Derecho */
 .modal-right-panel {
     flex: 1;
     background-color: white;
     display: flex;
-    flex-direction: row; /* ¡CLAVE! Pone el Avatar al lado del Formulario */
+    flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 40px; /* Separación entre el círculo del avatar y los inputs */
+    gap: 40px;
     padding: 60px;
     position: relative;
     box-sizing: border-box;
 }
 
-/* --- EL AVATAR DEL MODAL (Círculo grande) --- */
 .modal-avatar-circle {
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    background-color: #FFB800; /* El naranja o amarillo dinámico */
+    background-color: var(--prio-medium);
     color: white;
     display: flex;
     align-items: center;
@@ -297,12 +288,11 @@
     z-index: 10;
 }
 
-/* --- CONTENEDOR DEL FORMULARIO --- */
 .modal-form-container {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    max-width: 400px; /* Para que los inputs no se estiren infinitamente y queden finos */
+    max-width: 400px;
 }
 
 .modal-form {
@@ -312,7 +302,6 @@
     width: 100%;
 }
 
-/* Inputs con Iconos Nativos */
 .input-icon-container {
         width: 100%;
         position: relative;
@@ -322,7 +311,7 @@
     width: 100%;
     padding: 12px 20px;
     font-size: 1rem;
-    border: 1px solid #D1D1D1;
+    border: 1px solid var(--border-grey);
     border-radius: 10px;
     box-sizing: border-box;
     outline: none;
@@ -341,10 +330,9 @@
 }
 
 .input-icon-container input:focus {
-    border-color: #29ABE2; /* Se ilumina al hacer clic para escribir */
+    border-color: var(--secondary-color);
 }
 
-/* Botones del Formulario */
 .modal-actions-container {
     display: flex;
     justify-content: flex-end;
@@ -364,64 +352,41 @@
 }
 
 .btn-cancel {
-    background-color: white;
-    border: 1px solid #2A3647;
-    color: #2A3647;
+    background-color: var(--white);
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
 }
 
 .btn-cancel:hover {
-    border-color: #29ABE2;
-    color: #29ABE2;
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    transform: translateY(-1px); /* Mini efecto de subida */
+    transform: translateY(-1px);
 }
 
 .btn-create {
-    background-color: #2A3647;
+    background-color: var(--primary-color);
     border: none;
-    color: white;
+    color: var(--white);
 }
 
 .btn-create:hover {
-    background-color: #29ABE2;
+    background-color: var(--secondary-color);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    transform: translateY(-1px); /* Mini efecto de subida */
+    transform: translateY(-1px);
 }
-
-/* ==========================================================================
-   6. RESPONSIVE AND UTILITIES
-   ========================================================================== */
-
-/* 🌍 GLOBAL OVERLAY STYLES (Applies to ALL screen sizes) */
-/* .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100dvh;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: 999;
-    display: none; 
-} */
-
-/* Triggers flex center alignment when JavaScript removes .d-none */
-/* .modal-overlay:not(.d-none) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-} */
 
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0; /* 🔑 NEW: Anchors the right side perfectly */
-    bottom: 0; /* 🔑 NEW: Anchors the bottom side perfectly */
+    right: 0;
+    bottom: 0;
     width: 100%;
-    height: 100%; /* 🔄 Changed from 100vh to 100% to follow the fixed boundaries */
+    height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
     z-index: 999;
-    display: none; /* Hidden by default everywhere */
+    display: none;
 }
 
 /* Triggers flex center alignment when JavaScript removes .d-none */
@@ -430,6 +395,20 @@
     justify-content: center;
     align-items: center;
 }
+
+.mobile-action-menu,
+.d-none-desktop {
+    display: none !important;
+}
+
+@media(max-width: 1023px) {
+    .mobile-action-menu {
+        display: flex !important;
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 999;
+    }
 
 
 /* ==========================================================================
@@ -440,20 +419,19 @@
     .modal-card {
         display: flex;
         flex-direction: row;
-        width: clamp(58rem, 90vw, 75.75rem); /* De 928px a 1212px dinámico */
+        width: clamp(58rem, 90vw, 75.75rem);
         height: 35.25rem; /* 564px */
-        background-color: #ffffff;
+        background-color: var(--white);
         border-radius: 1.875rem;
         overflow: hidden;
         position: relative;
         box-sizing: border-box;
     }
 
-    /* 🔵 BLUE LEFT PANEL */
     .modal-left-panel {
-        width: 37.3%; /* Proporción exacta de Figma */
+        width: 37.3%;
         flex-shrink: 0;
-        background-color: #2a3647;
+        background-color: var(--primary-color);
         padding: clamp(2rem, 3.5vw, 3rem);
         display: flex;
         flex-direction: column;
@@ -461,9 +439,8 @@
         box-sizing: border-box;
     }
 
-    /* 🔤 Ajuste elástico de las letras para que "Add contact" no se rompa */
     .modal-left-panel h1 {
-        font-size: clamp(2.5rem, 4vw, 3.75rem); /* Se achica suavemente si baja la pantalla */
+        font-size: clamp(2.5rem, 4vw, 3.75rem);
         line-height: 1.2;
         margin-bottom: 0.5rem;
     }
@@ -472,7 +449,6 @@
         font-size: clamp(1rem, 1.5vw, 1.25rem);
     }
 
-    /* ⚪ WHITE RIGHT PANEL */
     .modal-right-panel {
         flex-grow: 1;
         flex-shrink: 1;
@@ -489,7 +465,7 @@
     .modal-avatar-circle {
         position: static;
         transform: none;
-        width: clamp(6.25rem, 8vw, 7.5rem); /* De 100px a 120px */
+        width: clamp(6.25rem, 8vw, 7.5rem); 
         height: clamp(6.25rem, 8vw, 7.5rem);
         aspect-ratio: 1 / 1;
         flex-shrink: 0 !important;
@@ -499,7 +475,7 @@
         flex-grow: 1;
         flex-shrink: 1;
         min-width: 0;
-        max-width: 26.25rem; /* 420px */
+        max-width: 26.25rem;
         width: 100%;
     }
 
@@ -517,7 +493,7 @@
    ========================================================================== */
 @media(max-width: 999px) {
 .modal-overlay:not(.d-none) {
-        padding: 1rem; /* 🔄 Evita que la tarjeta toque el borde de la pantalla en 320px */
+        padding: 1rem; 
         box-sizing: border-box;
         display: flex;
         justify-content: center;
@@ -528,42 +504,39 @@
         display: flex;
         flex-direction: column;
         width: 100%;
-        max-width: 33.75rem; /* 540px */
-        height: auto; /* 760px */
-        background-color: #ffffff;
+        max-width: 33.75rem;
+        height: auto; 
+        background-color: var(--white);
         border-radius: 1.875rem;
         overflow: visible;
         position: relative;
         box-sizing: border-box;
     }
 
-    /* 🔵 BLUE LEFT PANEL: Added more height and padding to protect text */
     .modal-left-panel {
         width: 100%;
         max-width: 24.75rem;
-        height: 19.5rem; /* 🔄 Subimos de 17.5rem a 19.5rem para ganar espacio vertical */
-        background-color: #2a3647;
-        padding: 3rem 2rem 4rem; /* 🔄 Más aire abajo para que el texto respire */
+        height: 19.5rem;
+        background-color: var(--primary-color);
+        padding: 3rem 2rem 4rem;
         box-sizing: border-box;
         border-top-left-radius: 1.875rem;
         border-top-right-radius: 1.875rem;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start; /* 🔄 Empuja el título hacia arriba lejos del avatar */
+        justify-content: flex-start;
     }
 
     .modal-logo {
         display: none;
     }
-        
-    /* ⚪ WHITE RIGHT PANEL: Pushes the form downwards */
+
     .modal-right-panel {
         width: 100%;
         flex-grow: 1;
         display: flex;
         flex-direction: column;
         align-items: center;
-        /* 🔄 Subimos el padding-top de 5rem a 6.5rem para empujar los inputs hacia abajo */
         padding: 6.5rem 1.5rem 2rem;
         box-sizing: border-box;
         border-bottom-left-radius: 1.875rem;
@@ -580,23 +553,21 @@
         width: 7.5rem;
         height: 7.5rem;
         border-radius: 50%;
-        border: 0.1875rem solid #ffffff;
+        border: 0.1875rem solid var(--white);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 
     .modal-form-container {
         width: 100%;
-        max-width: 22.75rem; /* 364px inputs */
+        max-width: 22.75rem;
     }
 
-    /* 🔄 Agregamos un pequeño margen superior para despegar el formulario aún más si es necesario */
     .modal-form {
         margin-top: 0.5rem;
     }
 
     .close-btn-container {
         position: absolute;
-        /* top: -16.25rem; */
         top: 1.5rem;
         right: 1.5rem;
         z-index: 20;
@@ -619,55 +590,52 @@
        📱 MOBILE ACTION MENU (Edit & Delete Buttons)
        Colocado aquí adentro para que SOLO exista en celulares y tablets.
        ========================================================================== */
-.mobile-action-menu {
-    position: fixed;
-    bottom: 6rem; /* Arriba de la barra oscura */
-    right: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    z-index: 99;
+    .mobile-action-menu {
+        position: fixed;
+        bottom: 6rem;
+        right: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        z-index: 99;
+    }
+
+    .mobile-action-menu .action-btn-edit {
+        background-color: #2a3647;
+        color: #ffffff;
+        border: none;
+        border-radius: 0.625rem;
+        padding: 0.75rem 1.25rem;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        box-sizing: border-box;
+    }
+
+    .mobile-action-menu .action-btn-delete {
+        background-color: #ffffff;
+        color: #2a3647;
+        border: 1px solid #2a3647;
+        border-radius: 0.625rem;
+        padding: 0.75rem 1.25rem;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        box-sizing: border-box;
+    }
+
+    .mobile-action-menu button img {
+        width: 1.25rem;
+        height: 1.25rem;
+        object-fit: contain;
+    }
 }
-
-.mobile-action-menu .action-btn-edit {
-    background-color: #2a3647;
-    color: #ffffff;
-    border: none;
-    border-radius: 0.625rem;
-    padding: 0.75rem 1.25rem;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    box-sizing: border-box;
-}
-
-.mobile-action-menu .action-btn-delete {
-    background-color: #ffffff;
-    color: #2a3647;
-    border: 1px solid #2a3647;
-    border-radius: 0.625rem;
-    padding: 0.75rem 1.25rem;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    box-sizing: border-box;
-}
-
-.mobile-action-menu button img {
-    width: 1.25rem;
-    height: 1.25rem;
-    object-fit: contain;
-}
-
-
-}
-
 
 /* ==========================================================================
    📱 SMALL PHONE OPTIMIZATION (From 450px down)
@@ -675,11 +643,83 @@
    ========================================================================== */
 @media(max-width: 450px) {
     .modal-overlay .modal-card {
-        max-width: 24.75rem; /* 396px final for small phones */
+        max-width: 24.75rem;
     }
 
     .modal-right-panel {
-        padding: 5rem 0.5rem 2rem; /* Back to your 8px padding on tight edges */
+        padding: 5rem 0.5rem 2rem;
     }
 }
 
+/* ==========================================================================
+   📱 CONTACTS MOBILE FLOW (Below 824px)
+   ========================================================================== */
+@media(max-width: 824px) {
+    .contacts-main-grid {
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - 160px);
+        width: 100%;
+        background-color: var(--background-color);
+        overflow-y: auto;
+    }
+
+    .contacts-sidebar-list {
+        display: flex;
+        width: 100%;
+        min-width: 100%;
+        height: auto;
+        background-color: var(--white);
+    }
+
+    .contacts-detail-panel {
+        display: none;
+        width: 100%;
+        max-width: 100%;
+        padding: 2rem 16px 120px;
+        background-color: var(--background-color);
+        box-sizing: border-box;
+    }
+
+    .contacts-main-grid.show-detail-active .contacts-sidebar-list {
+        display: none;
+    }
+
+    .contacts-main-grid.show-detail-active .contacts-detail-panel {
+        display: flex;
+    }
+
+    .contacts-header-title {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+
+    .contacts-header-title h1 {
+        font-size: 47px;
+        margin: 0;
+    }
+
+    .title-divider {
+        width: 90px;
+        height: 3px;
+        transform: none;
+        background-color: var(--secondary-color);
+    }
+
+    .contacts-scrollable-area {
+        overflow-y: visible;
+        padding: 0 16px 16px;
+    }
+
+    .button-wrapper {
+        padding: 16px;
+    }
+
+    .add-new-contact-btn {
+        font-size: 18px;
+        padding: 12px;
+    }
+}
+}
