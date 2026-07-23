@@ -51,7 +51,8 @@ let contacts = [
 ];
 
 /** Initializes the contacts view by triggering the rendering process. */
-function initContacts() {
+async function initContacts() {
+  await init();
   renderContactList();
 }
 

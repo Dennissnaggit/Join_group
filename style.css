@@ -47,7 +47,7 @@ body {
 }
 
 /* ==========================================================================
-   📺 GLOBAL WIDESCREEN BREAKPOINT (Para todas las pantallas > 1440px)
+   📺 GLOBAL WIDESCREEN BREAKPOINT (> 1440px)
    ========================================================================== */
 @media(min-width: 1440px) {
     .main-content-wrapper {

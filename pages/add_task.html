@@ -1,45 +1,46 @@
 <!doctype html>
 <html lang="en">
-  <head>
-      <meta charset="UTF-8"/>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-      <title>Join - Add Task</title>
-      <link rel="icon" type="image/png" href="../assets/logo/fav_icon.png"/>
-      <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css"/>
-      <link rel="stylesheet" href="../style.css"/>
-      <link rel="stylesheet" href="../style/app_layout.css"/>
-      <link rel="stylesheet" href="../style/components.css"/>
-      <link rel="stylesheet" href="../style/add_task.css"/>
-      <script type="module" src="../script/firebase.js"></script> 
-      <script src="../script.js"></script>
-      <script src="../script/add_task.js" defer="defer"></script>
-      <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-  </head>
-  <body onload="init().then(() => { if (typeof initAddTask === 'function') initAddTask(); })">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Join - Add Task</title>
+  <link rel="icon" type="image/png" href="../assets/logo/fav_icon.png"/>
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="../style.css"/>
+  <link rel="stylesheet" href="../style/app_layout.css"/>
+  <link rel="stylesheet" href="../style/components.css"/>
+  <link rel="stylesheet" href="../style/add_task.css"/>
+  <script type="module" src="../script/firebase.js"></script> 
+  <script src="../script.js"></script>
+  <script src="../script/add_task.js" defer="defer"></script>
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+</head>
+<body onload="initAddTask()">
 
-    <div class="app-shell">
-      <!-- Sidebar -->
-      <div w3-include-html="../components/sidebar.html"></div>
 
-      <div class="main-content-wrapper">
+  <div class="app-shell">
+  <!-- Sidebar -->
+  <div w3-include-html="../components/sidebar.html"></div>
+
+  <div class="main-content-wrapper">
         <!-- Header -->
-        <div w3-include-html="../components/header.html"></div>
+    <div w3-include-html="../components/header.html"></div>
 
-        <!-- Main Content Area -->
-        <main class="content-panel" id="content">
-          <form class="add-task-container" id="addTaskForm" onsubmit="return false;">
+    <!-- Main Content Area -->
+    <main class="content-panel" id="content">
+      <form class="add-task-container" id="addTaskForm" onsubmit="return false;">
             
-            <header class="headerTask">
-              <h1>Add Task</h1>
-            </header>
+        <header class="headerTask">
+          <h1>Add Task</h1>
+        </header>
 
-            <div class="inputsTask">
-              <!-- Left Column -->
-              <div class="inputLeft">
-                <div class="form-group">
-                  <label for="TitleOfTask" class="form-label">Title<span class="required-star">*</span></label>
+        <div class="inputsTask">
+        <!-- Left Column -->
+          <div class="inputLeft">
+            <div class="form-group">
+              <label for="TitleOfTask" class="form-label">Title<span class="required-star">*</span></label>
 
-                  <input type="text" class="form-control" id="TitleOfTask" placeholder="Title of the task" required />
+              <input type="text" class="form-control" id="TitleOfTask" placeholder="Title of the task" required />
                 </div>
                 
                 <div class="form-group">
@@ -51,9 +52,9 @@
                   <label for="exampleFormControlInput1" class="form-label">Due date<span class="required-star">*</span></label>
                   <input type="date" class="form-control" id="exampleFormControlInput1" required />
                 </div>
-              </div>
+            </div>
 
-              <!-- Right Column -->
+            <!-- Right Column -->
               <div class="inputRight">
                 <div class="prioritySection">
                   <span class="form-label-style">Priority</span>

@@ -1,7 +1,9 @@
 /**
  * Main initialization for Summary page
  */
-function initSummary() {
+async function initSummary() {
+  await init();
+
   setGreeting();
   displayUserName();
   renderSummaryNumbers();

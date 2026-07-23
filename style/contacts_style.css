@@ -144,6 +144,7 @@
     justify-content: center;
     font-weight: 700;
     border: 2px solid white;
+    flex-shrink: 0;
 }
 
 .contact-avatar-large {
@@ -174,6 +175,9 @@
 .contact-email-link {
     font-size: 14px;
     color: var(--email);
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .contact-list-item.active .contact-email-link {

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   1. CONTENEDORES PRINCIPALES Y LAYOUT (Base Desktop Fiel a Figma)
+1. PRINCIPAL CONTAINER AND LAYOUT
    ========================================================================== */
 .summary-content-container {
     display: flex;
@@ -8,13 +8,13 @@
     align-items: flex-start;
     width: 100%;
     max-width: 1120px;
-    margin: 0 auto;
+    margin-left: 0;
+    margin-right: auto;
     gap: clamp(1.5rem, 3vw, 4rem);
     flex-wrap: nowrap;
     box-sizing: border-box;
 }
 
-/* 🎯 La sección de las tarjetas del panel izquierdo */
 .main-stats {
     flex: 1 1 auto;
     min-width: 0;

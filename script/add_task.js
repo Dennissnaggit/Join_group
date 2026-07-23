@@ -1,8 +1,9 @@
-function initAddTask() {
-  console.log("App initialized - Add Task Section");
-  // Dennis and Jannis: You can start writing your contact list logic here...
+/**
+ * Main initialization for Add Task page
+ */
+async function initAddTask() {
+  await init();
 }
-// Damit die Seite Problemlos lädt bitte die die innitfunction so bennen
 
 // Dropdown schließen, wenn außerhalb geklickt wird
 document.addEventListener("click", (e) => {
@@ -112,7 +113,9 @@ const inputFieldMulti = document.getElementById("inputFieldMultiSelect");
 const searchInput = document.getElementById("searchInput");
 const dropdown = document.getElementById("dropdown");
 const selectedItems = document.getElementById("selectedItems");
-const checkboxes = document.querySelectorAll('.dropdown input[type="checkbox"]');
+const checkboxes = document.querySelectorAll(
+  '.dropdown input[type="checkbox"]'
+);
 const labels = document.querySelectorAll(".dropdown label");
 
 const uncheckedImg = "../assets/AdTask/personUnchecked.png";
