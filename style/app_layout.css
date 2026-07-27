@@ -100,9 +100,6 @@ span.desktop-only {
 }
 
 
-/* ==========================================================================
-   ⚡ BREAKPOINT: TABLETS (1024px and Below)
-   ========================================================================== */
 @media(max-width: 1024px) {
     .app-shell {
         display: flex;
@@ -219,9 +216,6 @@ span.desktop-only {
     }
 }
 
-/* ==========================================================================
-   ⚡ BREAKPOINT: PURE MOBILE (767px and Below)
-   ========================================================================== */
 @media(max-width: 767px) {
 .greeting-section {
     position: fixed !important;

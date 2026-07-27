@@ -357,6 +357,8 @@
   right: auto;
   bottom: 90px;
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 16px;
   opacity: 0;
   animation: showLogin 1s ease forwards;
@@ -367,12 +369,19 @@
     width: 100%;
     max-width: calc(100% - 32px);
     padding: 40px 48px;
+    align-items: center;
   }
   .login-box {
     width: 100%;
+    text-align: center;
   }
   h2 {
     font-size: 47px;
+    width: 100%;
+    text-align: center;
+  }
+  .custom-hr {
+    margin: 0 auto;
   }
   .btn-group {
   display: flex;
@@ -421,8 +430,12 @@ body.animation-done .logo {
   body.animation-done .logo-responsive {
     display: none !important;
   }
+  body.animation-done .log-in {
+    align-items: center;
+  }
   .login-box {
     gap: 8px;
+      text-align: center;
   }
 .form-control label {
 font-size: 16px;

@@ -41,13 +41,10 @@ body {
     margin: 0;
     min-height: 100vh;
     height: auto;
-    background: var(--background-color); /* Uses variable instead of hardcoded word */
+    background: var(--background-color);
     font-family: "Inter", sans-serif;
 }
 
-/* ==========================================================================
-   📺 GLOBAL WIDESCREEN BREAKPOINT (Para todas las pantallas > 1440px)
-   ========================================================================== */
 @media(min-width: 1440px) {
     .main-content-wrapper {
         max-width: 1208px;
@@ -56,8 +53,8 @@ body {
     }
 
     .add-task-container {
-        max-width: 1208px; /* Ancho exacto del diseño de Figma */
+        max-width: 1208px;
         width: 100%;
-        margin: 0; /* 🔑 Clave: Eliminamos el centrado para que se quede en su lugar */
+        margin: 0;
     }
 }
