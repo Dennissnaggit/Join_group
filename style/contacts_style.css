@@ -115,6 +115,10 @@
     font-size: 16px;
 }
 
+.mobile-action-menu {
+    display: none;
+}
+
 /* ==========================================================================
    4. ELEMENTOS DE LA LISTA E INFORMACIÓN
    ========================================================================== */
@@ -663,6 +667,14 @@
     width: 1.25rem;
     height: 1.25rem;
     object-fit: contain;
+}
+
+.contact-actions {
+    display: none;
+}
+
+.mobile-action-menu {
+    display: flex;
 }
 
 

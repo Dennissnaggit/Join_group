@@ -28,6 +28,14 @@ function createContactDetailTemplate(contact, initials) {
                 </div>
             </div>
             ${getDetailBodyTemplate(contact)}
+            <div id="mobileActionMenu-${contact.id}" class="mobile-action-menu d-none-desktop">
+                <button class="action-btn-edit" onclick="openEditModal('${contact.id}')">
+                    <img src="../assets/icons/edit.svg" alt="Edit"> Edit
+                </button>
+                <button class="action-btn-delete" onclick="deleteContact('${contact.id}')">
+                    <img src="../assets/icons/delete.svg" alt="Delete"> Delete
+                </button>
+            </div>
         </div>
     `;
 }
