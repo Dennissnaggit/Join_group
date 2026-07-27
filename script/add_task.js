@@ -1,17 +1,25 @@
 function initAddTask() {
   console.log("App initialized - Add Task Section");
-  // Dennis and Jannis: You can start writing your contact list logic here...
-}
-// Damit die Seite Problemlos lädt bitte die die innitfunction so bennen
 
-// Dropdown schließen, wenn außerhalb geklickt wird
+  const clearButton = document.querySelector(".clearBtn");
+  const createButton = document.querySelector(".createBtn");
+
+  if (clearButton) {
+    clearButton.type = "button";
+    clearButton.addEventListener("click", resetTaskForm);
+  }
+
+  if (createButton) {
+    createButton.type = "button";
+    createButton.addEventListener("click", saveTaskFromForm);
+  }
+}
 document.addEventListener("click", (e) => {
   if (!e.target.closest(".multi-select")) {
     dropdown.classList.remove("active");
   }
 });
 
-//subtask hinzufügen
 const input = document.getElementById("subtaskInput");
 const inputActions = document.getElementById("inputActions");
 
@@ -86,7 +94,33 @@ function editSubtask(icon) {
   inputActions.classList.remove("d-none");
 }
 
-//Prio img tausch
+function resetTaskForm() {
+  const titleInput = document.getElementById("TitleOfTask");
+  const descriptionInput = document.getElementById("exampleFormControlTextarea1");
+  const dueDateInput = document.getElementById("exampleFormControlInput1");
+  const categorySelect = document.getElementById("category");
+
+  if (titleInput) titleInput.value = "";
+  if (descriptionInput) descriptionInput.value = "";
+  if (dueDateInput) dueDateInput.value = "";
+  if (categorySelect) categorySelect.value = "";
+
+  document.querySelectorAll('input[name="priority"]').forEach((radio) => {
+    radio.checked = false;
+  });
+
+  document.querySelectorAll('.dropdown input[type="checkbox"]').forEach((checkbox) => {
+    checkbox.checked = false;
+  });
+
+  const subtaskList = document.getElementById("subtaskList");
+  const selectedItemsContainer = document.getElementById("selectedItems");
+
+  if (subtaskList) subtaskList.innerHTML = "";
+  if (selectedItemsContainer) selectedItemsContainer.innerHTML = "";
+
+  clearSubtaskInput();
+}
 
 document.querySelectorAll('input[name="priority"]').forEach((radio) => {
   radio.addEventListener("change", () => {
@@ -107,7 +141,6 @@ document.querySelectorAll('input[name="priority"]').forEach((radio) => {
   });
 });
 
-// Assigned To Dropdown
 const inputFieldMulti = document.getElementById("inputFieldMultiSelect");
 const searchInput = document.getElementById("searchInput");
 const dropdown = document.getElementById("dropdown");
@@ -162,3 +195,48 @@ document.addEventListener("click", (event) => {
     dropdown.classList.remove("active");
   }
 });
+
+async function saveTaskFromForm() {
+  const firestoreStore = window.firestoreData;
+  const title = document.getElementById("TitleOfTask").value.trim();
+  const description = document.getElementById("exampleFormControlTextarea1").value.trim();
+  const dueDate = document.getElementById("exampleFormControlInput1").value;
+  const category = document.getElementById("category").value;
+  const priority = document.querySelector('input[name="priority"]:checked')?.id || "medium";
+
+  if (!title || !description || !dueDate || !category) {
+    alert("Bitte fülle Titel, Beschreibung, Fälligkeitsdatum und Kategorie aus.");
+    return;
+  }
+
+  const assignedTo = Array.from(
+    document.querySelectorAll('.dropdown input[type="checkbox"]:checked')
+  ).map((checkbox) => checkbox.value.charAt(0).toUpperCase());
+
+  const subtasks = Array.from(document.querySelectorAll("#subtaskList li")).map((item) => ({
+    title: item.querySelector("span").textContent.replace("•", "").trim(),
+    done: false,
+  }));
+
+  const task = {
+    id: `task-${Date.now()}`,
+    title,
+    description,
+    type: category === "kategorie2" ? "Technical Task" : "User Story",
+    status: "todo",
+    priority,
+    assignedTo,
+    dueDate,
+    subtasks,
+  };
+
+  if (firestoreStore) {
+    await firestoreStore.saveUserCollectionItem("tasks", task);
+  } else {
+    const cachedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    cachedTasks.push(task);
+    localStorage.setItem("tasks", JSON.stringify(cachedTasks));
+  }
+
+  window.location.href = "./board.html";
+}

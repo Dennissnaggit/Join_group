@@ -10,7 +10,9 @@
       <link rel="stylesheet" href="../style/app_layout.css"/>
       <link rel="stylesheet" href="../style/components.css"/>
       <link rel="stylesheet" href="../style/add_task.css"/>
+      <link rel="stylesheet" href="../style/add_task_responsive.css"/>
       <script type="module" src="../script/firebase.js"></script> 
+      <script type="module" src="../script/firestore_data.js"></script>
       <script src="../script.js"></script>
       <script src="../script/add_task.js" defer="defer"></script>
       <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -144,8 +146,8 @@
             <h4>*required fields</h4>
 
             <div class="footerButtons">
-              <button class="clearBtn">✕ Clear</button>
-              <button class="createBtn">✓ Create Task</button>
+              <button type="button" class="clearBtn">✕ Clear</button>
+              <button type="button" class="createBtn">✓ Create Task</button>
             </div>
           </div>
         </main>

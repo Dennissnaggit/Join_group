@@ -1,0 +1,114 @@
+@media (max-width: 1000px) {
+  .form-columns-wrapper,
+  .inputsTask {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .form-divider {
+    display: none;
+  }
+
+  .inputLeft,
+  .inputRight,
+  .multi-select {
+    width: 100%;
+  }
+
+  .inputLeft input,
+  .inputRight input,
+  .inputLeft textarea,
+  .inputRight textarea,
+  .inputLeft select,
+  .inputRight select {
+    width: 100%;
+  }
+
+  .inputLeft label,
+  .inputRight label,
+  .inputRight h3 {
+    font-size: 16px;
+  }
+
+  .task-main-header h1,
+  .headerTask h1 {
+    font-size: 36px;
+  }
+
+  .priorityButtons {
+    gap: 8px;
+  }
+
+  .priorityBtn {
+    flex: 1;
+    width: auto;
+    font-size: 15px;
+    padding: 0 10px;
+    height: 48px;
+  }
+
+  .priorityBtn img {
+    width: 18px;
+    height: 18px;
+  }
+
+  .headerTask {
+    padding: 16px 16px 0;
+    background: var(--background-color, #f6f7f8);
+  }
+
+  .footerTask {
+    position: sticky;
+    bottom: 5rem;
+    background: var(--background-color, #f6f7f8);
+    z-index: 100;
+    padding: 12px 16px;
+    border-top: 1px solid #d1d1d1;
+    margin-top: 16px;
+  }
+
+  .footerTask h4 {
+    display: none;
+  }
+
+  .footerButtons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .footerButtons button {
+    flex: 1;
+    min-height: 3rem;
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
+
+  .inputsTask {
+    padding: 16px 16px 5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .priorityBtn {
+    font-size: 14px;
+    padding: 0 8px;
+  }
+
+  .task-main-header h1,
+  .headerTask h1 {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .form-columns-wrapper {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .form-divider {
+    display: none;
+  }
+}
