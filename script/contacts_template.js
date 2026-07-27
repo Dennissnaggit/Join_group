@@ -17,9 +17,16 @@ function createContactListItemTemplate(contact, initials) {
 function createContactDetailTemplate(contact, initials) {
   return `
         <div class="contact-detail-view animate-fade-in">
-                        <button type="button" class="contact-detail-back-btn" onclick="hideMobileDetail()" aria-label="Back to contacts">
-                                <img src="../assets/logo/arrow-left.svg" alt="Back">
-                        </button>
+            <div class="contact-detail-topbar">
+                <div class="contact-header-title-block">
+                    <h1>Contacts</h1>
+                    <span>Better with a team</span>
+                    <div class="title-divider"></div>
+                </div>
+                <button type="button" class="contact-detail-back-btn" onclick="hideMobileDetail()" aria-label="Back to contacts">
+                    <img src="../assets/icons/vector.png" alt="Back">
+                </button>
+            </div>
             <div class="contact-detail-header">
                 <div class="contact-avatar-large" style="background-color: ${
                   contact.color
@@ -75,7 +82,7 @@ function getEditFormTemplate(c) {
         <div class="input-icon-container"><input type="tel" id="modalPhone" value="${c.phone}" required><img src="../assets/icons/lock.svg"></div>
         <div class="modal-actions-container">
             <button type="button" class="btn-cancel" style="width:113px;height:55px;" onclick="deleteContact('${c.id}')">Delete</button>
-            <button type="submit" class="btn-create" style="width:113px;height:55px;">Save <img src="../assets/icons/check_white.svg"></button>
+            <button type="submit" class="btn-create" style="width:113px;height:55px;">Save <img src="../assets/icons/check.svg" alt="Save"></button>
         </div>
     </form>`;
 }
@@ -125,7 +132,7 @@ function createAddModalTemplate() {
                     <div class="input-icon-container"><input type="tel" id="modalPhone" placeholder="Phone" required><img src="../assets/icons/lock.svg"></div>
                     <div class="modal-actions-container">
                         <button type="button" class="btn-cancel" style="width:126px;height:56px;" onclick="closeContactModal()">Cancel <img src="../assets/icons/close.svg"></button>
-                        <button type="submit" class="btn-create" style="width:214px;height:56px;">Create contact <img src="../assets/icons/check.svg"></button>
+                        <button type="submit" class="btn-create" style="width:214px;height:56px;">Create contact <img src="../assets/icons/check.svg" alt="Create"></button>
                     </div>
                 </form>
             </div>
