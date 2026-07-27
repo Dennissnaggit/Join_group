@@ -153,14 +153,24 @@ body.board-no-scroll {
 }
 
 .board-empty {
-  border: 0.063rem dashed var(--border-grey);
-  border-radius: 0.5rem;
-  padding: 0.875rem;
-  color: #7a7a7a;
-  background-color: #e7e7e7;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
+  flex: 0 0 100%;
+  min-height: 6rem;
+  border: 0.125rem dashed #b8b8b8;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  background-color: #f0f0f0;
+  color: #7a7a7a;
+  text-align: center;
+  font-style: italic;
   box-sizing: border-box;
+}
+
+.board-empty span {
+  max-width: 14rem;
 }
 
 .board-task-card {
@@ -517,6 +527,7 @@ body.board-no-scroll {
     flex-wrap: wrap;
     overflow-x: visible;
     padding-bottom: 0;
+    align-items: flex-start;
   }
 
   .board-task-card {

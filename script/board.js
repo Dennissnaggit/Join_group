@@ -1,4 +1,6 @@
-let boardTasks = [
+const BOARD_TASKS_STORAGE_KEY = "boardTasks";
+
+const defaultBoardTasks = [
   {
     id: "task-1",
     title: "Kochwelt Page & Recipe Recommender",
@@ -51,6 +53,8 @@ let boardTasks = [
   },
 ];
 
+let boardTasks = loadBoardTasks();
+
 let boardSearchValue = "";
 let draggedTaskId = null;
 let ignoreNextCardClick = false;
@@ -61,11 +65,64 @@ let touchStartY = 0;
 let isTouchDragging = false;
 
 /** Initializes board page behavior. */
-function initBoard() {
+async function initBoard() {
   setupBoardSearch();
   setupBoardDropZones();
   setupBoardTaskOverlay();
+  try {
+    await loadBoardTasksFromFirestore();
+  } catch (e) {
+    console.warn("Board: Firestore load failed, using cached tasks.", e);
+  }
   renderBoard();
+}
+
+/** Loads board tasks from Firestore and mirrors them into localStorage. */
+async function loadBoardTasksFromFirestore() {
+  const firestoreStore = window.firestoreData;
+
+  if (!firestoreStore) {
+    syncBoardTasksStorage();
+    return;
+  }
+
+  try {
+    boardTasks = await firestoreStore.loadUserCollection(
+      "tasks",
+      defaultBoardTasks
+    );
+    saveBoardTasks();
+  } catch (e) {
+    console.warn("Board: could not load from Firestore, falling back to cache.", e);
+    syncBoardTasksStorage();
+  }
+}
+
+/** Loads board tasks from storage and falls back to the built-in defaults. */
+function loadBoardTasks() {
+  try {
+    let storedTasks = JSON.parse(localStorage.getItem(BOARD_TASKS_STORAGE_KEY));
+
+    if (Array.isArray(storedTasks)) {
+      return storedTasks;
+    }
+  } catch (error) {
+    return defaultBoardTasks;
+  }
+
+  return defaultBoardTasks;
+}
+
+/** Writes the current board task state back to storage. */
+function saveBoardTasks() {
+  localStorage.setItem(BOARD_TASKS_STORAGE_KEY, JSON.stringify(boardTasks));
+}
+
+/** Keeps storage in sync with the active in-memory task list. */
+function syncBoardTasksStorage() {
+  if (!localStorage.getItem(BOARD_TASKS_STORAGE_KEY)) {
+    saveBoardTasks();
+  }
 }
 
 /** Sets up close behavior for the board task overlay. */
@@ -166,7 +223,11 @@ function renderColumn(status, columnId) {
   column.innerHTML = "";
 
   if (tasks.length === 0) {
-    column.innerHTML = '<p class="board-empty">No tasks in this section</p>';
+    column.innerHTML = `
+      <div class="board-empty" role="status" aria-live="polite">
+        <span>${getEmptyStateMessage(status)}</span>
+      </div>
+    `;
     return;
   }
 
@@ -187,6 +248,18 @@ function getFilteredTasksByStatus(status) {
     let descriptionMatch = task.description.toLowerCase().includes(boardSearchValue);
     return titleMatch || descriptionMatch;
   });
+}
+
+/** Returns a readable empty-state label for one board column. */
+function getEmptyStateMessage(status) {
+  let labelMap = {
+    todo: "To do",
+    "in-progress": "In progress",
+    "await-feedback": "Await feedback",
+    done: "Done",
+  };
+
+  return `No tasks in ${labelMap[status] || status}`;
 }
 
 /** Creates and returns one task card element. */
@@ -431,7 +504,19 @@ function moveTaskToStatus(taskId, newStatus) {
   if (!task) return;
 
   task.status = newStatus;
+  void saveBoardTaskToFirestore(task);
+  saveBoardTasks();
   renderBoard();
+}
+
+async function saveBoardTaskToFirestore(task) {
+  const firestoreStore = window.firestoreData;
+
+  if (!firestoreStore) {
+    return;
+  }
+
+  await firestoreStore.saveUserCollectionItem("tasks", task);
 }
 
 /** Opens task detail overlay for one task. */
