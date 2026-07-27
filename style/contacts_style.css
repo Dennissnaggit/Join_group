@@ -119,6 +119,14 @@
     display: none;
 }
 
+.d-none-mobile {
+    display: none !important;
+}
+
+.d-show-mobile {
+    display: flex !important;
+}
+
 /* ==========================================================================
    4. ELEMENTOS DE LA LISTA E INFORMACIÓN
    ========================================================================== */
@@ -617,6 +625,59 @@
         width: 100% !important;
         max-width: 100%;
         margin-top: 1.5rem;
+    }
+
+    .contacts-main-grid {
+        height: calc(100dvh - 90px);
+    }
+
+    .contacts-sidebar-list {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .contacts-detail-panel {
+        display: none;
+        width: 100%;
+        min-width: 0;
+        padding: 1.5rem 1rem 7rem;
+        box-sizing: border-box;
+    }
+
+    .contacts-detail-panel.d-show-mobile {
+        display: flex !important;
+    }
+
+    .contacts-sidebar-list.d-none-mobile {
+        display: none !important;
+    }
+
+    .button-wrapper {
+        position: fixed;
+        right: 1rem;
+        bottom: 5.75rem;
+        padding: 0;
+        z-index: 60;
+    }
+
+    .add-new-contact-btn {
+        width: 3.5rem;
+        height: 3.5rem;
+        min-width: 3.5rem;
+        border-radius: 50%;
+        padding: 0;
+        font-size: 0;
+        gap: 0;
+        box-shadow: 0 0.375rem 0.875rem rgba(42, 54, 71, 0.35);
+    }
+
+    .add-new-contact-btn img {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    .contacts-scrollable-area {
+        padding: 0 1rem 8rem;
     }
 
 /* ==========================================================================
