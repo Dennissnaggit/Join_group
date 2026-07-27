@@ -43,6 +43,12 @@ body {
     height: auto;
     background: var(--background-color);
     font-family: "Inter", sans-serif;
+    overflow-x: hidden;
+}
+
+html {
+    overflow-x: hidden;
+    max-width: 100vw;
 }
 
 @media(min-width: 1440px) {
