@@ -17,6 +17,9 @@ function createContactListItemTemplate(contact, initials) {
 function createContactDetailTemplate(contact, initials) {
   return `
         <div class="contact-detail-view animate-fade-in">
+                        <button type="button" class="contact-detail-back-btn" onclick="hideMobileDetail()" aria-label="Back to contacts">
+                                <img src="../assets/logo/arrow-left.svg" alt="Back">
+                        </button>
             <div class="mobile-back-arrow" onclick="hideMobileDetail()"><img src="../assets/logo/arrow-left.svg"></div>
             <div class="contact-detail-header">
                 <div class="contact-avatar-large" style="background-color: ${

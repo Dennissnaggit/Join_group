@@ -115,6 +115,10 @@
     font-size: 16px;
 }
 
+.contact-detail-back-btn {
+    display: none;
+}
+
 .mobile-action-menu {
     display: none;
 }
@@ -674,6 +678,33 @@
         min-width: 0;
         padding: 1.5rem 1rem 7rem;
         box-sizing: border-box;
+    }
+
+    .contact-detail-view {
+        position: relative;
+        width: 100%;
+    }
+
+    .contact-detail-back-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.75rem;
+        height: 2.75rem;
+        padding: 0;
+        border: none;
+        border-radius: 50%;
+        background: transparent;
+        cursor: pointer;
+        z-index: 25;
+    }
+
+    .contact-detail-back-btn img {
+        width: 1.25rem;
+        height: 1.25rem;
     }
 
     .contacts-detail-panel.d-show-mobile {
