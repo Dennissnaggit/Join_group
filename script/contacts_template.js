@@ -20,7 +20,6 @@ function createContactDetailTemplate(contact, initials) {
                         <button type="button" class="contact-detail-back-btn" onclick="hideMobileDetail()" aria-label="Back to contacts">
                                 <img src="../assets/logo/arrow-left.svg" alt="Back">
                         </button>
-            <div class="mobile-back-arrow" onclick="hideMobileDetail()"><img src="../assets/logo/arrow-left.svg"></div>
             <div class="contact-detail-header">
                 <div class="contact-avatar-large" style="background-color: ${
                   contact.color
@@ -31,14 +30,14 @@ function createContactDetailTemplate(contact, initials) {
                 </div>
             </div>
             ${getDetailBodyTemplate(contact)}
-            <div id="mobileActionMenu-${contact.id}" class="mobile-action-menu d-none-desktop">
-                <button class="action-btn-edit" onclick="openEditModal('${contact.id}')">
-                    <img src="../assets/icons/edit.svg" alt="Edit"> Edit
-                </button>
-                <button class="action-btn-delete" onclick="deleteContact('${contact.id}')">
-                    <img src="../assets/icons/delete.svg" alt="Delete"> Delete
-                </button>
-            </div>
+            <button type="button" class="mobile-contact-menu-btn" onclick="openEditModal('${contact.id}')" aria-label="Edit contact">
+                <span class="mobile-contact-menu-dots" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+                <span class="mobile-contact-menu-label">Edit</span>
+            </button>
         </div>
     `;
 }
