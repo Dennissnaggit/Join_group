@@ -81,6 +81,9 @@ function getEditFormTemplate(c) {
 function createEditModalTemplate(c, initials) {
   return `
     <div class="modal-card">
+        <button type="button" class="overlay-close-btn" onclick="closeContactModal()" aria-label="Close modal">
+            <img src="../assets/icons/close.svg" alt="Close">
+        </button>
         <div class="modal-left-panel">
             <img class="modal-logo" src="../assets/logo/logo_white.svg" alt="Logo">
             <h1>Edit contact</h1>
@@ -101,6 +104,9 @@ function createEditModalTemplate(c, initials) {
 function createAddModalTemplate() {
   return `
     <div class="modal-card">
+                <button type="button" class="overlay-close-btn" onclick="closeContactModal()" aria-label="Close modal">
+                        <img src="../assets/icons/close.svg" alt="Close">
+                </button>
         <div class="modal-left-panel">
             <img class="modal-logo" src="../assets/logo/logo_white.svg" alt="Logo">
             <div class="close-btn-container" onclick="closeContactModal()"><img src="../assets/icons/close.svg"></div>
