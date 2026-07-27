@@ -81,8 +81,8 @@ function getEditFormTemplate(c) {
         <div class="input-icon-container"><input type="email" id="modalEmail" value="${c.email}" required><img src="../assets/icons/mail.svg"></div>
         <div class="input-icon-container"><input type="tel" id="modalPhone" value="${c.phone}" required><img src="../assets/icons/lock.svg"></div>
         <div class="modal-actions-container">
-            <button type="button" class="btn-cancel" style="width:113px;height:55px;" onclick="deleteContact('${c.id}')">Delete</button>
-            <button type="submit" class="btn-create" style="width:113px;height:55px;">Save <img src="../assets/icons/check.svg" alt="Save"></button>
+            <button type="button" class="btn-cancel" onclick="deleteContact('${c.id}')">Delete</button>
+            <button type="submit" class="btn-create">Save <img src="../assets/icons/check.svg" alt="Save"></button>
         </div>
     </form>`;
 }

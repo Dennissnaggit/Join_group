@@ -130,6 +130,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
+    flex: 1;
 }
 
 .contact-header-title-block h1 {
@@ -350,8 +351,10 @@
     width: 2.5rem;
     height: 2.5rem;
     border: none;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.95);
+    border-radius: 0;
+    background: none;
+    background-color: transparent;
+    box-shadow: none;
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -363,6 +366,7 @@
     width: 1rem;
     height: 1rem;
     display: block;
+    filter: brightness(0) invert(1);
 }
 
 /* --- CONTENEDOR DEL FORMULARIO --- */
@@ -415,9 +419,13 @@
 /* Botones del Formulario */
 .modal-actions-container {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: center;
     gap: 24px;
-    margin-top: 30px;
+    margin: 30px auto 0;
+    width: fit-content;
+    max-width: 100%;
+    flex-wrap: wrap;
 }
 
 .modal-actions-container button {
@@ -429,6 +437,8 @@
     border-radius: 10px;
     cursor: pointer;
     font-size: 18px;
+    width: fit-content;
+    flex: 0 0 auto;
 }
 
 .btn-cancel {
@@ -617,11 +627,19 @@
         border-top-right-radius: 1.875rem;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start; /* 🔄 Empuja el título hacia arriba lejos del avatar */
+        justify-content: center;
+        align-items: flex-start;
+        text-align: left;
     }
 
     .modal-logo {
         display: none;
+    }
+
+    .modal-left-panel .blue-line-horizontal {
+        margin-left: 0;
+        margin-right: auto;
+        margin-top: 0.75rem;
     }
         
     /* ⚪ WHITE RIGHT PANEL: Pushes the form downwards */
@@ -709,6 +727,10 @@
         box-sizing: border-box;
     }
 
+    .contacts-header-title {
+        display: none;
+    }
+
     .contact-detail-view {
         position: relative;
         width: 100%;
@@ -718,6 +740,7 @@
         display: flex;
         align-items: center;
         margin-bottom: 1.5rem;
+        width: 100%;
     }
 
     .contact-header-title-block h1 {
@@ -744,15 +767,14 @@
         padding: 0;
         border: none;
         border-radius: 0;
-        background: transparent;
+        background: none !important;
+        background-color: transparent !important;
         box-shadow: none;
+        appearance: none;
         cursor: pointer;
         z-index: 30;
-    }
-
-    .contact-detail-back-btn img {
-        width: 1.5rem;
-        height: 1.5rem;
+        margin-left: auto;
+        flex-shrink: 0;
     }
 
     .mobile-contact-menu-btn {
