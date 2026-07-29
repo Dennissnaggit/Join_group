@@ -144,7 +144,7 @@ function closeContactModal() {
   let content = document.getElementById("contactModalContent");
   
   overlay.classList.add("d-none");
-  // Limpiamos el contenido para evitar duplicación de IDs en el DOM
+  
   if (content) {
     content.innerHTML = "";
   }
