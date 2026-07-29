@@ -257,9 +257,6 @@
     display: flex;
 }
 
-/* ==========================================================================
-   🔄 BREAKPOINT: RESPONSIVE OVERRIDES FOR COMPONENTS
-   ========================================================================== */
 @media(max-width: 1024px) {
     .sidebar {
         height: 5rem;
