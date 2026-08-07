@@ -321,3 +321,35 @@
 .list-group-item {
   border: none;
 }
+
+.form-message {
+  width: 255px;
+  min-height: 56px;
+
+  padding: 12px 16px;
+  gap: 16px;
+
+  border-radius: 10px;
+
+  display: none;
+  align-items: center;
+
+  background-color: #2a3647;
+  color: white;
+
+  font-size: 16px;
+  box-sizing: border-box;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  z-index: 9999;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.form-message.show {
+  display: flex;
+}

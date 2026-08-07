@@ -204,10 +204,25 @@ async function saveTaskFromForm() {
   const category = document.getElementById("category").value;
   const priority = document.querySelector('input[name="priority"]:checked')?.id || "medium";
 
-  if (!title || !description || !dueDate || !category) {
-    alert("Bitte fülle Titel, Beschreibung, Fälligkeitsdatum und Kategorie aus.");
-    return;
-  }
+  if (!title) {
+  showFormMessage("Bitte gib einen Titel ein.");
+  return;
+}
+
+if (!description) {
+  showFormMessage("Bitte gib eine Beschreibung ein.");
+  return;
+}
+
+if (!dueDate) {
+  showFormMessage("Bitte wähle ein Fälligkeitsdatum.");
+  return;
+}
+
+if (!category) {
+  showFormMessage("Bitte wähle eine Kategorie.");
+  return;
+}
 
   const assignedTo = Array.from(
     document.querySelectorAll('.dropdown input[type="checkbox"]:checked')
@@ -239,4 +254,34 @@ async function saveTaskFromForm() {
   }
 
   window.location.href = "./board.html";
+}
+
+function showFormMessage(message) {
+  const messageBox = document.getElementById("formMessage");
+  const messageText = document.getElementById("formMessageText");
+
+  if (!messageBox || !messageText) return;
+
+  messageText.textContent = message;
+  messageBox.classList.add("show");
+
+  setTimeout(() => {
+    messageBox.classList.remove("show");
+  }, 3000);
+}
+
+function showFormMessage(message) {
+  const messageBox = document.getElementById("formMessage");
+  const messageText = document.getElementById("formMessageText");
+
+  if (!messageBox || !messageText) return;
+
+  messageText.textContent = message;
+  messageBox.classList.add("show");
+
+  clearTimeout(messageBox.hideTimeout);
+
+  messageBox.hideTimeout = setTimeout(() => {
+    messageBox.classList.remove("show");
+  }, 3000);
 }
