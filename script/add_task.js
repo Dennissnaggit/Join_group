@@ -1,9 +1,21 @@
+// Firebase 
+
+import { auth, db } from "./firebase.js";
+
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
 /**
  * Main initialization for Add Task page
  */
 async function initAddTask() {
   await init();
 }
+
+initAddTask();
 
 // Dropdown schließen, wenn außerhalb geklickt wird
 document.addEventListener("click", (e) => {
@@ -182,6 +194,12 @@ document.addEventListener("click", (event) => {
 const clearBtn = document.querySelector(".clearBtn");
 const addTaskForm = document.getElementById("addTaskForm");
 
+addTaskForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  await createTask();
+});
+
 clearBtn.addEventListener("click", () => {
   // Normale Formularfelder zurücksetzen
   addTaskForm.reset();
@@ -232,3 +250,93 @@ const today = new Date();
 today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
 
 dueDateInput.min = today.toISOString().split("T")[0];
+
+//Task speichern 
+
+async function createTask() {
+  const user = auth.currentUser;
+
+  if (!user) {
+    console.error("Kein User eingeloggt.");
+    return;
+  }
+
+  const title = document
+    .getElementById("TitleOfTask")
+    .value
+    .trim();
+
+  const description = document
+    .getElementById("exampleFormControlTextarea1")
+    .value
+    .trim();
+
+  const dueDate = document
+    .getElementById("exampleFormControlInput1")
+    .value;
+
+  const category = document
+    .getElementById("category")
+    .value;
+
+  const priority =
+    document.querySelector('input[name="priority"]:checked')?.id ||
+    "medium";
+
+  const assignedTo = [
+    ...document.querySelectorAll(
+      '#dropdown input[type="checkbox"]:checked'
+    ),
+  ].map((checkbox) => checkbox.value);
+
+  const subtasks = [
+    ...document.querySelectorAll("#subtaskList .subtask-text"),
+  ].map((element) => ({
+    title: element.textContent.replace("•", "").trim(),
+    completed: false,
+  }));
+
+  const task = {
+    title,
+    description,
+    dueDate,
+    priority,
+    category,
+    assignedTo,
+    subtasks,
+    createdAt: serverTimestamp(),
+  };
+
+  console.log("Task vor Firebase:", task);
+  console.log("Aktueller User:", user.uid);
+
+  try {
+    const docRef = await addDoc(
+      collection(
+        db,
+        "users",
+        user.uid,
+        "tasks"
+      ),
+      task
+    );
+
+    console.log(
+      "Task erfolgreich erstellt:",
+      docRef.id
+    );
+
+    addTaskForm.reset();
+
+  } catch (error) {
+    console.error(
+      "Fehler beim Erstellen des Tasks:",
+      error
+    );
+  }
+}
+
+window.addSubtask = addSubtask;
+window.clearSubtaskInput = clearSubtaskInput;
+window.editSubtask = editSubtask;
+window.removeSubtask = removeSubtask;
