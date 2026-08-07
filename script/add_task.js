@@ -165,3 +165,50 @@ document.addEventListener("click", (event) => {
     dropdown.classList.remove("active");
   }
 });
+
+// Clear Button
+const clearBtn = document.querySelector(".clearBtn");
+const addTaskForm = document.getElementById("addTaskForm");
+
+clearBtn.addEventListener("click", () => {
+  // Normale Formularfelder zurücksetzen
+  addTaskForm.reset();
+
+  // Priority Bilder zurücksetzen
+  document.querySelector(".urgentBtn img").src =
+    "../assets/AdTask/prioUrgentNotActive.png";
+
+  document.querySelector(".mediumBtn img").src =
+    "../assets/AdTask/prioMedNotActive.png";
+
+  document.querySelector(".lowBtn img").src =
+    "../assets/AdTask/prioLowNotActive.png";
+
+  // Assigned To zurücksetzen
+  checkboxes.forEach((checkbox) => {
+    checkbox.checked = false;
+
+    const img = checkbox.closest("label").querySelector(".checkbox-img");
+    img.src = uncheckedImg;
+  });
+
+  selectedItems.innerHTML = "";
+
+  // Suche zurücksetzen
+  searchInput.value = "";
+
+  // Alle ausgeblendeten Kontakte wieder anzeigen
+  labels.forEach((label) => {
+    label.style.display = "flex";
+  });
+
+  // Dropdown schließen
+  dropdown.classList.remove("active");
+
+  // Subtasks löschen
+  document.getElementById("subtaskList").innerHTML = "";
+
+  // Subtask Input + Actions zurücksetzen
+  input.value = "";
+  inputActions.classList.add("d-none");
+});

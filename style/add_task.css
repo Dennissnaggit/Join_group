@@ -1,7 +1,11 @@
 /* ==========================================================================
    💻 1. DESKTOP BASE (Widescreen to Laptop)
    ========================================================================== */
-.add-task-container {
+.content-panel {
+    display: flex;
+    margin: auto;
+}
+   .add-task-container {
     width: 100%;
     max-width: 1208px;
     margin: 0;
@@ -329,4 +333,28 @@
         font-size: 0.85rem;
         white-space: nowrap;
     }
+}
+/* =========================================================
+   PRIORITY BUTTONS - ACTIVE STATE
+   ========================================================= */
+
+/* High */
+#urgent:checked + .urgentBtn {
+    background-color: #ff3d00; /* Farbe deines High-Symbols */
+    border-color: #ff3d00;
+    color: white;
+}
+
+/* Medium */
+#medium:checked + .mediumBtn {
+    background-color: #ffa800; /* Farbe deines Medium-Symbols */
+    border-color: #ffa800;
+    color: white;
+}
+
+/* Low */
+#low:checked + .lowBtn {
+    background-color: #7ae229; /* Farbe deines Low-Symbols */
+    border-color: #7ae229;
+    color: white;
 }
