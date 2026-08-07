@@ -358,3 +358,124 @@
     border-color: #7ae229;
     color: white;
 }
+
+/* Einheitliche Optik für alle Eingabefelder */
+.form-control,
+.form-select,
+.input-field {
+  width: 440px;
+  height: 48px;
+
+  padding: 12px 21px;
+
+  border: 1px solid rgba(104, 104, 104, 1);
+  border-radius: 10px;
+
+  opacity: 1;
+  box-sizing: border-box;
+}
+
+/* Textarea darf höher bleiben */
+textarea.form-control {
+  height: auto;
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Assigned-to-Feld */
+.input-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.input-field input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 0;
+  min-width: 0;
+}
+
+/* Bootstrap-Fokus etwas sauberer */
+.form-control:focus,
+.form-select:focus,
+.input-field:focus-within {
+  border-color: #29abe2;
+  outline: none;
+  box-shadow: none;
+}
+
+/* Icons allgemein */
+.action-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    cursor: pointer;
+}
+
+/* X + Trennlinie + Haken im Input */
+#inputActions {
+    gap: 10px;
+}
+
+/* Hinzugefügte Subtask */
+.subtask-item {
+    border: none !important;
+    background-color: transparent !important;
+
+    padding: 8px 12px;
+    border-radius: 6px;
+
+    transition: background-color 0.2s ease;
+}
+
+/* Grau-blauer Hintergrund beim Hover */
+.subtask-item:hover {
+    background-color: #f1f5f9 !important;
+}
+
+/* Bearbeiten + Löschen */
+.subtask-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    /* Standardmäßig unsichtbar */
+    opacity: 0;
+    visibility: hidden;
+
+    transition: opacity 0.2s ease;
+}
+
+/* Icons anzeigen, wenn man über die Subtask fährt */
+.subtask-item:hover .subtask-actions {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Icons */
+.subtask-actions .action-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    cursor: pointer;
+}
+
+/* Trennlinie zwischen Bearbeiten und Löschen */
+.subtask-actions .action-divider {
+    width: 1px;
+    height: 20px;
+    background-color: #cbd5e1;
+}
+
+/* List Group ohne Rahmen */
+#subtaskList {
+    border: none;
+}
+
+#subtaskList .list-group-item {
+    border: none !important;
+    box-shadow: none !important;
+}

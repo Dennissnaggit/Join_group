@@ -12,47 +12,51 @@ document.addEventListener("click", (e) => {
   }
 });
 
-//subtask hinzufügen
+// Subtask hinzufügen
 const input = document.getElementById("subtaskInput");
 const inputActions = document.getElementById("inputActions");
 
 input.addEventListener("input", function () {
-  if (this.value.trim()) {
-    inputActions.classList.remove("d-none");
-  } else {
-    inputActions.classList.add("d-none");
-  }
+    if (this.value.trim()) {
+        inputActions.classList.remove("d-none");
+        inputActions.classList.add("d-flex");
+    } else {
+        inputActions.classList.add("d-none");
+        inputActions.classList.remove("d-flex");
+    }
 });
 
-input.addEventListener("keypress", function (e) {
-  if (e.key === "Enter" && this.value.trim()) {
-    addSubtask();
-  }
+input.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && this.value.trim()) {
+        addSubtask();
+    }
 });
 
 function clearSubtaskInput() {
-  input.value = "";
-  inputActions.classList.add("d-none");
+    input.value = "";
+    inputActions.classList.add("d-none");
+    inputActions.classList.remove("d-flex");
 }
 
 function addSubtask() {
-  const text = input.value.trim();
+    const text = input.value.trim();
 
-  if (!text) return;
+    if (!text) return;
 
-  const li = document.createElement("li");
+    const li = document.createElement("li");
 
-  li.className =
-    "list-group-item d-flex justify-content-between align-items-center subtask-item";
+    li.className =
+        "list-group-item d-flex justify-content-between align-items-center subtask-item";
 
-  li.innerHTML = `
-        <span>• ${text}</span>
+    li.innerHTML = `
+        <span class="subtask-text">• ${text}</span>
 
         <div class="subtask-actions">
             <img
                 src="../assets/AdTask/edit.png"
                 class="action-icon"
                 onclick="editSubtask(this)"
+                alt="Bearbeiten"
             >
 
             <div class="action-divider"></div>
@@ -61,30 +65,38 @@ function addSubtask() {
                 src="../assets/AdTask/close.png"
                 class="action-icon"
                 onclick="removeSubtask(this)"
+                alt="Löschen"
             >
         </div>
     `;
 
-  document.getElementById("subtaskList").appendChild(li);
+    document.getElementById("subtaskList").appendChild(li);
 
-  input.value = "";
-  inputActions.classList.add("d-none");
+    input.value = "";
+    inputActions.classList.add("d-none");
+    inputActions.classList.remove("d-flex");
 }
 
 function removeSubtask(icon) {
-  icon.closest("li").remove();
+    icon.closest("li").remove();
 }
 
 function editSubtask(icon) {
-  const li = icon.closest("li");
-  const text = li.querySelector("span").textContent.replace("•", "").trim();
+    const li = icon.closest("li");
 
-  input.value = text;
-  input.focus();
+    const text = li
+        .querySelector(".subtask-text")
+        .textContent
+        .replace("•", "")
+        .trim();
 
-  li.remove();
+    input.value = text;
+    input.focus();
 
-  inputActions.classList.remove("d-none");
+    li.remove();
+
+    inputActions.classList.remove("d-none");
+    inputActions.classList.add("d-flex");
 }
 
 //Prio img tausch
@@ -212,3 +224,11 @@ clearBtn.addEventListener("click", () => {
   input.value = "";
   inputActions.classList.add("d-none");
 });
+
+// Datum: vergangene Tage deaktivieren
+const dueDateInput = document.getElementById("exampleFormControlInput1");
+
+const today = new Date();
+today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
+
+dueDateInput.min = today.toISOString().split("T")[0];
