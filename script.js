@@ -185,3 +185,5 @@ document.addEventListener('click', () => {
         dropdown.classList.add('d-none');
     }
 });
+
+document.addEventListener("DOMContentLoaded", init);
