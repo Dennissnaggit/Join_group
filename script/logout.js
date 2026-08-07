@@ -19,4 +19,5 @@ async function logout() {
   }
 }
 
+// global verfügbar machen
 window.logout = logout;

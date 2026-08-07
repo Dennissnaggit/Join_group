@@ -1,65 +1,74 @@
-function initAddTask() {
-  console.log("App initialized - Add Task Section");
+// Firebase 
 
-  const clearButton = document.querySelector(".clearBtn");
-  const createButton = document.querySelector(".createBtn");
+import { auth, db } from "./firebase.js";
 
-  if (clearButton) {
-    clearButton.type = "button";
-    clearButton.addEventListener("click", resetTaskForm);
-  }
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
-  if (createButton) {
-    createButton.type = "button";
-    createButton.addEventListener("click", saveTaskFromForm);
-  }
+/**
+ * Main initialization for Add Task page
+ */
+async function initAddTask() {
+  await init();
 }
+
+initAddTask();
+
+// Dropdown schließen, wenn außerhalb geklickt wird
 document.addEventListener("click", (e) => {
   if (!e.target.closest(".multi-select")) {
     dropdown.classList.remove("active");
   }
 });
 
+// Subtask hinzufügen
 const input = document.getElementById("subtaskInput");
 const inputActions = document.getElementById("inputActions");
 
 input.addEventListener("input", function () {
-  if (this.value.trim()) {
-    inputActions.classList.remove("d-none");
-  } else {
-    inputActions.classList.add("d-none");
-  }
+    if (this.value.trim()) {
+        inputActions.classList.remove("d-none");
+        inputActions.classList.add("d-flex");
+    } else {
+        inputActions.classList.add("d-none");
+        inputActions.classList.remove("d-flex");
+    }
 });
 
-input.addEventListener("keypress", function (e) {
-  if (e.key === "Enter" && this.value.trim()) {
-    addSubtask();
-  }
+input.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && this.value.trim()) {
+        addSubtask();
+    }
 });
 
 function clearSubtaskInput() {
-  input.value = "";
-  inputActions.classList.add("d-none");
+    input.value = "";
+    inputActions.classList.add("d-none");
+    inputActions.classList.remove("d-flex");
 }
 
 function addSubtask() {
-  const text = input.value.trim();
+    const text = input.value.trim();
 
-  if (!text) return;
+    if (!text) return;
 
-  const li = document.createElement("li");
+    const li = document.createElement("li");
 
-  li.className =
-    "list-group-item d-flex justify-content-between align-items-center subtask-item";
+    li.className =
+        "list-group-item d-flex justify-content-between align-items-center subtask-item";
 
-  li.innerHTML = `
-        <span>• ${text}</span>
+    li.innerHTML = `
+        <span class="subtask-text">• ${text}</span>
 
         <div class="subtask-actions">
             <img
                 src="../assets/AdTask/edit.png"
                 class="action-icon"
                 onclick="editSubtask(this)"
+                alt="Bearbeiten"
             >
 
             <div class="action-divider"></div>
@@ -68,59 +77,41 @@ function addSubtask() {
                 src="../assets/AdTask/close.png"
                 class="action-icon"
                 onclick="removeSubtask(this)"
+                alt="Löschen"
             >
         </div>
     `;
 
-  document.getElementById("subtaskList").appendChild(li);
+    document.getElementById("subtaskList").appendChild(li);
 
-  input.value = "";
-  inputActions.classList.add("d-none");
+    input.value = "";
+    inputActions.classList.add("d-none");
+    inputActions.classList.remove("d-flex");
 }
 
 function removeSubtask(icon) {
-  icon.closest("li").remove();
+    icon.closest("li").remove();
 }
 
 function editSubtask(icon) {
-  const li = icon.closest("li");
-  const text = li.querySelector("span").textContent.replace("•", "").trim();
+    const li = icon.closest("li");
 
-  input.value = text;
-  input.focus();
+    const text = li
+        .querySelector(".subtask-text")
+        .textContent
+        .replace("•", "")
+        .trim();
 
-  li.remove();
+    input.value = text;
+    input.focus();
 
-  inputActions.classList.remove("d-none");
+    li.remove();
+
+    inputActions.classList.remove("d-none");
+    inputActions.classList.add("d-flex");
 }
 
-function resetTaskForm() {
-  const titleInput = document.getElementById("TitleOfTask");
-  const descriptionInput = document.getElementById("exampleFormControlTextarea1");
-  const dueDateInput = document.getElementById("exampleFormControlInput1");
-  const categorySelect = document.getElementById("category");
-
-  if (titleInput) titleInput.value = "";
-  if (descriptionInput) descriptionInput.value = "";
-  if (dueDateInput) dueDateInput.value = "";
-  if (categorySelect) categorySelect.value = "";
-
-  document.querySelectorAll('input[name="priority"]').forEach((radio) => {
-    radio.checked = false;
-  });
-
-  document.querySelectorAll('.dropdown input[type="checkbox"]').forEach((checkbox) => {
-    checkbox.checked = false;
-  });
-
-  const subtaskList = document.getElementById("subtaskList");
-  const selectedItemsContainer = document.getElementById("selectedItems");
-
-  if (subtaskList) subtaskList.innerHTML = "";
-  if (selectedItemsContainer) selectedItemsContainer.innerHTML = "";
-
-  clearSubtaskInput();
-}
+//Prio img tausch
 
 document.querySelectorAll('input[name="priority"]').forEach((radio) => {
   radio.addEventListener("change", () => {
@@ -141,11 +132,14 @@ document.querySelectorAll('input[name="priority"]').forEach((radio) => {
   });
 });
 
+// Assigned To Dropdown
 const inputFieldMulti = document.getElementById("inputFieldMultiSelect");
 const searchInput = document.getElementById("searchInput");
 const dropdown = document.getElementById("dropdown");
 const selectedItems = document.getElementById("selectedItems");
-const checkboxes = document.querySelectorAll('.dropdown input[type="checkbox"]');
+const checkboxes = document.querySelectorAll(
+  '.dropdown input[type="checkbox"]'
+);
 const labels = document.querySelectorAll(".dropdown label");
 
 const uncheckedImg = "../assets/AdTask/personUnchecked.png";
@@ -196,13 +190,9 @@ document.addEventListener("click", (event) => {
   }
 });
 
-async function saveTaskFromForm() {
-  const firestoreStore = window.firestoreData;
-  const title = document.getElementById("TitleOfTask").value.trim();
-  const description = document.getElementById("exampleFormControlTextarea1").value.trim();
-  const dueDate = document.getElementById("exampleFormControlInput1").value;
-  const category = document.getElementById("category").value;
-  const priority = document.querySelector('input[name="priority"]:checked')?.id || "medium";
+// Clear Button
+const clearBtn = document.querySelector(".clearBtn");
+const addTaskForm = document.getElementById("addTaskForm");
 
   if (!title) {
   showFormMessage("Bitte gib einen Titel ein.");
@@ -224,35 +214,56 @@ if (!category) {
   return;
 }
 
-  const assignedTo = Array.from(
-    document.querySelectorAll('.dropdown input[type="checkbox"]:checked')
-  ).map((checkbox) => checkbox.value.charAt(0).toUpperCase());
+  const title = document
+    .getElementById("TitleOfTask")
+    .value
+    .trim();
 
-  const subtasks = Array.from(document.querySelectorAll("#subtaskList li")).map((item) => ({
-    title: item.querySelector("span").textContent.replace("•", "").trim(),
-    done: false,
+  const description = document
+    .getElementById("exampleFormControlTextarea1")
+    .value
+    .trim();
+
+  const dueDate = document
+    .getElementById("exampleFormControlInput1")
+    .value;
+
+  const category = document
+    .getElementById("category")
+    .value;
+
+  const priority =
+    document.querySelector('input[name="priority"]:checked')?.id ||
+    "medium";
+
+  const assignedTo = [
+    ...document.querySelectorAll(
+      '#dropdown input[type="checkbox"]:checked'
+    ),
+  ].map((checkbox) => checkbox.value);
+
+  const subtasks = [
+    ...document.querySelectorAll("#subtaskList .subtask-text"),
+  ].map((element) => ({
+    title: element.textContent.replace("•", "").trim(),
+    completed: false,
   }));
 
   const task = {
-    id: `task-${Date.now()}`,
     title,
     description,
-    type: category === "kategorie2" ? "Technical Task" : "User Story",
-    status: "todo",
-    priority,
-    assignedTo,
     dueDate,
+    priority,
+    category,
+    assignedTo,
     subtasks,
+    createdAt: serverTimestamp(),
   };
 
-  if (firestoreStore) {
-    await firestoreStore.saveUserCollectionItem("tasks", task);
-  } else {
-    const cachedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
-    cachedTasks.push(task);
-    localStorage.setItem("tasks", JSON.stringify(cachedTasks));
-  }
+  console.log("Task vor Firebase:", task);
+  console.log("Aktueller User:", user.uid);
 
+<<<<<<< HEAD
   window.location.href = "./board.html";
 }
 
@@ -285,3 +296,35 @@ function showFormMessage(message) {
     messageBox.classList.remove("show");
   }, 3000);
 }
+=======
+  try {
+    const docRef = await addDoc(
+      collection(
+        db,
+        "users",
+        user.uid,
+        "tasks"
+      ),
+      task
+    );
+
+    console.log(
+      "Task erfolgreich erstellt:",
+      docRef.id
+    );
+
+    addTaskForm.reset();
+
+  } catch (error) {
+    console.error(
+      "Fehler beim Erstellen des Tasks:",
+      error
+    );
+  }
+}
+
+window.addSubtask = addSubtask;
+window.clearSubtaskInput = clearSubtaskInput;
+window.editSubtask = editSubtask;
+window.removeSubtask = removeSubtask;
+>>>>>>> 4d76bd24a74abe7321f3f430cbe25b836f9c9587

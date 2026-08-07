@@ -22,106 +22,37 @@ let contacts = [
   },
   {
     id: "c4",
+    name: "David Eisenberg",
+    email: "davidberg@gmail.com",
+    phone: "+49 444 444 444",
+    color: "#29ABE2",
+  },
+  {
+    id: "c5",
+    name: "Eva Fischer",
+    email: "eva@gmail.com",
+    phone: "+49 555 555 555",
+    color: "#FF82FF",
+  },
+  {
+    id: "c6",
+    name: "Emanuel Mauer",
+    email: "emanuelma@gmail.com",
+    phone: "+49 666 666 666",
+    color: "#C3FF2B",
+  },
+  {
+    id: "c7",
     name: "Tatjana Wolf",
     email: "wolf@gmail.com",
-    phone: "+49 444 444 444",
+    phone: "+49 777 777 777",
     color: "#FFC700",
   },
 ];
 
-const GUEST_EMAIL = "guest@join.com";
-
-function getCurrentUser() {
-  try {
-    return JSON.parse(localStorage.getItem("currentUser"));
-  } catch (error) {
-    return null;
-  }
-}
-
-function isEditableCurrentUser(currentUser) {
-  return (
-    currentUser &&
-    currentUser.email &&
-    currentUser.email !== GUEST_EMAIL &&
-    currentUser.name !== "Guest User"
-  );
-}
-
-function getSelfContactId(currentUser) {
-  return currentUser.uid || currentUser.email;
-}
-
-function getSelfContactColor(seed) {
-  const palette = [
-    "#FF7A00",
-    "#E600B2",
-    "#4622FF",
-    "#FFC700",
-    "#00B8D9",
-    "#22C55E",
-  ];
-
-  let hash = 0;
-  for (let i = 0; i < seed.length; i++) {
-    hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
-  }
-
-  return palette[hash % palette.length];
-}
-
-function getSelfContact() {
-  const currentUser = getCurrentUser();
-
-  if (!isEditableCurrentUser(currentUser)) {
-    return null;
-  }
-
-  const id = getSelfContactId(currentUser);
-
-  if (!id) {
-    return null;
-  }
-
-  return {
-    id,
-    name: currentUser.name || currentUser.email,
-    email: currentUser.email,
-    phone: currentUser.phone || "",
-    color: currentUser.color || getSelfContactColor(id),
-  };
-}
-
-function syncSelfContact() {
-  const selfContact = getSelfContact();
-
-  if (!selfContact) {
-    return;
-  }
-
-  contacts = contacts.filter((contact) => contact.id !== selfContact.id);
-  contacts.push(selfContact);
-}
-
-function getFirestoreStore() {
-  return window.firestoreData;
-}
-
-async function loadContactsFromFirestore() {
-  const firestoreStore = getFirestoreStore();
-
-  if (!firestoreStore) {
-    return contacts.slice();
-  }
-
-  return firestoreStore.loadUserCollection("contacts", contacts);
-}
-
 /** Initializes the contacts view by triggering the rendering process. */
 async function initContacts() {
-  contacts = await loadContactsFromFirestore();
-  await syncSelfContactToFirestore();
-  contacts = await loadContactsFromFirestore();
+  await init();
   renderContactList();
 }
 
@@ -132,29 +63,6 @@ function renderContactList() {
   container.innerHTML = "";
   contacts.sort((a, b) => a.name.localeCompare(b.name));
   buildListHTML(container);
-}
-
-async function syncSelfContactToFirestore() {
-  const firestoreStore = getFirestoreStore();
-  const currentUser = getCurrentUser();
-
-  if (!firestoreStore || !isEditableCurrentUser(currentUser)) {
-    return;
-  }
-
-  const selfContact = getSelfContact();
-
-  if (!selfContact) {
-    return;
-  }
-
-  await firestoreStore.saveUserCollectionItem("contacts", selfContact);
-  await firestoreStore.mergeCurrentUserProfile({
-    name: selfContact.name,
-    email: selfContact.email,
-    phone: selfContact.phone,
-    color: selfContact.color,
-  });
 }
 
 /** Iterates through contacts to inject letter dividers and individual contact items. */
@@ -236,94 +144,43 @@ function closeContactModal() {
   let content = document.getElementById("contactModalContent");
   
   overlay.classList.add("d-none");
+  
   if (content) {
     content.innerHTML = "";
   }
 }
 
 /** Prevents form submission default behavior, creates a new contact object, and saves it. */
-async function saveNewContact(event) {
+function saveNewContact(event) {
   event.preventDefault();
-
-  const newContact = {
-    id: `c-${Date.now()}`,
+  contacts.push({
+    id: "c" + (contacts.length + 1),
     name: document.getElementById("modalName").value,
     email: document.getElementById("modalEmail").value,
     phone: document.getElementById("modalPhone").value,
     color: "#" + Math.floor(Math.random() * 16777215).toString(16),
-  };
-
-  const firestoreStore = getFirestoreStore();
-  if (firestoreStore) {
-    await firestoreStore.saveUserCollectionItem("contacts", newContact);
-  } else {
-    contacts.push(newContact);
-  }
-
-  await refreshContactsFromFirestore();
+  });
   executePostSaveActions();
 }
 
 /** Concludes the creation flow by closing the modal, refreshing the list, and showing a toast notification. */
 function executePostSaveActions() {
   closeContactModal();
+  renderContactList();
   showToast();
 }
 
 /** Modifies an existing contact's attributes in local memory and refreshes the current views. */
-async function updateContact(event, id) {
+function updateContact(event, id) {
   event.preventDefault();
   let contact = contacts.find((c) => c.id === id);
   if (!contact) return;
-
   contact.name = document.getElementById("modalName").value;
   contact.email = document.getElementById("modalEmail").value;
   contact.phone = document.getElementById("modalPhone").value;
-
-  const firestoreStore = getFirestoreStore();
-  if (firestoreStore) {
-    await firestoreStore.saveUserCollectionItem("contacts", contact);
-  }
-
-  const currentUser = getCurrentUser();
-  if (firestoreStore && currentUser && getSelfContactId(currentUser) === id) {
-    await firestoreStore.mergeCurrentUserProfile({
-      name: contact.name,
-      email: contact.email,
-      phone: contact.phone,
-      color: contact.color,
-    });
-  }
-
-  await refreshContactsFromFirestore();
-
   closeContactModal();
-  showContactDetails(id);
-}
-
-async function deleteContact(id) {
-  const firestoreStore = getFirestoreStore();
-
-  if (firestoreStore) {
-    await firestoreStore.deleteUserCollectionItem("contacts", id);
-  } else {
-    contacts = contacts.filter((contact) => contact.id !== id);
-  }
-
-  await refreshContactsFromFirestore();
-  closeContactModal();
-
-  let container = document.getElementById("contactDetailContainer");
-  if (container) {
-    container.innerHTML = '<p class="select-hint">Select a contact to view details.</p>';
-  }
-}
-
-async function refreshContactsFromFirestore() {
-  contacts = await loadContactsFromFirestore();
-  await syncSelfContactToFirestore();
-  contacts = await loadContactsFromFirestore();
   renderContactList();
+  showContactDetails(id);
 }
 
 /** Extracts and returns the capitalized first letters of the provided name string. */

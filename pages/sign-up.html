@@ -11,11 +11,11 @@
     />
 
     <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script type="module" src="../script/firebase.js"></script>
     <script src="../script.js" defer></script>
     <link rel="stylesheet" href="../style.css" />
     <link rel="stylesheet" href="../style/font.css" />
     <link rel="stylesheet" href="../style/log-in.css" />
+    <link rel="icon" type="image/png" href="../assets/logo/fav_icon.png">
   </head>
   <body>
     <section class="start-logo">
@@ -25,18 +25,22 @@
       <section class="log-in">
         <form class="login-box" id="signupForm">
           <div class="sign-up-head">
-          <a href="../index.html"><img src="../assets/icons/images/arrow-left-line.png" alt=""></a>
-            
-          <h2>Sign Up</h2>
+            <a href="../index.html"
+              ><img src="../assets/icons/images/arrow-left-line.png" alt=""
+            /></a>
+
+            <h2 class="mb-4" style="font-size: 61px">Sign Up</h2>
           </div>
           <hr class="custom-hr" />
 
-          <div class="shadow form-floating position-relative mb-3">
+          <div class="form-floating position-relative mb-3">
             <input
               type="text"
               class="form-control pe-5"
               id="signupName"
               placeholder="Dennis"
+              autocomplete="name"
+              required
             />
 
             <label for="signupName">Name</label>
@@ -48,12 +52,14 @@
             />
           </div>
 
-          <div class="shadow form-floating position-relative mb-3">
+          <div class="form-floating position-relative mb-3">
             <input
               type="email"
               class="form-control pe-5"
               id="signupEmail"
               placeholder="name@example.com"
+              autocomplete="email"
+              required
             />
 
             <label for="signupEmail">Email</label>
@@ -65,45 +71,53 @@
             />
           </div>
 
-          <div class="shadow form-floating position-relative mb-3">
+          <div class="form-floating position-relative mb-3">
             <input
               type="password"
               class="form-control pe-5"
               id="signupPassword"
               placeholder="Password"
+              autocomplete="new-password"
+              minlength="6"
+              required
             />
 
             <label for="signupPassword">Password</label>
 
             <img
               src="../assets/icons/images/lock.png"
-              alt="Password"
+              alt="Passwort anzeigen"
               class="custom-icon"
+              id="togglePassword"
             />
           </div>
 
-          <div class="shadow form-floating position-relative mb-3">
+          <div class="form-floating position-relative mb-3">
             <input
               type="password"
               class="form-control pe-5"
               id="signupConfirmPassword"
               placeholder="Password"
+              autocomplete="new-password"
+              minlength="6"
+              required
             />
 
             <label for="signupConfirmPassword">Confirm Password</label>
 
-            <img
+             <img
               src="../assets/icons/images/lock.png"
-              alt="Password"
+              alt="Passwort anzeigen"
               class="custom-icon"
+              id="togglePasswordUp"
             />
           </div>
           <div class="form-check">
             <input
               class="form-check-input"
               type="checkbox"
-              value=""
               id="checkDefault"
+              required
             />
             <label class="form-check-label" for="checkDefault">
               accept the <a href="#">Privacy Policy</a>
@@ -119,9 +133,12 @@
         <a href="#">Legal Notice</a>
       </div>
     </section>
-    <div id="successMessage" class="success-message">
-      You Signed Up successfully
-    </div>
+    <div
+      id="signupMessage"
+      class="success-message"
+      role="alert"
+      aria-live="polite"
+    ></div>
     <script type="module" src="../script/firebase.js"></script>
     <script type="module" src="../script/signUp.js"></script>
   </body>

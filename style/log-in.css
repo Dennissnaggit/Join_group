@@ -62,7 +62,6 @@
   width: 20px;
   height: 20px;
   z-index: 10;
-  pointer-events: none;
 }
 
 .custom-hr {
@@ -357,8 +356,6 @@
   right: auto;
   bottom: 90px;
   display: flex;
-  justify-content: center;
-  align-items: center;
   gap: 16px;
   opacity: 0;
   animation: showLogin 1s ease forwards;
@@ -369,19 +366,12 @@
     width: 100%;
     max-width: calc(100% - 32px);
     padding: 40px 48px;
-    align-items: center;
   }
   .login-box {
     width: 100%;
-    text-align: center;
   }
   h2 {
     font-size: 47px;
-    width: 100%;
-    text-align: center;
-  }
-  .custom-hr {
-    margin: 0 auto;
   }
   .btn-group {
   display: flex;
@@ -430,12 +420,8 @@ body.animation-done .logo {
   body.animation-done .logo-responsive {
     display: none !important;
   }
-  body.animation-done .log-in {
-    align-items: center;
-  }
   .login-box {
     gap: 8px;
-      text-align: center;
   }
 .form-control label {
 font-size: 16px;
@@ -443,4 +429,97 @@ font-size: 16px;
 .form-check {
   padding-top: 20px;
 }
+}
+.form-control {
+    border: 1px solid rgba(104, 104, 104, 1) !important;
+    border-radius: 10px !important;
+}
+
+.form-control:focus {
+    border-color: rgba(104, 104, 104, 1);
+    box-shadow: none;
+}
+.success-message {
+  position: fixed;
+  left: 50%;
+  bottom: 40px;
+  transform: translate(-50%, 30px);
+
+  padding: 16px 24px;
+  border-radius: 12px;
+
+  color: white;
+  font-weight: 600;
+  text-align: center;
+
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease,
+    visibility 0.3s ease;
+
+  z-index: 1000;
+}
+
+.success-message.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+.success-message--success {
+  background-color: rgba(42, 54, 71, 1);
+}
+
+.success-message--error {
+  background-color: #e74c3c;
+}
+
+.form-control.is-invalid,
+.form-check-input.is-invalid {
+  border-color: #e74c3c;
+}
+.form-floating {
+  position: relative;
+}
+
+.custom-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+
+  z-index: 10;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.success-message {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translate(-50%, -20px);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  padding: 16px 24px;
+  border-radius: 10px;
+  color: #fff;
+  z-index: 9999;
+}
+
+.success-message.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+.success-message--success {
+  background-color: rgba(42, 54, 71, 1);
+}
+
+.success-message--error {
+  background-color: #e74c3c;
 }

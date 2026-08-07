@@ -2,20 +2,11 @@
  * Main initialization for Summary page
  */
 async function initSummary() {
+  await init();
+
   setGreeting();
-  await loadSummaryTasksFromFirestore();
   displayUserName();
   renderSummaryNumbers();
-}
-
-async function loadSummaryTasksFromFirestore() {
-  const firestoreStore = window.firestoreData;
-
-  if (!firestoreStore) {
-    return;
-  }
-
-  await firestoreStore.loadUserCollection("tasks", []);
 }
 
 /**
@@ -36,23 +27,10 @@ function setGreeting() {
  * Retrieves the logged-in user name from LocalStorage
  */
 function displayUserName() {
-  let currentUserRaw = localStorage.getItem("currentUser");
   let activeUserRaw = localStorage.getItem("activeUser");
   let nameDisplay = document.getElementById("userNameDisplay");
 
   if (!nameDisplay) return;
-
-  if (currentUserRaw) {
-    try {
-      let currentUser = JSON.parse(currentUserRaw);
-
-      nameDisplay.innerText = currentUser.name || currentUser.email;
-      return;
-    } catch (error) {
-      nameDisplay.innerText = currentUserRaw;
-      return;
-    }
-  }
 
   if (activeUserRaw) {
     try {
@@ -84,11 +62,11 @@ function renderSummaryNumbers() {
   updateElementText("board-count", tasks.length);
   updateElementText(
     "progress-count",
-    tasks.filter((t) => t.status === "in-progress").length
+    tasks.filter((t) => t.status === "progress").length
   );
   updateElementText(
     "feedback-count",
-    tasks.filter((t) => t.status === "await-feedback").length
+    tasks.filter((t) => t.status === "feedback").length
   );
   updateUrgentTask(tasks);
 }

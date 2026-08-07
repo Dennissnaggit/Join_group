@@ -1,8 +1,11 @@
+/* ==========================================================================
+   1. LAYOUT PRINCIPAL (2 columns)
+   ========================================================================== */
 .contacts-main-grid {
     display: flex;
     width: 100%;
     height: calc(100vh - 90px);
-    background-color: #F6F7F8;
+    background-color: var(--background-color);
 }
 
 .contacts-sidebar-list {
@@ -20,6 +23,9 @@
     padding: 0 24px 24px 24px;
 }
 
+/* ==========================================================================
+   2. PRINCIPAL BUTON (Sidebar)
+   ========================================================================== */
 .button-wrapper {
     padding: 24px;
     display: flex;
@@ -29,7 +35,7 @@
 .add-new-contact-btn {
     width: 100%;
     padding: 16px;
-    background-color: #2A3647;
+    background-color: var(--primary-color);
     color: white;
     border: none;
     border-radius: 10px;
@@ -42,6 +48,9 @@
     gap: 16px;
 }
 
+/* ==========================================================================
+   3. COLUMNA DETALLE Y ELEMENTOS
+   ========================================================================== */
 .contacts-detail-panel {
     flex: 1;
     padding: 2rem 2rem;
@@ -53,19 +62,19 @@
 .contacts-header-title {
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 0.9rem;
 }
 
 .title-divider {
     width: 3px;
     height: 60px;
-    background-color: #29ABE2;
+    background-color: var(--secondary-color);
 }
 
 .letter-divider {
     padding: 16px 0;
     font-size: 20px;
-    border-bottom: 1px solid #D1D1D1;
+    border-bottom: 1px solid var(--border-grey);
     margin-top: 16px;
 }
 
@@ -102,52 +111,9 @@
     font-size: 16px;
 }
 
-.contact-detail-back-btn {
-    display: none;
-}
-
-.contact-detail-topbar {
-    display: none;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 1rem;
-}
-
-.contact-header-title-block {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    flex: 1;
-}
-
-.contact-header-title-block h1 {
-    margin: 0;
-    color: var(--primary-color);
-    font-size: 2.5rem;
-    font-weight: 700;
-}
-
-.contact-header-title-block span {
-    color: #666;
-    font-size: 1rem;
-}
-
-.mobile-contact-menu-btn {
-    display: none;
-}
-
-.mobile-action-menu {
-    display: none;
-}
-
-.d-none-mobile {
-    display: none !important;
-}
-
-.d-show-mobile {
-    display: flex !important;
-}
-
+/* ==========================================================================
+   4. ELEMENTOS DE LA LISTA E INFORMACIÓN
+   ========================================================================== */
 .contact-list-item {
     display: flex;
     align-items: center;
@@ -160,12 +126,11 @@
 
 #contacts-list-container {
     flex-grow: 1;
-    overflow-y: auto;
+    overflow-y: auto; 
 }
 
-
 .contact-list-item.active {
-    background-color: #2A3647;
+    background-color: var(--primary-color);
     color: white;
 }
 
@@ -179,6 +144,7 @@
     justify-content: center;
     font-weight: 700;
     border: 2px solid white;
+    flex-shrink: 0;
 }
 
 .contact-avatar-large {
@@ -193,9 +159,6 @@
     font-weight: 700;
     border: 3px solid white;
     box-shadow: 0px 0px 4px rgba(0,0,0,0.1);
-    flex-shrink: 0;
-    aspect-ratio: 1 / 1;
-    box-sizing: border-box;
 }
 
 .contact-info-short {
@@ -212,12 +175,18 @@
 .contact-email-link {
     font-size: 14px;
     color: var(--email);
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .contact-list-item.active .contact-email-link {
     color: var(--footer) !important;
 }
 
+/* ==========================================================================
+   5. MODAL / OVERLAY HORIZONTAL
+   ========================================================================== */
 .modal-overlay .modal-content {
     display: flex;
     justify-content: center;
@@ -229,11 +198,11 @@
 .modal-card {
     width: 1212px;
     max-width: 95vw;
-    height: 592px;
+    height: 592px; 
     background-color: white;
     border-radius: 30px;
     overflow: hidden;
-    display: flex;
+    display: flex; 
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
     position: relative;
     box-sizing: border-box;
@@ -248,13 +217,13 @@
     background-color: rgba(0, 0, 0, 0.4);
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; 
     z-index: 999;
 }
 
 .modal-left-panel {
     width: 453px;
-    background-color: #2A3647;
+    background-color: var(--secondary-color);
     color: white;
     display: flex;
     flex-direction: column;
@@ -304,7 +273,7 @@
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    background-color: #FFB800;
+    background-color: var(--prio-medium);
     color: white;
     display: flex;
     align-items: center;
@@ -322,32 +291,6 @@
     z-index: 10;
 }
 
-.overlay-close-btn {
-    display: none;
-    position: absolute;
-    top: 1.25rem;
-    right: 1.25rem;
-    width: 2.5rem;
-    height: 2.5rem;
-    border: none;
-    border-radius: 0;
-    background: none;
-    background-color: transparent;
-    box-shadow: none;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 20;
-    padding: 0;
-}
-
-.overlay-close-btn img {
-    width: 1rem;
-    height: 1rem;
-    display: block;
-    filter: brightness(0) invert(1);
-}
-
 .modal-form-container {
     display: flex;
     flex-direction: column;
@@ -363,15 +306,15 @@
 }
 
 .input-icon-container {
-    width: 100%;
-    position: relative;
+        width: 100%;
+        position: relative;
 }
 
 .input-icon-container input {
     width: 100%;
     padding: 12px 20px;
     font-size: 1rem;
-    border: 1px solid #D1D1D1;
+    border: 1px solid var(--border-grey);
     border-radius: 10px;
     box-sizing: border-box;
     outline: none;
@@ -390,18 +333,14 @@
 }
 
 .input-icon-container input:focus {
-    border-color: #29ABE2;
+    border-color: var(--secondary-color);
 }
 
 .modal-actions-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-end;
     gap: 24px;
-    margin: 30px auto 0;
-    width: fit-content;
-    max-width: 100%;
-    flex-wrap: wrap;
+    margin-top: 30px;
 }
 
 .modal-actions-container button {
@@ -413,31 +352,29 @@
     border-radius: 10px;
     cursor: pointer;
     font-size: 18px;
-    width: fit-content;
-    flex: 0 0 auto;
 }
 
 .btn-cancel {
-    background-color: white;
-    border: 1px solid #2A3647;
-    color: #2A3647;
+    background-color: var(--white);
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
 }
 
 .btn-cancel:hover {
-    border-color: #29ABE2;
-    color: #29ABE2;
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     transform: translateY(-1px);
 }
 
 .btn-create {
-    background-color: #2A3647;
+    background-color: var(--primary-color);
     border: none;
-    color: white;
+    color: var(--white);
 }
 
 .btn-create:hover {
-    background-color: #29ABE2;
+    background-color: var(--secondary-color);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     transform: translateY(-1px);
 }
@@ -461,347 +398,7 @@
     align-items: center;
 }
 
-@media(min-width: 1000px) {
-    .modal-card {
-        display: flex;
-        flex-direction: row;
-        width: clamp(58rem, 90vw, 75.75rem);
-        height: 35.25rem;
-        background-color: #ffffff;
-        border-radius: 1.875rem;
-        overflow: hidden;
-        position: relative;
-        box-sizing: border-box;
-    }
-
-    .modal-left-panel {
-        width: 37.3%;
-        flex-shrink: 0;
-        background-color: #2a3647;
-        padding: clamp(2rem, 3.5vw, 3rem);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        box-sizing: border-box;
-    }
-
-    .modal-left-panel h1 {
-        font-size: clamp(2.5rem, 4vw, 3.75rem);
-        line-height: 1.2;
-        margin-bottom: 0.5rem;
-    }
-
-    .modal-left-panel p {
-        font-size: clamp(1rem, 1.5vw, 1.25rem);
-    }
-
-    .modal-right-panel {
-        flex-grow: 1;
-        flex-shrink: 1;
-        min-width: 0;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        gap: clamp(1.5rem, 3vw, 3rem);
-        padding: 3rem clamp(1.5rem, 4vw, 4rem);
-        box-sizing: border-box;
-    }
-
-    .modal-avatar-circle {
-        position: static;
-        transform: none;
-        width: clamp(6.25rem, 8vw, 7.5rem);
-        height: clamp(6.25rem, 8vw, 7.5rem);
-        aspect-ratio: 1 / 1;
-        flex-shrink: 0 !important;
-    }
-
-    .modal-form-container {
-        flex-grow: 1;
-        flex-shrink: 1;
-        min-width: 0;
-        max-width: 26.25rem;
-        width: 100%;
-    }
-
-    .close-btn-container {
-        position: absolute;
-        top: 1.5rem;
-        right: 1.5rem;
-        cursor: pointer;
-    }
+.mobile-action-menu,
+.d-none-desktop {
+    display: none !important;
 }
-
-@media(max-width: 999px) {
-    .modal-overlay:not(.d-none) {
-        padding: 1rem;
-        box-sizing: border-box;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .modal-overlay .modal-card {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        max-width: 33.75rem;
-        height: auto;
-        background-color: #ffffff;
-        border-radius: 1.875rem;
-        overflow: visible;
-        position: relative;
-        box-sizing: border-box;
-    }
-
-    .modal-left-panel {
-        width: 100%;
-        max-width: 24.75rem;
-        height: 19.5rem;
-        background-color: #2a3647;
-        padding: 3rem 2rem 4rem;
-        box-sizing: border-box;
-        border-top-left-radius: 1.875rem;
-        border-top-right-radius: 1.875rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
-        text-align: left;
-    }
-
-    .modal-logo {
-        display: none;
-    }
-
-    .modal-left-panel .blue-line-horizontal {
-        margin-left: 0;
-        margin-right: auto;
-        margin-top: 0.75rem;
-    }
-
-    .modal-right-panel {
-        width: 100%;
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 6.5rem 1.5rem 2rem;
-        box-sizing: border-box;
-        border-bottom-left-radius: 1.875rem;
-        border-bottom-right-radius: 1.875rem;
-        position: relative;
-    }
-
-    .modal-avatar-circle {
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 10;
-        width: 7.5rem;
-        height: 7.5rem;
-        border-radius: 50%;
-        border: 0.1875rem solid #ffffff;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .modal-form-container {
-        width: 100%;
-        max-width: 22.75rem;
-    }
-
-    .modal-form {
-        margin-top: 0.5rem;
-    }
-
-    .close-btn-container {
-        position: absolute;
-        top: 1.5rem;
-        right: 1.5rem;
-        z-index: 20;
-    }
-
-    .close-btn-container img {
-        filter: brightness(0) invert(1);
-    }
-    .btn-cancel {
-        display: none !important;
-    }
-
-    .btn-create {
-        width: 100% !important;
-        max-width: 100%;
-        margin-top: 1.5rem;
-    }
-
-    .overlay-close-btn {
-        display: flex;
-    }
-
-    .modal-left-panel .close-btn-container,
-    .modal-right-panel .close-btn-container {
-        display: none;
-    }
-
-    .contacts-main-grid {
-        height: calc(100dvh - 90px);
-    }
-
-    .contacts-sidebar-list {
-        width: 100%;
-        min-width: 0;
-    }
-
-    .contacts-detail-panel {
-        display: none;
-        width: 100%;
-        min-width: 0;
-        padding: 1.5rem 1rem 7rem;
-        box-sizing: border-box;
-    }
-
-    .contacts-header-title {
-        display: none;
-    }
-
-    .contact-detail-view {
-        position: relative;
-        width: 100%;
-    }
-
-    .contact-detail-topbar {
-        display: flex;
-        align-items: center;
-        margin-bottom: 1.5rem;
-        width: 100%;
-    }
-
-    .contact-header-title-block h1 {
-        font-size: 2rem;
-    }
-
-    .contact-header-title-block span {
-        font-size: 0.95rem;
-    }
-
-    .contact-header-title-block .title-divider {
-        width: 5.5rem;
-        height: 0.18rem;
-        margin-top: 0.15rem;
-    }
-
-    .contact-detail-back-btn {
-        position: static;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 2rem;
-        height: 2rem;
-        padding: 0;
-        border: none;
-        border-radius: 0;
-        background: none !important;
-        background-color: transparent !important;
-        box-shadow: none;
-        appearance: none;
-        cursor: pointer;
-        z-index: 30;
-        margin-left: auto;
-        flex-shrink: 0;
-    }
-
-    .mobile-contact-menu-btn {
-        position: fixed;
-        right: 1rem;
-        bottom: 5.75rem;
-        width: 3.5rem;
-        height: 3.5rem;
-        border: none;
-        border-radius: 50%;
-        background: #2A3647;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        gap: 0.25rem;
-        box-shadow: 0 0.375rem 0.875rem rgba(42, 54, 71, 0.35);
-        z-index: 70;
-        cursor: pointer;
-        padding: 0;
-    }
-
-    .mobile-contact-menu-dots {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.2rem;
-    }
-
-    .mobile-contact-menu-dots span {
-        width: 0.32rem;
-        height: 0.32rem;
-        border-radius: 50%;
-        background: #ffffff;
-        display: block;
-    }
-
-    .mobile-contact-menu-label {
-        display: none;
-    }
-
-    .contact-detail-back-btn img {
-        width: 1.25rem;
-        height: 1.25rem;
-    }
-
-    .contacts-detail-panel.d-show-mobile {
-        display: flex !important;
-    }
-
-    .contacts-sidebar-list.d-none-mobile {
-        display: none !important;
-    }
-
-    .button-wrapper {
-        position: fixed;
-        right: 1rem;
-        bottom: 5.75rem;
-        padding: 0;
-        z-index: 60;
-    }
-
-    .add-new-contact-btn {
-        width: 3.5rem;
-        height: 3.5rem;
-        min-width: 3.5rem;
-        border-radius: 50%;
-        padding: 0;
-        font-size: 0;
-        gap: 0;
-        box-shadow: 0 0.375rem 0.875rem rgba(42, 54, 71, 0.35);
-    }
-
-    .add-new-contact-btn img {
-        width: 1.5rem;
-        height: 1.5rem;
-    }
-
-    .contacts-scrollable-area {
-        padding: 0 1rem 8rem;
-    }
-}
-
-
-@media(max-width: 450px) {
-    .modal-overlay .modal-card {
-        max-width: 24.75rem;
-    }
-
-    .modal-right-panel {
-        padding: 5rem 0.5rem 2rem;
-    }
-}
-
