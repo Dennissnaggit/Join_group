@@ -499,9 +499,9 @@ async function createTask() {
       docRef.id
     );
 
-    resetAddTaskForm();
+    window.location.href = "board.html";
 
-    return docRef.id;
+return docRef.id;
   } catch (error) {
     console.error(
       "Fehler beim Speichern des Tasks:",
