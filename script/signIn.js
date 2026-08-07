@@ -1,61 +1,89 @@
 import { auth, db } from "./firebase.js";
-
-import {
-  signInWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
-
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 import {
   doc,
-  getDoc
+  getDoc,
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
-
 const loginForm = document.getElementById("loginForm");
-
+const emailInput = document.getElementById("loginEmail");
+const passwordInput = document.getElementById("loginPassword");
+const messageBox = document.getElementById("signupMessage");
 loginForm.addEventListener("submit", async (event) => {
   event.preventDefault();
-
-  const email = document.getElementById("loginEmail").value.trim();
-  const password = document.getElementById("loginPassword").value;
-
+  resetValidation();
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
   if (!email || !password) {
-    alert("Bitte gib E-Mail und Passwort ein.");
+    if (!email) {
+      emailInput.classList.add("is-invalid");
+    }
+    if (!password) {
+      passwordInput.classList.add("is-invalid");
+    }
+    showMessage("Bitte gib E-Mail und Passwort ein.", "error");
     return;
   }
-
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password,
+    );
     const user = userCredential.user;
-
     const userRef = doc(db, "users", user.uid);
     const userSnap = await getDoc(userRef);
-
     let userName = user.email;
-
     if (userSnap.exists()) {
       const userData = userSnap.data();
-      userName = userData.name;
+      userName = userData.name || user.email;
     }
-
-    localStorage.setItem("currentUser", JSON.stringify({
-      uid: user.uid,
-      email: user.email,
-      name: userName,
-      isGuest: false
-    }));
-
+    localStorage.setItem(
+      "currentUser",
+      JSON.stringify({
+        uid: user.uid,
+        email: user.email,
+        name: userName,
+        isGuest: false,
+      }),
+    );
     localStorage.setItem("userName", userName);
-
-    window.location.href = "./pages/summary.html";
-
+    showMessage("Login erfolgreich.", "success");
+    setTimeout(() => {
+      window.location.href = "./pages/summary.html";
+    }, 800);
   } catch (error) {
     console.error(error);
-
+    emailInput.classList.add("is-invalid");
+    passwordInput.classList.add("is-invalid");
     if (error.code === "auth/invalid-credential") {
-      alert("E-Mail oder Passwort ist falsch.");
+      showMessage("E-Mail oder Passwort ist falsch.", "error");
     } else if (error.code === "auth/invalid-email") {
-      alert("Die E-Mail-Adresse ist ungültig.");
+      showMessage("Die E-Mail-Adresse ist ungültig.", "error");
+    } else if (error.code === "auth/too-many-requests") {
+      showMessage(
+        "Zu viele Login-Versuche. Bitte versuche es später erneut.",
+        "error",
+      );
     } else {
-      alert("Fehler beim Login: " + error.message);
+      showMessage("Beim Login ist ein Fehler aufgetreten.", "error");
     }
   }
 });
+function showMessage(message, type = "success") {
+  if (!messageBox) {
+    console.error("Das Element #signupMessage wurde nicht gefunden.");
+    return;
+  }
+  messageBox.textContent = message;
+  messageBox.className = `success-message success-message--${type} show`;
+  window.clearTimeout(showMessage.timeout);
+  showMessage.timeout = window.setTimeout(() => {
+    messageBox.classList.remove("show");
+  }, 3000);
+}
+function resetValidation() {
+  emailInput.classList.remove("is-invalid");
+  passwordInput.classList.remove("is-invalid");
+}
+emailInput.addEventListener("input", resetValidation);
+passwordInput.addEventListener("input", resetValidation);

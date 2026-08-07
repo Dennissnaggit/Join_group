@@ -98,6 +98,7 @@ function logout() {
   window.location.href = "../index.html";
 }
 
+/** Pushes a newly registered account into the local storage users database. */
 function saveUser(newUser) {
   users.push(newUser);
   localStorage.setItem("users", JSON.stringify(users));
@@ -118,35 +119,12 @@ function handleExternalLayout() {
   if (headerActions) headerActions.style.setProperty("display", "none", "important");
 }
 
-/** Extracts up to two uppercase initials from a full name string. */
-function getInitialsFromName(name) {
-  if (!name || typeof name !== "string") return "?";
-  let parts = name.trim().split(/\s+/).filter(Boolean);
-  if (parts.length === 0) return "?";
-  if (parts.length === 1) return parts[0][0].toUpperCase();
-  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-}
-
-/** Sets the header user initials from the stored currentUser session. */
-function setUserInitials() {
-  let el = document.getElementById("userInitials");
-  if (!el) return;
-  try {
-    let currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    if (currentUser && currentUser.name) {
-      el.textContent = getInitialsFromName(currentUser.name);
-    }
-  } catch (e) {}
-}
-
 /** Optimizes the layout views for logged-in users inside the main panel. */
 function handleInternalLayout(isSpecialPage) {
   let helpBtn = document.querySelector(".help-btn") || document.querySelector("header img[src*='help']");
   let logoutBtn = document.querySelector(".logout-button") || Array.from(document.querySelectorAll("header button")).find(el => el.textContent.includes("Log out"));
   let loginBtn = document.getElementById("sidebar-login-btn");
   let userInitials = document.getElementById("userInitials") || document.querySelector(".header-user-actions");
-
-  setUserInitials();
 
   if (isSpecialPage) {
     if (helpBtn) helpBtn.style.setProperty("display", "none");
