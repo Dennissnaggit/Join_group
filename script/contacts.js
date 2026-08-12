@@ -1,59 +1,57 @@
-let contacts = [
-  {
-    id: "c1",
-    name: "Anton Mayer",
-    email: "antoni@gmail.com",
-    phone: "+49 111 111 111",
-    color: "#FF7A00",
-  },
-  {
-    id: "c2",
-    name: "Anja Schulz",
-    email: "schulz@hotmail.com",
-    phone: "+49 222 222 222",
-    color: "#E600B2",
-  },
-  {
-    id: "c3",
-    name: "Benedikt Ziegler",
-    email: "benedikt@gmail.com",
-    phone: "+49 333 333 333",
-    color: "#4622FF",
-  },
-  {
-    id: "c4",
-    name: "David Eisenberg",
-    email: "davidberg@gmail.com",
-    phone: "+49 444 444 444",
-    color: "#29ABE2",
-  },
-  {
-    id: "c5",
-    name: "Eva Fischer",
-    email: "eva@gmail.com",
-    phone: "+49 555 555 555",
-    color: "#FF82FF",
-  },
-  {
-    id: "c6",
-    name: "Emanuel Mauer",
-    email: "emanuelma@gmail.com",
-    phone: "+49 666 666 666",
-    color: "#C3FF2B",
-  },
-  {
-    id: "c7",
-    name: "Tatjana Wolf",
-    email: "wolf@gmail.com",
-    phone: "+49 777 777 777",
-    color: "#FFC700",
-  },
-];
+import { auth, db } from "./firebase.js";
 
+import {
+    collection,
+    addDoc,
+    getDocs,
+    doc,
+    updateDoc,
+    deleteDoc
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+import {
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+let contacts = [];
+let currentUser = null;
 /** Initializes the contacts view by triggering the rendering process. */
 async function initContacts() {
-  await init();
-  renderContactList();
+    await init();
+
+    onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+            console.error("Kein Benutzer eingeloggt.");
+            return;
+        }
+
+        currentUser = user;
+
+        await loadContacts();
+        renderContactList();
+    });
+}
+
+async function loadContacts() {
+    if (!currentUser) return;
+
+    try {
+        const contactsRef = collection(
+            db,
+            "users",
+            currentUser.uid,
+            "contacts"
+        );
+
+        const snapshot = await getDocs(contactsRef);
+
+        contacts = snapshot.docs.map((document) => ({
+            id: document.id,
+            ...document.data()
+        }));
+    } catch (error) {
+        console.error("Fehler beim Laden der Kontakte:", error);
+    }
 }
 
 /** Sorts contacts alphabetically and clears the container before building the list. */
@@ -151,16 +149,46 @@ function closeContactModal() {
 }
 
 /** Prevents form submission default behavior, creates a new contact object, and saves it. */
-function saveNewContact(event) {
-  event.preventDefault();
-  contacts.push({
-    id: "c" + (contacts.length + 1),
-    name: document.getElementById("modalName").value,
-    email: document.getElementById("modalEmail").value,
-    phone: document.getElementById("modalPhone").value,
-    color: "#" + Math.floor(Math.random() * 16777215).toString(16),
-  });
-  executePostSaveActions();
+async function saveNewContact(event) {
+    event.preventDefault();
+
+    if (!currentUser) {
+        console.error("Kein Benutzer eingeloggt.");
+        return;
+    }
+
+    const newContact = {
+        name: document.getElementById("modalName").value.trim(),
+        email: document.getElementById("modalEmail").value.trim(),
+        phone: document.getElementById("modalPhone").value.trim(),
+        color: getRandomColor()
+    };
+
+    try {
+        const contactsRef = collection(
+            db,
+            "users",
+            currentUser.uid,
+            "contacts"
+        );
+
+        const docRef = await addDoc(contactsRef, newContact);
+
+        contacts.push({
+            id: docRef.id,
+            ...newContact
+        });
+
+        executePostSaveActions();
+    } catch (error) {
+        console.error("Kontakt konnte nicht gespeichert werden:", error);
+    }
+}
+
+function getRandomColor() {
+    return "#" + Math.floor(Math.random() * 16777215)
+        .toString(16)
+        .padStart(6, "0");
 }
 
 /** Concludes the creation flow by closing the modal, refreshing the list, and showing a toast notification. */
@@ -171,18 +199,40 @@ function executePostSaveActions() {
 }
 
 /** Modifies an existing contact's attributes in local memory and refreshes the current views. */
-function updateContact(event, id) {
-  event.preventDefault();
-  let contact = contacts.find((c) => c.id === id);
-  if (!contact) return;
-  contact.name = document.getElementById("modalName").value;
-  contact.email = document.getElementById("modalEmail").value;
-  contact.phone = document.getElementById("modalPhone").value;
-  closeContactModal();
-  renderContactList();
-  showContactDetails(id);
-}
+async function updateContact(event, id) {
+    event.preventDefault();
 
+    if (!currentUser) return;
+
+    let contact = contacts.find((c) => c.id === id);
+    if (!contact) return;
+
+    const updatedData = {
+        name: document.getElementById("modalName").value.trim(),
+        email: document.getElementById("modalEmail").value.trim(),
+        phone: document.getElementById("modalPhone").value.trim()
+    };
+
+    try {
+        const contactRef = doc(
+            db,
+            "users",
+            currentUser.uid,
+            "contacts",
+            id
+        );
+
+        await updateDoc(contactRef, updatedData);
+
+        Object.assign(contact, updatedData);
+
+        closeContactModal();
+        renderContactList();
+        showContactDetails(id);
+    } catch (error) {
+        console.error("Kontakt konnte nicht aktualisiert werden:", error);
+    }
+}
 /** Extracts and returns the capitalized first letters of the provided name string. */
 function getInitials(name) {
   let parts = name.trim().split(" ");
@@ -199,3 +249,48 @@ function showToast() {
     if (toast) toast.remove();
   }, 3000);
 }
+async function deleteContact(id) {
+    if (!currentUser) return;
+
+    try {
+        const contactRef = doc(
+            db,
+            "users",
+            currentUser.uid,
+            "contacts",
+            id
+        );
+
+        await deleteDoc(contactRef);
+
+        contacts = contacts.filter((contact) => contact.id !== id);
+
+        renderContactList();
+
+        const detailContainer =
+            document.getElementById("contactDetailContainer");
+
+        if (detailContainer) {
+            detailContainer.innerHTML = `
+                <p class="select-hint">
+                    Select a contact to view details.
+                </p>
+            `;
+        }
+
+        closeContactModal();
+        hideMobileDetail();
+    } catch (error) {
+        console.error("Kontakt konnte nicht gelöscht werden:", error);
+    }
+}
+
+window.initContacts = initContacts;
+window.openAddContactModal = openAddContactModal;
+window.openEditModal = openEditModal;
+window.closeContactModal = closeContactModal;
+window.saveNewContact = saveNewContact;
+window.updateContact = updateContact;
+window.deleteContact = deleteContact;
+window.showContactDetails = showContactDetails;
+window.hideMobileDetail = hideMobileDetail;

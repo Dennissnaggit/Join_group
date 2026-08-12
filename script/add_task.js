@@ -1,9 +1,10 @@
 import { auth, db } from "./firebase.js";
 
 import {
-  collection,
-  addDoc,
-  serverTimestamp,
+    collection,
+    addDoc,
+    getDocs,
+    serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 
@@ -11,12 +12,26 @@ import {
  * Main initialization for Add Task page
  */
 async function initAddTask() {
-  if (typeof init === "function") {
-    await init();
-  }
+    if (typeof init === "function") {
+        await init();
+    }
+
+    await waitForAuth();
+
+    await loadContacts();
 }
 
 initAddTask();
+
+function waitForAuth() {
+    return new Promise((resolve) => {
+        const unsubscribe =
+            auth.onAuthStateChanged((user) => {
+                unsubscribe();
+                resolve(user);
+            });
+    });
+}
 
 
 /* =========================================================
@@ -29,29 +44,33 @@ const clearBtn = document.querySelector(".clearBtn");
 const input = document.getElementById("subtaskInput");
 const inputActions = document.getElementById("inputActions");
 
-const inputFieldMulti = document.getElementById(
-  "inputFieldMultiSelect"
-);
+const assignedToWrapper =
+    document.getElementById("assignedToWrapper");
 
-const searchInput = document.getElementById("searchInput");
-const dropdown = document.getElementById("dropdown");
-const selectedItems = document.getElementById("selectedItems");
+const assignedToToggle =
+    document.getElementById("assignedToToggle");
 
-const checkboxes = document.querySelectorAll(
-  '.dropdown input[type="checkbox"]'
-);
+const assignedToDropdown =
+    document.getElementById("assignedToDropdown");
 
-const labels = document.querySelectorAll(".dropdown label");
+const assignedToSearch =
+    document.getElementById("assignedToSearch");
+
+const assignedToOptions =
+    document.getElementById("assignedToOptions");
+
+const assignedToSelected =
+    document.getElementById("assignedToSelected");
+
+
+let availableContacts = [];
+
+let selectedContactIds = [];
 
 const dueDateInput = document.getElementById(
   "exampleFormControlInput1"
 );
 
-const uncheckedImg =
-  "../assets/AdTask/personUnchecked.png";
-
-const checkedImg =
-  "../assets/AdTask/personChecked.png";
 
 
 /* =========================================================
@@ -205,85 +224,230 @@ document
     });
   });
 
+/**
+ * Lädt alle Kontakte des aktuell eingeloggten Users.
+ */
+async function loadContacts() {
+    const user = auth.currentUser;
 
+    if (!user) {
+        console.error("Kontakte konnten nicht geladen werden: Kein User eingeloggt.");
+        return;
+    }
+
+    try {
+        const contactsCollection = collection(
+            db,
+            "users",
+            user.uid,
+            "contacts"
+        );
+
+        const snapshot = await getDocs(contactsCollection);
+
+        availableContacts = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data()
+        }));
+
+        availableContacts.sort((a, b) =>
+            a.name.localeCompare(b.name)
+        );
+
+        renderAssignedToOptions();
+    } catch (error) {
+        console.error(
+            "Fehler beim Laden der Kontakte:",
+            error
+        );
+    }
+}
 /* =========================================================
    ASSIGNED TO DROPDOWN
 ========================================================= */
+function renderAssignedToOptions(searchValue = "") {
+    const normalizedSearch =
+        searchValue.trim().toLowerCase();
 
-inputFieldMulti.addEventListener("click", (event) => {
-  event.stopPropagation();
+    const filteredContacts =
+        availableContacts.filter((contact) =>
+            contact.name
+                .toLowerCase()
+                .includes(normalizedSearch)
+        );
 
-  dropdown.classList.add("active");
-  searchInput.focus();
-});
+    if (filteredContacts.length === 0) {
+        assignedToOptions.innerHTML = `
+            <p class="bat-no-contacts">
+                No contacts found
+            </p>
+        `;
 
-
-/**
- * Ausgewählte Kontakte darstellen.
- */
-function updateSelectedItems() {
-  selectedItems.innerHTML = "";
-
-  checkboxes.forEach((checkbox) => {
-    const label = checkbox.closest("label");
-    const img = label.querySelector(".checkbox-img");
-
-    img.src = checkbox.checked
-      ? checkedImg
-      : uncheckedImg;
-
-    if (checkbox.checked) {
-      const circle = document.createElement("div");
-
-      circle.classList.add("circle");
-      circle.textContent =
-        checkbox.value.charAt(0).toUpperCase();
-
-      circle.title = checkbox.value;
-
-      selectedItems.appendChild(circle);
+        return;
     }
-  });
+
+    assignedToOptions.innerHTML =
+        filteredContacts
+            .map(createAssignedContactTemplate)
+            .join("");
 }
 
+function createAssignedContactTemplate(contact) {
+    const selected =
+        selectedContactIds.includes(contact.id);
 
-checkboxes.forEach((checkbox) => {
-  checkbox.addEventListener(
-    "change",
-    updateSelectedItems
-  );
+    const initials =
+        getContactInitials(contact.name);
+
+    return `
+        <div
+            class="bat-contact-option ${selected ? "selected" : ""}"
+            data-contact-id="${contact.id}"
+        >
+
+            <div class="bat-contact-name-wrap">
+
+                <div
+                    class="bat-contact-avatar"
+                    style="background-color: ${contact.color}"
+                >
+                    ${initials}
+                </div>
+
+                <span>${contact.name}</span>
+
+            </div>
+
+            <div class="bat-checkbox">
+                ${selected ? "✓" : ""}
+            </div>
+
+        </div>
+    `;
+}
+
+function getContactInitials(name) {
+    const parts =
+        name.trim().split(/\s+/);
+
+    if (parts.length === 1) {
+        return parts[0]
+            .charAt(0)
+            .toUpperCase();
+    }
+
+    return (
+        parts[0].charAt(0) +
+        parts[parts.length - 1].charAt(0)
+    ).toUpperCase();
+}
+
+assignedToOptions.addEventListener(
+    "click",
+    (event) => {
+        const option =
+            event.target.closest(
+                ".bat-contact-option"
+            );
+
+        if (!option) {
+            return;
+        }
+
+        const contactId =
+            option.dataset.contactId;
+
+        toggleAssignedContact(contactId);
+    }
+);
+
+function toggleAssignedContact(contactId) {
+    if (selectedContactIds.includes(contactId)) {
+        selectedContactIds =
+            selectedContactIds.filter(
+                (id) => id !== contactId
+            );
+    } else {
+        selectedContactIds.push(contactId);
+    }
+
+    renderAssignedToOptions(
+        assignedToSearch.value
+    );
+
+    renderSelectedContacts();
+}
+
+function renderSelectedContacts() {
+    assignedToSelected.innerHTML =
+        selectedContactIds
+            .map((contactId) => {
+
+                const contact =
+                    availableContacts.find(
+                        (contact) =>
+                            contact.id === contactId
+                    );
+
+                if (!contact) {
+                    return "";
+                }
+
+                const initials =
+                    getContactInitials(
+                        contact.name
+                    );
+
+                return `
+                    <div
+                        class="bat-selected-avatar"
+                        style="background-color: ${contact.color}"
+                        title="${contact.name}"
+                    >
+                        ${initials}
+                    </div>
+                `;
+            })
+            .join("");
+}
+
+assignedToToggle.addEventListener(
+    "click",
+    (event) => {
+        event.stopPropagation();
+
+        assignedToDropdown.classList.toggle(
+            "d-none"
+        );
+
+        if (
+            !assignedToDropdown.classList.contains(
+                "d-none"
+            )
+        ) {
+            assignedToSearch.focus();
+        }
+    }
+);
+
+assignedToSearch.addEventListener("input", () => {
+    renderAssignedToOptions(
+        assignedToSearch.value
+    );
 });
 
 
-/**
- * Kontakte durchsuchen.
- */
-searchInput.addEventListener("input", () => {
-  const searchValue =
-    searchInput.value.toLowerCase();
-
-  labels.forEach((label) => {
-    const name = label
-      .querySelector(".name-wrap")
-      .textContent
-      .toLowerCase();
-
-    label.style.display = name.includes(searchValue)
-      ? "flex"
-      : "none";
-  });
-});
-
-
-/**
- * Dropdown schließen, wenn außerhalb geklickt wird.
- */
 document.addEventListener("click", (event) => {
-  if (!event.target.closest(".multi-select")) {
-    dropdown.classList.remove("active");
-  }
+    if (
+        !event.target.closest(
+            "#assignedToWrapper"
+        )
+    ) {
+        assignedToDropdown.classList.add(
+            "d-none"
+        );
+    }
 });
-
 
 /* =========================================================
    DATUM
@@ -315,52 +479,38 @@ clearBtn.addEventListener("click", () => {
  * Komplettes Add-Task-Formular zurücksetzen.
  */
 function resetAddTaskForm() {
-  addTaskForm.reset();
+    addTaskForm.reset();
 
-  // Priority Bilder zurücksetzen
-  document.querySelector(".urgentBtn img").src =
-    "../assets/AdTask/prioUrgentNotActive.png";
+    // Priority zurücksetzen
+    document.querySelector(".urgentBtn img").src =
+        "../assets/AdTask/prioUrgentNotActive.png";
 
-  document.querySelector(".mediumBtn img").src =
-    "../assets/AdTask/prioMedNotActive.png";
+    document.querySelector(".mediumBtn img").src =
+        "../assets/AdTask/prioMedNotActive.png";
 
-  document.querySelector(".lowBtn img").src =
-    "../assets/AdTask/prioLowNotActive.png";
+    document.querySelector(".lowBtn img").src =
+        "../assets/AdTask/prioLowNotActive.png";
 
-  // Assigned To zurücksetzen
-  checkboxes.forEach((checkbox) => {
-    checkbox.checked = false;
+    // Assigned To zurücksetzen
+    selectedContactIds = [];
 
-    const img = checkbox
-      .closest("label")
-      .querySelector(".checkbox-img");
+    assignedToSearch.value = "";
 
-    img.src = uncheckedImg;
-  });
+    assignedToSelected.innerHTML = "";
 
-  selectedItems.innerHTML = "";
+    assignedToDropdown.classList.add("d-none");
 
-  // Suche zurücksetzen
-  searchInput.value = "";
+    renderAssignedToOptions();
 
-  // Alle Kontakte wieder anzeigen
-  labels.forEach((label) => {
-    label.style.display = "flex";
-  });
+    // Subtasks löschen
+    document.getElementById(
+        "subtaskList"
+    ).innerHTML = "";
 
-  // Dropdown schließen
-  dropdown.classList.remove("active");
+    input.value = "";
 
-  // Subtasks löschen
-  document.getElementById(
-    "subtaskList"
-  ).innerHTML = "";
-
-  // Subtask Input zurücksetzen
-  input.value = "";
-
-  inputActions.classList.add("d-none");
-  inputActions.classList.remove("d-flex");
+    inputActions.classList.add("d-none");
+    inputActions.classList.remove("d-flex");
 }
 
 
@@ -395,11 +545,7 @@ function getSubtasks() {
  * Alle ausgewählten Kontakte holen.
  */
 function getAssignedTo() {
-  return [
-    ...document.querySelectorAll(
-      '#dropdown input[type="checkbox"]:checked'
-    ),
-  ].map((checkbox) => checkbox.value);
+    return [...selectedContactIds];
 }
 
 
