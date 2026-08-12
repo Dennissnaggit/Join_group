@@ -81,8 +81,9 @@ function checkAuthentication() {
   let user = localStorage.getItem("currentUser");
   let currentFile = window.location.pathname.split("/").pop();
   let isLegalPage = currentFile === "legal_notice.html" || currentFile === "privacy_policy.html";
+  let isPublicPage = currentFile === "sign-up.html" || currentFile === "index.html" || isLegalPage;
   
-  if (!user && !window.location.pathname.includes("index.html") && !isLegalPage) {
+  if (!user && !isPublicPage) {
     window.location.href = "../index.html";
   }
 }
@@ -136,6 +137,19 @@ function handleInternalLayout(isSpecialPage) {
 
   if (loginBtn) loginBtn.style.setProperty("display", "none");
   if (userInitials) userInitials.style.setProperty("display", "flex");
+
+  // Initials aus localStorage lesen und im Header setzen
+  const initialsEl = document.getElementById("userInitials");
+  if (initialsEl) {
+    const stored = localStorage.getItem("currentUser");
+    const user   = stored ? JSON.parse(stored) : null;
+    const name   = localStorage.getItem("userName") || user?.name || "";
+    const parts  = name.trim().split(/\s+/).filter(Boolean);
+    const initials = parts.length >= 2
+      ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+      : (parts[0]?.[0] || "?").toUpperCase();
+    initialsEl.textContent = initials;
+  }
 }
 
 /**
