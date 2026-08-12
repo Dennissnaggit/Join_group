@@ -1,4 +1,10 @@
 window.addEventListener("load", () => {
+  let currentFile = window.location.pathname.split("/").pop();
+
+  if (currentFile && currentFile !== "index.html") {
+    document.body.classList.add("animation-done");
+    return;
+  }
   if (sessionStorage.getItem("loginAnimationDone")) {
     document.body.classList.add("animation-done");
   } else {

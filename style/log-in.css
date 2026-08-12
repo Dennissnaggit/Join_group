@@ -87,6 +87,68 @@
   font-weight: 700;
 }
 
+sign-up-a {
+  text-decoration: none;
+  color: white;
+}
+
+.sign-up-link {
+  text-decoration: none;
+}
+
+.sign-up-page .start-logo {
+  min-height: 100svh;
+  height: 100svh;
+  padding: 32px 16px 24px;
+  box-sizing: border-box;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.sign-up-page .logo {
+  width: 100px;
+  top: 40px;
+  left: 40px;
+  transform: translate(0, 0);
+  animation: none;
+  opacity: 1;
+}
+
+.sign-up-page .logo-responsive {
+  display: none !important;
+}
+
+.sign-up-page .log-in {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  gap: 24px;
+}
+
+.sign-up-page .legals {
+  position: static;
+  margin-top: 20px;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.sign-up-page .login-box {
+  gap: 12px;
+}
+
+.sign-up-page .btn-group {
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+
+.sign-up-page .form-check {
+  padding-top: 20px;
+}
+
 .button-dark:hover {
   background: rgb(35, 45, 60);
   transition: background 0.2s ease;
@@ -158,10 +220,6 @@
   color: rgba(168, 168, 168, 1);
 }
 
-.sign-up-a {
-  text-decoration: none;
-  color: white;
-}
 .sign-up-head {
   position: relative;
   display: flex;
@@ -297,6 +355,41 @@
 }
 
 @media (max-width: 768px) {
+  .sign-up-page .start-logo {
+    justify-content: space-between;
+    padding: 88px 16px 20px;
+  }
+
+  .sign-up-page .logo {
+    width: 64px;
+    top: 24px;
+    left: 24px;
+  }
+
+  .sign-up-page .log-in {
+    width: 100%;
+    max-width: calc(100% - 16px);
+    padding: 24px 24px;
+    gap: 16px;
+  }
+
+  .sign-up-page .login-box {
+    gap: 6px;
+  }
+
+  .sign-up-page .form-check {
+    padding-top: 12px;
+  }
+
+  .sign-up-page .btn-group {
+    margin-top: 8px;
+  }
+
+  .sign-up-page .legals {
+    margin-top: 16px;
+    gap: 24px;
+  }
+
   .logo {
     position: absolute;
     width: 64px;
@@ -414,9 +507,14 @@ body.animation-done .logo {
     left: 30px;
     opacity: 1 !important;
   }
-.log-in {
-  padding: 20px 48px;
-}
+  .log-in {
+    padding: 20px 48px;
+  }
+
+  .sign-up-page .log-in {
+    padding: 32px 24px;
+  }
+
   body.animation-done .logo-responsive {
     display: none !important;
   }
