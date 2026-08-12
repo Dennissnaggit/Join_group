@@ -149,7 +149,7 @@ function handleInternalLayout(isSpecialPage) {
   if (initialsEl) {
     const stored = localStorage.getItem("currentUser");
     const user   = stored ? JSON.parse(stored) : null;
-    const name   = localStorage.getItem("userName") || user?.name || "";
+    const name   = user?.name || localStorage.getItem("userName") || "";
     const parts  = name.trim().split(/\s+/).filter(Boolean);
     const initials = parts.length >= 2
       ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()

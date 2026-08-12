@@ -65,7 +65,7 @@
           </div>
           <div class="btn-group">
             <button type="submit" class="button-dark">Log In</button>
-            <a class="guest-login" href="./pages/summary.html" onclick="localStorage.setItem('currentUser', JSON.stringify({email: 'guest@join.com', name: 'Guest User'}))">
+            <a class="guest-login" href="./pages/summary.html" onclick="localStorage.removeItem('userName'); localStorage.setItem('currentUser', JSON.stringify({email: 'guest@join.com', name: 'Guest User', isGuest: true}))">
                 <button type="button" class="button-outline">Guest Log in</button>
             </a>
           </div>
@@ -79,8 +79,8 @@
   ></div>
 </section>
       <div class="legals">
-    <a href="#">Privacy Policy</a>
-     <a href="#">Legal Notice</a>
+    <a href="./pages/privacy_policy.html?view=external">Privacy Policy</a>
+     <a href="./pages/legal_notice.html?view=external">Legal Notice</a>
      </div>
     </section>
     <script type="module" src="./script/signIn.js"></script>

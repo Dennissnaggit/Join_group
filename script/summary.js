@@ -1,12 +1,16 @@
+import { state } from "./board/board-state.js";
+import { loadTasksFromFirestore } from "./board/board-firestore.js";
+
 /**
  * Main initialization for Summary page
  */
 async function initSummary() {
   await init();
+  const tasks = await getSummaryTasks();
 
   setGreeting();
   displayUserName();
-  renderSummaryNumbers();
+  renderSummaryNumbers(tasks);
 }
 
 /**
@@ -27,7 +31,7 @@ function setGreeting() {
  * Retrieves the logged-in user name from LocalStorage
  */
 function displayUserName() {
-  let activeUserRaw = localStorage.getItem("activeUser");
+  let activeUserRaw = localStorage.getItem("currentUser") || localStorage.getItem("activeUser");
   let nameDisplay = document.getElementById("userNameDisplay");
 
   if (!nameDisplay) return;
@@ -45,12 +49,53 @@ function displayUserName() {
   }
 }
 
+async function getSummaryTasks() {
+  const currentUser = getCurrentUser();
+  if (currentUser?.isGuest || currentUser?.name === "Guest User") {
+    return normalizeSummaryTasks(JSON.parse(localStorage.getItem("tasks")) || []);
+  }
+
+  await loadTasksFromFirestore();
+  return normalizeSummaryTasks(state.tasks);
+}
+
+function getCurrentUser() {
+  try {
+    return JSON.parse(localStorage.getItem("currentUser") || "null");
+  } catch {
+    return null;
+  }
+}
+
+function normalizeSummaryTasks(tasks) {
+  return (Array.isArray(tasks) ? tasks : []).map(task => ({
+    ...task,
+    status: normalizeSummaryStatus(task?.status),
+  }));
+}
+
+function normalizeSummaryStatus(status) {
+  const statusMap = {
+    todo: "todo",
+    "to-do": "todo",
+    progress: "in-progress",
+    inprogress: "in-progress",
+    "in progress": "in-progress",
+    "in-progress": "in-progress",
+    feedback: "await-feedback",
+    awaitfeedback: "await-feedback",
+    "await feedback": "await-feedback",
+    "await-feedback": "await-feedback",
+    done: "done",
+  };
+
+  return statusMap[String(status || "todo").trim().toLowerCase()] || "todo";
+}
+
 /**
  * Logic to count tasks and update the dashboard numbers
  */
-function renderSummaryNumbers() {
-  let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-
+function renderSummaryNumbers(tasks = []) {
   updateElementText(
     "todo-count",
     tasks.filter((t) => t.status === "todo").length
@@ -62,11 +107,11 @@ function renderSummaryNumbers() {
   updateElementText("board-count", tasks.length);
   updateElementText(
     "progress-count",
-    tasks.filter((t) => t.status === "progress").length
+    tasks.filter((t) => t.status === "in-progress").length
   );
   updateElementText(
     "feedback-count",
-    tasks.filter((t) => t.status === "feedback").length
+    tasks.filter((t) => t.status === "await-feedback").length
   );
   updateUrgentTask(tasks);
 }
@@ -106,3 +151,5 @@ function updateElementText(id, value) {
   let element = document.getElementById(id);
   if (element) element.innerText = value;
 }
+
+window.initSummary = initSummary;

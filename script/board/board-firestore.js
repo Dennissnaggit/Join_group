@@ -30,12 +30,30 @@ function normalizeBoardTask(id, data) {
     title:      data.title       || "",
     description:data.description || "",
     type:       data.type || categoryMap[data.category] || "User Story",
-    status:     data.status   || "todo",
+    status:     normalizeTaskStatus(data.status),
     priority:   data.priority || "medium",
     assignedTo: Array.isArray(data.assignedTo) ? data.assignedTo : [],
     dueDate:    data.dueDate || "",
     subtasks:   normalizeSubtasks(data.subtasks),
   };
+}
+
+function normalizeTaskStatus(status) {
+  const statusMap = {
+    todo: "todo",
+    "to-do": "todo",
+    progress: "in-progress",
+    inprogress: "in-progress",
+    "in progress": "in-progress",
+    "in-progress": "in-progress",
+    feedback: "await-feedback",
+    awaitfeedback: "await-feedback",
+    "await feedback": "await-feedback",
+    "await-feedback": "await-feedback",
+    done: "done",
+  };
+
+  return statusMap[String(status || "todo").trim().toLowerCase()] || "todo";
 }
 
 function normalizeSubtasks(raw) {

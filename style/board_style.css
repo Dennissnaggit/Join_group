@@ -1228,7 +1228,8 @@ body.board-no-scroll {
 }
 
 .bat-btn-create {
-  width: 126px;
+  min-width: 126px;
+  width: fit-content;
   height: 54px;
   border: none;
   background: #2a3647;
