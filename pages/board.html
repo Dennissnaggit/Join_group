@@ -30,14 +30,15 @@
             >
               <h1>Board</h1>
 
-              <a
+              <button
+                type="button"
                 class="board-add-task-btn"
-                href="./add_task.html"
+                onclick="openAddTaskModal('todo')"
                 aria-label="Add task"
               >
                 <span class="board-add-task-text">Add task</span>
                 <span class="board-add-task-plus">+</span>
-              </a>
+              </button>
 
               <div class="board-toolbar" aria-label="Board actions">
                 <div class="board-search-wrapper">
@@ -60,13 +61,14 @@
               <article class="board-column" data-status="todo">
                 <header class="board-column-header">
                   <h2>To do</h2>
-                  <a
+                  <button
+                    type="button"
                     class="board-column-add-btn"
-                    href="./add_task.html"
+                    onclick="openAddTaskModal('todo')"
                     aria-label="Add task to To do"
                   >
                     <img src="../assets/icons/board/plus_button.png" alt="" />
-                  </a>
+                  </button>
                 </header>
                 <div id="boardColumnTodo" class="board-task-list"></div>
               </article>
@@ -74,13 +76,14 @@
               <article class="board-column" data-status="in-progress">
                 <header class="board-column-header">
                   <h2>In progress</h2>
-                  <a
+                  <button
+                    type="button"
                     class="board-column-add-btn"
-                    href="./add_task.html"
+                    onclick="openAddTaskModal('in-progress')"
                     aria-label="Add task to In progress"
                   >
                     <img src="../assets/icons/board/plus_button.png" alt="" />
-                  </a>
+                  </button>
                 </header>
                 <div id="boardColumnInProgress" class="board-task-list"></div>
               </article>
@@ -88,13 +91,14 @@
               <article class="board-column" data-status="await-feedback">
                 <header class="board-column-header">
                   <h2>Await feedback</h2>
-                  <a
+                  <button
+                    type="button"
                     class="board-column-add-btn"
-                    href="./add_task.html"
+                    onclick="openAddTaskModal('await-feedback')"
                     aria-label="Add task to Await feedback"
                   >
                     <img src="../assets/icons/board/plus_button.png" alt="" />
-                  </a>
+                  </button>
                 </header>
                 <div
                   id="boardColumnAwaitFeedback"
@@ -105,13 +109,14 @@
               <article class="board-column" data-status="done">
                 <header class="board-column-header">
                   <h2>Done</h2>
-                  <a
+                  <button
+                    type="button"
                     class="board-column-add-btn"
-                    href="./add_task.html"
+                    onclick="openAddTaskModal('done')"
                     aria-label="Add task to Done"
                   >
                     <img src="../assets/icons/board/plus_button.png" alt="" />
-                  </a>
+                  </button>
                 </header>
                 <div id="boardColumnDone" class="board-task-list"></div>
               </article>
@@ -127,6 +132,19 @@
               <article
                 id="boardTaskModalContent"
                 class="board-task-modal"
+              ></article>
+            </div>
+
+            <div
+              id="boardAddTaskOverlay"
+              class="board-add-task-overlay"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Add task"
+            >
+              <article
+                id="boardAddTaskModalContent"
+                class="board-add-task-modal"
               ></article>
             </div>
           </div>
