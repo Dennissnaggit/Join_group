@@ -1,7 +1,9 @@
 .board-content-container {
   width: 100%;
   max-width: 78rem;
-  overflow-x: hidden;
+  /* no overflow-x:hidden — it clips card box-shadows */
+  padding: 0 4px;
+  box-sizing: border-box;
 }
 
 body.board-no-scroll {
@@ -121,6 +123,10 @@ body.board-no-scroll {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
 }
 
 .board-column-add-btn img {
@@ -139,6 +145,8 @@ body.board-no-scroll {
   min-height: 8rem;
   width: 100%;
   border-radius: 0.75rem;
+  padding: 4px;
+  box-sizing: border-box;
   transition: background-color 0.15s ease, outline-color 0.15s ease;
 }
 
@@ -182,37 +190,69 @@ body.board-no-scroll {
   flex-direction: column;
   gap: 0.75rem;
   cursor: grab;
-  width: 252px;
-  min-width: 252px;
-  max-width: 252px;
-  flex: 0 0 252px;
+  width: 100%;
   height: fit-content;
   box-sizing: border-box;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
+/* Hover: lift only when not grabbed */
+.board-task-card:hover:not(:active):not(.board-task-dragging) {
+  box-shadow: 0px 4px 16px 6px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+/* :active fires on mousedown → BEFORE Chrome captures the drag ghost.
+   transition:none = rotation is instant = ghost snapshot already at -5deg */
 .board-task-card:active {
   cursor: grabbing;
+  transform: rotate(-5deg);
+  opacity: 0.85;
+  box-shadow: 0px 0px 10px 3px #00000014;
+  transition: none;
 }
 
-.board-task-dragging {
-  opacity: 0.55;
+/* Placeholder card that stays in the column while dragging */
+.board-task-card.board-task-dragging {
+  cursor: grabbing;
+  transform: rotate(-5deg);
+  opacity: 0.45;
+  box-shadow: 0px 0px 10px 3px #00000014;
+  transition: none;
+}
+
+/* ── Drop-in animation (applied to the freshly rendered card after drop) ── */
+
+@keyframes board-card-drop-in {
+  0%   { transform: rotate(-4deg) translateY(-14px) scale(1.04); opacity: 0.6; }
+  55%  { transform: rotate(0.8deg) translateY(3px)  scale(1.01); opacity: 1; }
+  100% { transform: rotate(0deg)  translateY(0)     scale(1);    opacity: 1; }
+}
+
+.board-task-drop-in {
+  animation: board-card-drop-in 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
 .board-task-type {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: fit-content;
-  max-width: 100%;
+  height: 27px;
   align-self: flex-start;
   font-size: 0.75rem;
   font-weight: 700;
   color: var(--white);
-  border-radius: 999px;
-  padding: 0.25rem 0.5rem;
-  background-color: #2a8af6;
+  border-radius: 8px;
+  gap: 10px;
+  padding: 4px 16px;
+  background-color: #0038FF;
+  box-sizing: border-box;
+  white-space: nowrap;
 }
 
 .board-task-type.technical-task {
-  background-color: #25c39e;
+  background-color: #1FD7C1;
 }
 
 .board-task-title {
@@ -401,22 +441,97 @@ body.board-no-scroll {
   gap: 0.875rem;
 }
 
-.board-modal-user-item,
 .board-modal-subtask-item {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: 0.625rem;
+  gap: 0.5rem;
   font-size: 1.063rem;
   color: #000000;
-  padding-left: 0;
+  padding: 3px 6px;
+  border-radius: 6px;
+}
+
+/* Checkbox button */
+.board-modal-check-btn {
+  display: inline-flex;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
 .board-modal-check-icon {
-  width: 1.125rem;
-  height: 1.125rem;
-  object-fit: contain;
+  width: 1.25rem;
+  height: 1.25rem;
+  display: block;
+}
+
+/* Title text */
+.board-modal-subtask-title {
+  flex: 1;
+  cursor: text;
+  user-select: none;
+}
+
+/* Action buttons (edit/delete) — hidden until hover or editing */
+.board-modal-subtask-actions {
+  display: none;
+  align-items: center;
+  gap: 3px;
+  margin-left: auto;
   flex-shrink: 0;
+}
+
+.board-modal-subtask-item:hover .board-modal-subtask-actions,
+.board-modal-subtask-item.is-editing .board-modal-subtask-actions {
+  display: flex;
+}
+
+.board-modal-subtask-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 3px;
+  cursor: pointer;
+  border-radius: 4px;
+  color: #2a3647;
+  font-size: 1rem;
+  line-height: 1;
+  transition: background 0.1s;
+}
+
+.board-modal-subtask-btn:hover {
+  background: #d1d1d1;
+}
+
+.board-modal-subtask-btn .board-modal-action-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Separator between action icons */
+.board-modal-subtask-sep {
+  width: 1px;
+  height: 1rem;
+  background: #d1d1d1;
+  flex-shrink: 0;
+}
+
+/* Inline edit input */
+.board-modal-subtask-input {
+  flex: 1;
+  height: 1.75rem;
+  border: none;
+  border-bottom: 2px solid #2a3647;
+  background: transparent;
+  font-size: 1.063rem;
+  color: #000;
+  outline: none;
+  padding: 0 2px;
+  font-family: inherit;
 }
 
 .board-modal-no-subtasks {
@@ -531,10 +646,7 @@ body.board-no-scroll {
   }
 
   .board-task-card {
-    width: 252px;
-    min-width: 252px;
-    max-width: 252px;
-    flex: 0 0 252px;
+    width: 100%;
   }
 
   .board-task-modal {
@@ -552,5 +664,595 @@ body.board-no-scroll {
   .board-modal-user-item,
   .board-modal-subtask-item {
     font-size: 1.063rem;
+  }
+}
+
+
+/* ==========================================================================
+   ADD TASK MODAL & EDIT TASK MODAL  (bat-* classes)
+   Shared by board-add-task.js and board-modal.js (edit mode)
+========================================================================== */
+
+/* ── Overlays ── */
+
+.board-add-task-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.15);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  z-index: 1500;
+  overflow-y: auto;
+}
+
+.board-add-task-overlay.is-open {
+  display: flex;
+}
+
+.board-add-task-modal {
+  width: min(96vw, 860px);
+  height: min(92vh, 870px);
+  overflow-y: auto;
+  border-radius: 30px;
+  background-color: #ffffff;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Wide mode used by Edit Task (reuses the narrow task overlay) */
+.board-task-modal--wide {
+  width: min(96vw, 860px) !important;
+  height: min(92vh, 870px);
+  overflow-y: auto;
+  border-radius: 30px;
+  background-color: #ffffff;
+  padding: 1.5rem 2rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* ── Header ── */
+
+.bat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid #d1d1d1;
+  flex-shrink: 0;
+}
+
+.bat-title {
+  font-size: 2.75rem;
+  font-weight: 700;
+  color: var(--primary-color, #2a3647);
+  margin: 0;
+  line-height: 1.1;
+}
+
+/* ── Two-column body ── */
+
+.bat-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.bat-left,
+.bat-right {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.bat-left {
+  gap: 16px;
+}
+
+.bat-right {
+  gap: 24px;
+}
+
+.bat-divider {
+  width: 1px;
+  align-self: stretch;
+  background-color: #d1d1d1;
+  margin: 0 2rem;
+  flex-shrink: 0;
+}
+
+/* ── Fields & Labels ── */
+
+.bat-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.bat-label {
+  font-family: Inter, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: var(--primary-color, #2a3647);
+}
+
+.bat-required {
+  color: #ff8190;
+  margin-left: 0.125rem;
+}
+
+.bat-error {
+  font-size: 0.875rem;
+  color: #ff8190;
+}
+
+/* ── Inputs ── */
+
+.bat-input {
+  width: 100%;
+  height: 3rem;
+  border: 1px solid #d1d1d1;
+  border-radius: 0.625rem;
+  padding: 0 0.875rem;
+  font-size: 1rem;
+  color: var(--primary-color, #2a3647);
+  background-color: #ffffff;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.bat-input:focus {
+  border-color: #29abe2;
+}
+
+.bat-textarea {
+  height: 100%;
+  min-height: 5rem;
+  resize: vertical;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+/* Description field grows to fill remaining left-column space */
+.bat-field--grow {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.bat-field--grow .bat-textarea {
+  flex: 1;
+  height: auto;
+  resize: none;
+}
+
+.bat-select {
+  cursor: pointer;
+  appearance: auto;
+}
+
+/* ── Priority buttons ── */
+
+.bat-priority-group {
+  display: flex;
+  gap: 8px;
+}
+
+.bat-prio-btn {
+  flex: 1;
+  min-width: 0;
+  height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 4px;
+  border: 1px solid #d1d1d1;
+  border-radius: 10px;
+  background: transparent;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--primary-color, #2a3647);
+  white-space: nowrap;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+
+.bat-prio-btn.bat-prio-active.bat-prio-urgent {
+  background-color: #ff3d00;
+  border-color: #ff3d00;
+  color: #ffffff;
+}
+
+.bat-prio-btn.bat-prio-active.bat-prio-medium {
+  background-color: #ffa800;
+  border-color: #ffa800;
+  color: #ffffff;
+}
+
+.bat-prio-btn.bat-prio-active.bat-prio-low {
+  background-color: #7ae229;
+  border-color: #7ae229;
+  color: #ffffff;
+}
+
+.bat-prio-img {
+  width: 1.25rem;
+  height: 1.25rem;
+  object-fit: contain;
+}
+
+/* ── Assigned-to dropdown ── */
+
+.bat-dropdown-wrapper {
+  position: relative;
+}
+
+.bat-dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+}
+
+.bat-dropdown-arrow {
+  font-size: 1rem;
+  color: var(--primary-color, #2a3647);
+  flex-shrink: 0;
+}
+
+.bat-dropdown {
+  position: absolute;
+  top: calc(100% + 0.25rem);
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #d1d1d1;
+  border-radius: 0.625rem;
+  z-index: 200;
+  max-height: 11rem;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.bat-dropdown-search-wrapper {
+  padding: 0.5rem 0.625rem 0.25rem;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.bat-dropdown-search {
+  width: 100%;
+  height: 2.25rem;
+  border: 1px solid #d1d1d1;
+  border-radius: 0.5rem;
+  padding: 0 0.625rem;
+  font-size: 0.9375rem;
+  color: var(--primary-color, #2a3647);
+  background: #ffffff;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.bat-dropdown-search:focus {
+  border-color: #29abe2;
+}
+
+.bat-contact-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.875rem;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.bat-contact-option:hover {
+  background-color: #f0f4ff;
+}
+
+.bat-no-contacts {
+  padding: 0.75rem 0.875rem;
+  margin: 0;
+  font-size: 0.9375rem;
+  color: #a0a0a0;
+  font-style: italic;
+  text-align: center;
+}
+
+.bat-category-option {
+  padding: 0.625rem 0.875rem;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--primary-color, #2a3647);
+  border-radius: 0.5rem;
+  transition: background 0.1s;
+}
+
+.bat-category-option:hover {
+  background-color: #f0f4ff;
+}
+
+.bat-category-option.selected {
+  font-weight: 700;
+  background-color: #eef4ff;
+}
+
+.bat-contact-name-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1rem;
+  color: var(--primary-color, #2a3647);
+}
+
+.bat-selected-avatars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-top: 0.375rem;
+}
+
+/* ── Subtasks ── */
+
+.bat-subtask-input-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.bat-subtask-input-row .bat-input {
+  flex: 1;
+}
+
+.bat-subtask-add-btn {
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid #d1d1d1;
+  border-radius: 0.625rem;
+  background: transparent;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--primary-color, #2a3647);
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s;
+}
+
+.bat-subtask-add-btn:hover {
+  background-color: #f0f4ff;
+}
+
+.bat-subtask-list {
+  list-style: none;
+  margin: 0.375rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-height: 8rem;
+  overflow-y: auto;
+}
+
+.bat-subtask-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 2rem;
+  padding: 0 0.625rem;
+  border-radius: 0.375rem;
+  font-size: 0.9375rem;
+  color: var(--primary-color, #2a3647);
+  box-sizing: border-box;
+}
+
+/* Actions always in flow — opacity prevents layout shift */
+.bat-subtask-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.1s;
+}
+
+.bat-subtask-item:hover .bat-subtask-actions,
+.bat-subtask-item.is-editing .bat-subtask-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.bat-subtask-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 3px;
+  cursor: pointer;
+  border-radius: 4px;
+  color: var(--primary-color, #2a3647);
+  font-size: 1rem;
+  line-height: 1;
+  transition: background 0.1s;
+}
+
+.bat-subtask-action-btn:hover {
+  background: #e0e0e0;
+}
+
+.bat-subtask-action-btn .board-modal-action-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.bat-subtask-action-sep {
+  width: 1px;
+  height: 1rem;
+  background: #d1d1d1;
+  flex-shrink: 0;
+}
+
+/* Inline edit input inside subtask item */
+.bat-subtask-edit-input {
+  flex: 1;
+  height: 100%;
+  border: none;
+  border-bottom: 1px solid #005DFF;
+  background: #FFFFFF;
+  font-size: 0.9375rem;
+  color: var(--primary-color, #2a3647);
+  outline: none;
+  padding: 0 2px;
+  font-family: inherit;
+  border-radius: 0;
+  box-sizing: border-box;
+}
+
+.bat-subtask-text {
+  flex: 1;
+  cursor: text;
+  line-height: 2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Footer ── */
+
+.bat-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid #d1d1d1;
+  flex-shrink: 0;
+}
+
+.bat-required-hint {
+  font-size: 0.9375rem;
+  color: var(--primary-color, #2a3647);
+  margin: 0;
+}
+
+.bat-actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.bat-btn-cancel {
+  width: 126px;
+  height: 54px;
+  border: 1px solid #2a3647;
+  background: transparent;
+  color: #2a3647;
+  border-radius: 10px;
+  padding: 16px;
+  gap: 4px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s, transform 0.1s;
+}
+
+.bat-btn-cancel:hover {
+  background: #2a3647;
+  color: #ffffff;
+  box-shadow: 0 4px 8px rgba(42, 54, 71, 0.25);
+}
+
+.bat-btn-cancel:active {
+  transform: scale(0.97);
+}
+
+.bat-btn-create {
+  width: 126px;
+  height: 54px;
+  border: none;
+  background: #2a3647;
+  color: #ffffff;
+  border-radius: 10px;
+  padding: 16px;
+  gap: 4px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
+}
+
+.bat-btn-create:hover {
+  background: #1a2436;
+  box-shadow: 0 4px 8px rgba(42, 54, 71, 0.35);
+}
+
+.bat-btn-create:active {
+  transform: scale(0.97);
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 767px) {
+  .board-add-task-modal,
+  .board-task-modal--wide {
+    padding: 1.25rem;
+    border-radius: 1rem;
+  }
+
+  .bat-title {
+    font-size: 2rem;
+  }
+
+  .bat-body {
+    flex-direction: column;
+  }
+
+  .bat-divider {
+    width: 100%;
+    height: 1px;
+    margin: 0.5rem 0;
+  }
+
+  .bat-priority-group {
+    flex-wrap: wrap;
+  }
+
+  .bat-btn-cancel,
+  .bat-btn-create {
+    height: 3rem;
+    font-size: 1rem;
+    padding: 0 1rem;
   }
 }
