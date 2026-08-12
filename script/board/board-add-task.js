@@ -55,7 +55,7 @@ function buildAddTaskHTML(defaultStatus) {
       <div class="bat-actions">
         <button type="button" id="batCancelBtn" class="bat-btn-cancel">Cancel &#x2715;</button>
         <button type="button" id="batCreateBtn" class="bat-btn-create" data-status="${defaultStatus}">
-          Create Task &#x2713;
+          Create Task <img src="../assets/icons/board/subtasks/check_white.svg" alt="save" width="24" height="24" style="vertical-align:middle;margin-left:4px">
         </button>
       </div>
     </div>`;
@@ -120,9 +120,14 @@ function buildRightColumn(defaultStatus) {
       </div>
       <div class="bat-field">
         <label class="bat-label">Subtasks</label>
-        <div class="bat-subtask-input-row">
-          <input id="batSubtaskInput" class="bat-input" type="text" placeholder="Add new subtask">
-          <button type="button" id="batSubtaskAdd" class="bat-subtask-add-btn">+</button>
+        <div class="bat-subtask-input-wrap">
+          <input id="batSubtaskInput" class="bat-input bat-subtask-field" type="text" placeholder="Add new subtask">
+          <div class="bat-subtask-input-icons is-empty">
+            <button type="button" class="bat-subtask-icon-btn bat-si-plus">+</button>
+            <button type="button" class="bat-subtask-icon-btn bat-si-clear"><img src="../assets/icons/board/subtasks/close.svg" alt="x" width="16" height="16"></button>
+            <span class="bat-si-sep"></span>
+            <button type="button" class="bat-subtask-icon-btn bat-si-confirm"><img src="../assets/icons/board/subtasks/mark.svg" alt="ok" width="16" height="16"></button>
+          </div>
         </div>
         <ul id="batSubtaskList" class="bat-subtask-list"></ul>
       </div>
@@ -206,24 +211,38 @@ function setupContactDropdown() {
 }
 
 function setupSubtaskInput() {
+  const input  = document.getElementById("batSubtaskInput");
+  const list   = document.getElementById("batSubtaskList");
+  const wrap   = input?.parentElement;
+  const icons  = wrap?.querySelector(".bat-subtask-input-icons");
+
+  const setEmpty  = () => { icons?.classList.add("is-empty");  icons?.classList.remove("is-typing"); };
+  const setTyping = () => { icons?.classList.remove("is-empty"); icons?.classList.add("is-typing"); };
+
   const addItem = () => {
-    const input = document.getElementById("batSubtaskInput");
-    const list  = document.getElementById("batSubtaskList");
-    const text  = input?.value.trim();
+    const text = input?.value.trim();
     if (!text || !list) return;
     const li = document.createElement("li");
     li.className = "bat-subtask-item";
-    li.innerHTML = `<span class="bat-subtask-text">• ${escapeHtml(text)}</span>
-      <button type="button" class="bat-subtask-remove">&times;</button>`;
+    li.dataset.origIdx = "-1";
+    li.innerHTML = `
+      <span class="bat-subtask-text">• ${escapeHtml(text)}</span>
+      <div class="bat-subtask-actions">
+        <button type="button" class="bat-subtask-action-btn" data-action="delete"><img src="../assets/icons/board/subtasks/delete.svg" alt="del" width="16" height="16"></button>
+      </div>`;
     list.appendChild(li);
     input.value = "";
+    setEmpty();
+    input.focus();
   };
-  document.getElementById("batSubtaskAdd")?.addEventListener("click", addItem);
-  document.getElementById("batSubtaskInput")?.addEventListener("keydown", e => {
-    if (e.key === "Enter") { e.preventDefault(); addItem(); }
-  });
-  document.getElementById("batSubtaskList")?.addEventListener("click", e => {
-    if (e.target.classList.contains("bat-subtask-remove")) e.target.closest("li").remove();
+
+  input?.addEventListener("input",   () => input.value.length ? setTyping() : setEmpty());
+  icons?.querySelector(".bat-si-plus")?.addEventListener("click",    () => input?.value.trim() ? addItem() : input?.focus());
+  icons?.querySelector(".bat-si-clear")?.addEventListener("click",   () => { if(input) input.value = ""; setEmpty(); input?.focus(); });
+  icons?.querySelector(".bat-si-confirm")?.addEventListener("click", addItem);
+  input?.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); addItem(); } });
+  list?.addEventListener("click",    e => {
+    if (e.target.closest("[data-action='delete']")) e.target.closest(".bat-subtask-item")?.remove();
   });
 }
 

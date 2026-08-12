@@ -1013,35 +1013,62 @@ body.board-no-scroll {
 
 /* ── Subtasks ── */
 
-.bat-subtask-input-row {
+/* Subtask input with icons inside */
+.bat-subtask-input-wrap {
+  position: relative;
+}
+
+.bat-subtask-field {
+  padding-right: 5rem !important;
+}
+
+.bat-subtask-input-icons {
+  position: absolute;
+  right: 0.625rem;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
-  gap: 0.5rem;
   align-items: center;
+  gap: 2px;
 }
 
-.bat-subtask-input-row .bat-input {
-  flex: 1;
+/* Empty state: show + only */
+.bat-subtask-input-icons.is-empty .bat-si-clear,
+.bat-subtask-input-icons.is-empty .bat-si-sep,
+.bat-subtask-input-icons.is-empty .bat-si-confirm {
+  display: none;
 }
 
-.bat-subtask-add-btn {
-  width: 3rem;
-  height: 3rem;
-  border: 1px solid #d1d1d1;
-  border-radius: 0.625rem;
-  background: transparent;
-  font-size: 1.5rem;
-  line-height: 1;
+/* Typing state: hide + */
+.bat-subtask-input-icons.is-typing .bat-si-plus {
+  display: none;
+}
+
+.bat-subtask-icon-btn {
+  background: none;
+  border: none;
   cursor: pointer;
-  color: var(--primary-color, #2a3647);
-  flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.12s;
+  padding: 4px;
+  border-radius: 4px;
+  color: var(--primary-color, #2a3647);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1;
+  transition: background 0.1s;
 }
 
-.bat-subtask-add-btn:hover {
-  background-color: #f0f4ff;
+.bat-subtask-icon-btn:hover {
+  background: #f0f0f0;
+}
+
+.bat-si-sep {
+  width: 1px;
+  height: 1rem;
+  background: #d1d1d1;
+  flex-shrink: 0;
 }
 
 .bat-subtask-list {
@@ -1174,8 +1201,14 @@ body.board-no-scroll {
   border-radius: 10px;
   padding: 16px;
   gap: 4px;
-  font-size: 1rem;
-  font-weight: 700;
+
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 20px;
+  line-height: 120%;
+  letter-spacing: 0%;
+
+  
   cursor: pointer;
   white-space: nowrap;
   display: inline-flex;
@@ -1203,13 +1236,21 @@ body.board-no-scroll {
   border-radius: 10px;
   padding: 16px;
   gap: 4px;
-  font-size: 1rem;
+
   font-weight: 700;
+  font-style: Bold;
+  font-size: 21px;
+  line-height: 120%;
+  letter-spacing: 0%;
+
+
   cursor: pointer;
   white-space: nowrap;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
+
   transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
 }
 

@@ -256,9 +256,14 @@ function buildEditHTML(task) {
         </div>
         <div class="bat-field">
           <label class="bat-label">Subtasks</label>
-          <div class="bat-subtask-input-row">
-            <input id="batSubtaskInput" class="bat-input" type="text" placeholder="Add new subtask">
-            <button type="button" id="batSubtaskAdd" class="bat-subtask-add-btn">+</button>
+          <div class="bat-subtask-input-wrap">
+            <input id="batSubtaskInput" class="bat-input bat-subtask-field" type="text" placeholder="Add new subtask">
+            <div class="bat-subtask-input-icons is-empty">
+              <button type="button" class="bat-subtask-icon-btn bat-si-plus">+</button>
+              <button type="button" class="bat-subtask-icon-btn bat-si-clear"><img src="../assets/icons/board/subtasks/close.svg" alt="x" width="16" height="16"></button>
+              <span class="bat-si-sep"></span>
+              <button type="button" class="bat-subtask-icon-btn bat-si-confirm"><img src="../assets/icons/board/subtasks/mark.svg" alt="ok" width="16" height="16"></button>
+            </div>
           </div>
           <ul id="batSubtaskList" class="bat-subtask-list">${buildSubtaskItems(task.subtasks)}</ul>
         </div>
@@ -269,7 +274,7 @@ function buildEditHTML(task) {
       <div class="bat-actions">
         <button type="button" id="editCancelBtn" class="bat-btn-cancel">Cancel &#x2715;</button>
         <button type="button" id="editSaveBtn" class="bat-btn-create">
-          Save <img src="../assets/icons/board/subtasks/mark.svg" alt="save" width="16" height="16" style="vertical-align:middle;margin-left:4px">
+          Save <img src="../assets/icons/board/subtasks/check_white.svg" alt="save" width="24" height="24" style="vertical-align:middle;margin-left:4px; color: white">
         </button>
       </div>
     </div>`;
@@ -344,37 +349,34 @@ function setupDropdown(toggleId, dropdownId, onChange) {
 }
 
 function setupSubtaskInput(inputId, addBtnId, listId) {
+  const input  = document.getElementById(inputId);
+  const list   = document.getElementById(listId);
+  const icons  = input?.parentElement?.querySelector(".bat-subtask-input-icons");
+
+  const setEmpty  = () => { icons?.classList.add("is-empty");   icons?.classList.remove("is-typing"); };
+  const setTyping = () => { icons?.classList.remove("is-empty"); icons?.classList.add("is-typing"); };
+
   const addItem = () => {
-    const input = document.getElementById(inputId);
-    const list  = document.getElementById(listId);
-    const text  = input?.value.trim();
+    const text = input?.value.trim();
     if (!text || !list) return;
-    const li = document.createElement("li");
-    li.className = "bat-subtask-item";
-    li.dataset.origIdx = "-1";
-    li.innerHTML = `
-      <span class="bat-subtask-text">• ${escapeHtml(text)}</span>
-      <div class="bat-subtask-actions">
-        <button type="button" class="bat-subtask-action-btn" data-action="edit"><img src="../assets/icons/board/subtasks/edit.svg" alt="edit" width="16" height="16"></button>
-        <span class="bat-subtask-action-sep"></span>
-        <button type="button" class="bat-subtask-action-btn" data-action="delete"><img src="../assets/icons/board/subtasks/delete.svg" alt="delete" width="16" height="16"></button>
-      </div>`;
-    list.appendChild(li);
+    const tpl = document.createElement("template");
+    tpl.innerHTML = batSubtaskItemHTML(text, -1);
+    const li = tpl.content.firstElementChild;
+    if (li) list.appendChild(li);
     input.value = "";
+    setEmpty();
+    input.focus();
   };
 
-  document.getElementById(addBtnId)?.addEventListener("click", addItem);
-  document.getElementById(inputId)?.addEventListener("keydown", e => {
-    if (e.key === "Enter") { e.preventDefault(); addItem(); }
-  });
+  input?.addEventListener("input",   () => input.value.length ? setTyping() : setEmpty());
+  icons?.querySelector(".bat-si-plus")?.addEventListener("click",    () => input?.value.trim() ? addItem() : input?.focus());
+  icons?.querySelector(".bat-si-clear")?.addEventListener("click",   () => { if(input) input.value = ""; setEmpty(); input?.focus(); });
+  icons?.querySelector(".bat-si-confirm")?.addEventListener("click", addItem);
+  input?.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); addItem(); } });
 
-  const list = document.getElementById(listId);
-  if (!list) return;
-
-  // Click delegation: edit / delete / save / cancel
-  list.addEventListener("click", e => {
-    const btn    = e.target.closest("[data-action]");
-    const item   = e.target.closest(".bat-subtask-item");
+  list?.addEventListener("click", e => {
+    const btn  = e.target.closest("[data-action]");
+    const item = e.target.closest(".bat-subtask-item");
     if (!btn || !item) return;
     const action = btn.dataset.action;
     if (action === "edit")   batEditSubtask(item);
@@ -383,8 +385,7 @@ function setupSubtaskInput(inputId, addBtnId, listId) {
     if (action === "cancel") batCancelSubtask(item);
   });
 
-  // Dblclick on text → enter edit mode
-  list.addEventListener("dblclick", e => {
+  list?.addEventListener("dblclick", e => {
     const span = e.target.closest(".bat-subtask-text");
     if (span) batEditSubtask(span.closest(".bat-subtask-item"));
   });
