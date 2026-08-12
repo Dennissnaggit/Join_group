@@ -190,7 +190,7 @@ body.board-no-scroll {
   flex-direction: column;
   gap: 0.75rem;
   cursor: grab;
-  width: 100%;
+  width: 252px;
   height: fit-content;
   box-sizing: border-box;
   transition: box-shadow 0.2s ease, transform 0.2s ease;
@@ -245,7 +245,7 @@ body.board-no-scroll {
   color: var(--white);
   border-radius: 8px;
   gap: 10px;
-  padding: 4px 16px;
+  padding: 4px 10px;
   background-color: #0038FF;
   box-sizing: border-box;
   white-space: nowrap;
@@ -708,7 +708,7 @@ body.board-no-scroll {
 /* Wide mode used by Edit Task (reuses the narrow task overlay) */
 .board-task-modal--wide {
   width: min(96vw, 860px) !important;
-  height: min(92vh, 870px);
+  height: min(80  vh, 870px);
   overflow-y: auto;
   border-radius: 30px;
   background-color: #ffffff;
@@ -745,9 +745,9 @@ body.board-no-scroll {
   display: flex;
   align-items: flex-start;
   gap: 0;
-  flex: 1;
   overflow-y: auto;
   min-height: 0;
+  height: fit-content;
 }
 
 .bat-left,
@@ -1175,7 +1175,6 @@ body.board-no-scroll {
   justify-content: space-between;
   margin-top: auto;
   padding-top: 1rem;
-  border-top: 1px solid #d1d1d1;
   flex-shrink: 0;
 }
 

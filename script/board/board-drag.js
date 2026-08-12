@@ -8,6 +8,8 @@ const STATUS_MAP = {
   boardColumnDone:          "done",
 };
 
+let dragPreviewEl = null;
+
 /** Returns the task status string for a given column element ID. */
 export function getStatusFromTaskList(id) {
   return STATUS_MAP[id] || null;
@@ -63,6 +65,36 @@ function moveTaskToStatus(taskId, newStatus) {
   saveTaskStatus(taskId, newStatus).catch(err => console.error("Status speichern fehlgeschlagen:", err));
 }
 
+function cleanupDragPreview() {
+  if (!dragPreviewEl) return;
+  dragPreviewEl.remove();
+  dragPreviewEl = null;
+}
+
+function attachRotatedDragPreview(event, card) {
+  if (!event.dataTransfer) return;
+
+  cleanupDragPreview();
+
+  const rect = card.getBoundingClientRect();
+  const clone = card.cloneNode(true);
+  clone.style.position = "fixed";
+  clone.style.top = "-9999px";
+  clone.style.left = "-9999px";
+  clone.style.width = `${rect.width}px`;
+  clone.style.height = `${rect.height}px`;
+  clone.style.margin = "0";
+  clone.style.pointerEvents = "none";
+  clone.style.transform = "rotate(-5deg)";
+  clone.style.opacity = "0.95";
+  clone.style.zIndex = "99999";
+
+  document.body.appendChild(clone);
+  dragPreviewEl = clone;
+
+  event.dataTransfer.setDragImage(clone, rect.width / 2, rect.height / 2);
+}
+
 // ── Desktop drag handlers ──────────────────────────────────────────────────
 
 export function handleTaskDragStart(event) {
@@ -70,6 +102,7 @@ export function handleTaskDragStart(event) {
   state.draggedTaskId = card.dataset.taskId;
   event.dataTransfer.effectAllowed = "move";
   event.dataTransfer.setData("text/plain", state.draggedTaskId);
+  attachRotatedDragPreview(event, card);
   state.ignoreNextCardClick = true;
   // :active CSS already applied rotation instantly on mousedown — ghost has it
   card.classList.add("board-task-dragging");
@@ -77,6 +110,7 @@ export function handleTaskDragStart(event) {
 
 export function handleTaskDragEnd(event) {
   event.currentTarget.classList.remove("board-task-dragging");
+  cleanupDragPreview();
   clearDropActive();
   setTimeout(() => { state.ignoreNextCardClick = false; }, 120);
 }

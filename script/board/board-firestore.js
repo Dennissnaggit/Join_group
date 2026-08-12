@@ -61,6 +61,20 @@ function normalizeSubtasks(raw) {
   return raw.map(s => ({ title: s.title || "", done: s.done ?? s.completed ?? false }));
 }
 
+function normalizeContact(id, data) {
+  const firstName = String(data?.firstName || "").trim();
+  const lastName = String(data?.lastName || "").trim();
+  const combinedName = `${firstName} ${lastName}`.trim();
+  const name = String(data?.name || data?.fullName || combinedName || data?.email || "").trim();
+
+  return {
+    id,
+    ...data,
+    name,
+    color: data?.color || "",
+  };
+}
+
 
 /** Loads all tasks for the current user from Firestore into state.tasks. */
 export async function loadTasksFromFirestore() {
@@ -81,7 +95,9 @@ export async function loadContactsFromFirestore() {
   if (!user) { state.contacts = []; return; }
 
   const snap = await getDocs(collection(db, "users", user.uid, "contacts"));
-  state.contacts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  state.contacts = snap.docs
+    .map(d => normalizeContact(d.id, d.data()))
+    .filter(c => !!c.name);
 }
 
 

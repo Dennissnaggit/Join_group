@@ -106,11 +106,15 @@ function buildDetailHTML(task) {
 
 function buildUsersHtml(assignedTo) {
   if (!assignedTo?.length) return "<li>Not assigned</li>";
-  return assignedTo.map(user => `
+  return assignedTo.map(user => {
+    const contact = state.contacts.find(c => c.name === user);
+    const color = contact?.color || getAvatarColor(user);
+    return `
     <li class="board-modal-user-item">
-      <span class="board-avatar" style="background-color:${getAvatarColor(user)}">${getInitials(user)}</span>
+      <span class="board-avatar" style="background-color:${color}">${getInitials(user)}</span>
       <span>${user}</span>
-    </li>`).join("");
+    </li>`;
+  }).join("");
 }
 
 function buildSubtasksHtml(subtasks) {

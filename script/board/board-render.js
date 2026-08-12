@@ -105,9 +105,13 @@ export function buildSubtasksBar(task) {
 /** Builds stacked avatar circles for the given list of user names. */
 export function buildAvatarGroup(users) {
   if (!Array.isArray(users) || !users.length) return "";
-  return users.map((user, i) =>
+  return users.map((user, i) => {
+    const contact = state.contacts.find(c => c.name === user);
+    const color = contact?.color || getAvatarColor(user);
+    return (
     `<span class="board-avatar"
-      style="background-color:${getAvatarColor(user)};z-index:${100 - i}"
+      style="background-color:${color};z-index:${100 - i}"
       title="${user}">${getInitials(user)}</span>`
-  ).join("");
+    );
+  }).join("");
 }
