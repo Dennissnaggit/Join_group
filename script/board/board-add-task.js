@@ -5,6 +5,8 @@ import {
   buildPriorityButtons, selectPriority, getActivePriority,
 } from "./board-helpers.js";
 
+let taskAddedNoticeTimer;
+
 
 // ── Overlay setup ──────────────────────────────────────────────────────────
 
@@ -247,9 +249,11 @@ function setupSubtaskInput() {
 }
 
 function updateAvatars() {
-  const container = document.getElementById("batSelectedAvatars");
+  const scope = document.getElementById("boardAddTaskModalContent");
+  if (!scope) return;
+  const container = scope.querySelector("#batSelectedAvatars");
   if (!container) return;
-  container.innerHTML = [...document.querySelectorAll(".bat-contact-check:checked")].map(cb => {
+  container.innerHTML = [...scope.querySelectorAll(".bat-contact-check:checked")].map(cb => {
     const c = state.contacts.find(x => x.name === cb.value);
     return `<span class="board-avatar" style="background-color:${c?.color || getAvatarColor(cb.value)}"
       title="${cb.value}">${getInitials(cb.value)}</span>`;
@@ -274,6 +278,8 @@ function validateForm() {
 async function createBoardTask(defaultStatus) {
   if (!validateForm()) return;
 
+  const scope = document.getElementById("boardAddTaskModalContent") || document;
+
   const category = document.querySelector(".bat-category-option.selected")?.dataset.value || "";
 
   const taskData = {
@@ -283,8 +289,8 @@ async function createBoardTask(defaultStatus) {
     priority:    getActivePriority(),
     type:        category,
     category,
-    assignedTo:  [...document.querySelectorAll(".bat-contact-check:checked")].map(cb => cb.value),
-    subtasks:    [...document.querySelectorAll("#batSubtaskList .bat-subtask-text")]
+    assignedTo:  [...scope.querySelectorAll(".bat-contact-check:checked")].map(cb => cb.value),
+    subtasks:    [...scope.querySelectorAll("#batSubtaskList .bat-subtask-text")]
                    .map(el => ({ title: el.textContent.replace("•", "").trim(), done: false })),
     status: defaultStatus,
   };
@@ -294,7 +300,20 @@ async function createBoardTask(defaultStatus) {
     state.tasks.push({ id, ...taskData });
     closeAddTaskModal();
     callbacks.renderBoard?.();
+    showTaskAddedNotice();
   } catch (err) {
     console.error("Fehler beim Erstellen:", err);
   }
+}
+
+function showTaskAddedNotice() {
+  const notice = document.getElementById("boardTaskAddedNotice");
+  if (!notice) return;
+
+  window.clearTimeout(taskAddedNoticeTimer);
+  notice.classList.add("show");
+
+  taskAddedNoticeTimer = window.setTimeout(() => {
+    notice.classList.remove("show");
+  }, 2200);
 }

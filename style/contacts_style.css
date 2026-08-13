@@ -184,6 +184,40 @@
     color: var(--footer) !important;
 }
 
+/* Contact notification toast */
+.toast-notification {
+    position: fixed;
+    left: 50%;
+    bottom: 2.5rem;
+    transform: translate(-50%, 2rem);
+    background-color: #2a3647;
+    color: #ffffff;
+    border-radius: 1.25rem;
+    padding: 1rem 1.5rem;
+    min-height: 4.625rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
+    z-index: 1200;
+}
+
+.animate-slide-up {
+    animation: contacts-toast-slide-up 0.35s ease both;
+}
+
+@keyframes contacts-toast-slide-up {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 2rem);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
 /* ==========================================================================
    5. MODAL / OVERLAY HORIZONTAL
    ========================================================================== */

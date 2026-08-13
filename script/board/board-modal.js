@@ -468,9 +468,11 @@ function batCancelSubtask(item) {
 }
 
 function updateSelectedAvatars() {
-  const container = document.getElementById("batSelectedAvatars");
+  const scope = document.getElementById("boardTaskModalContent");
+  if (!scope) return;
+  const container = scope.querySelector("#batSelectedAvatars");
   if (!container) return;
-  container.innerHTML = [...document.querySelectorAll(".bat-contact-check:checked")].map(cb => {
+  container.innerHTML = [...scope.querySelectorAll(".bat-contact-check:checked")].map(cb => {
     const c = state.contacts.find(x => x.name === cb.value);
     return `<span class="board-avatar" style="background-color:${c?.color || getAvatarColor(cb.value)}"
       title="${cb.value}">${getInitials(cb.value)}</span>`;
@@ -481,13 +483,15 @@ async function saveTaskEdit(taskId) {
   const title = document.getElementById("editTitle")?.value.trim();
   if (!title) return;
 
+  const scope = document.getElementById("boardTaskModalContent") || document;
+
   const updates = {
     title,
     description: document.getElementById("editDescription")?.value.trim() || "",
     dueDate:     document.getElementById("editDueDate")?.value || "",
     priority:    getActivePriority(),
-    assignedTo:  [...document.querySelectorAll(".bat-contact-check:checked")].map(cb => cb.value),
-    subtasks:    [...document.querySelectorAll("#batSubtaskList .bat-subtask-text")]
+    assignedTo:  [...scope.querySelectorAll(".bat-contact-check:checked")].map(cb => cb.value),
+    subtasks:    [...scope.querySelectorAll("#batSubtaskList .bat-subtask-text")]
                    .map(el => ({ title: el.textContent.replace(/^•\s*/, "").trim(), done: false })),
   };
 

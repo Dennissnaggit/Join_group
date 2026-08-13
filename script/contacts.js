@@ -15,9 +15,50 @@ import {
 
 let contacts = [];
 let currentUser = null;
+const GUEST_CONTACTS_KEY = "contacts";
+const GUEST_CONTACTS_SEED = [
+  { id: "guest-contact-1", name: "Max Mustermann", email: "max@guest.join", phone: "+49 170 1000001", color: "#ff7a00" },
+  { id: "guest-contact-2", name: "Erika Muster", email: "erika@guest.join", phone: "+49 170 1000002", color: "#2fd7c4" },
+  { id: "guest-contact-3", name: "Alex Demo", email: "alex@guest.join", phone: "+49 170 1000003", color: "#5a42b2" },
+];
+
+function isGuestSession() {
+  try {
+    const current = JSON.parse(localStorage.getItem("currentUser") || "null");
+    return !!(current && (current.isGuest || current.name === "Guest User"));
+  } catch {
+    return false;
+  }
+}
+
+function readGuestContacts() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(GUEST_CONTACTS_KEY) || "[]");
+    return Array.isArray(raw) ? raw : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeGuestContacts(list) {
+  localStorage.setItem(GUEST_CONTACTS_KEY, JSON.stringify(Array.isArray(list) ? list : []));
+}
+
+function ensureGuestContacts() {
+  const list = readGuestContacts();
+  if (!list.length) writeGuestContacts(GUEST_CONTACTS_SEED);
+}
 /** Initializes the contacts view by triggering the rendering process. */
 async function initContacts() {
     await init();
+
+  if (isGuestSession()) {
+    currentUser = null;
+    ensureGuestContacts();
+    contacts = readGuestContacts();
+    renderContactList();
+    return;
+  }
 
     onAuthStateChanged(auth, async (user) => {
         if (!user) {
@@ -33,7 +74,7 @@ async function initContacts() {
 }
 
 async function loadContacts() {
-    if (!currentUser) return;
+  if (!currentUser) return;
 
     try {
         const contactsRef = collection(
@@ -152,17 +193,25 @@ function closeContactModal() {
 async function saveNewContact(event) {
     event.preventDefault();
 
-    if (!currentUser) {
-        console.error("Kein Benutzer eingeloggt.");
-        return;
-    }
-
     const newContact = {
+    id: `contact-${crypto.randomUUID()}`,
         name: document.getElementById("modalName").value.trim(),
         email: document.getElementById("modalEmail").value.trim(),
         phone: document.getElementById("modalPhone").value.trim(),
         color: getRandomColor()
     };
+
+  if (!currentUser && isGuestSession()) {
+    contacts.push(newContact);
+    writeGuestContacts(contacts);
+    executePostSaveActions();
+    return;
+  }
+
+  if (!currentUser) {
+    console.error("Kein Benutzer eingeloggt.");
+    return;
+  }
 
     try {
         const contactsRef = collection(
@@ -175,8 +224,8 @@ async function saveNewContact(event) {
         const docRef = await addDoc(contactsRef, newContact);
 
         contacts.push({
-            id: docRef.id,
-            ...newContact
+          ...newContact,
+          id: docRef.id,
         });
 
         executePostSaveActions();
@@ -202,8 +251,6 @@ function executePostSaveActions() {
 async function updateContact(event, id) {
     event.preventDefault();
 
-    if (!currentUser) return;
-
     let contact = contacts.find((c) => c.id === id);
     if (!contact) return;
 
@@ -212,6 +259,17 @@ async function updateContact(event, id) {
         email: document.getElementById("modalEmail").value.trim(),
         phone: document.getElementById("modalPhone").value.trim()
     };
+
+      if (!currentUser && isGuestSession()) {
+        Object.assign(contact, updatedData);
+        writeGuestContacts(contacts);
+        closeContactModal();
+        renderContactList();
+        showContactDetails(id);
+        return;
+      }
+
+      if (!currentUser) return;
 
     try {
         const contactRef = doc(
@@ -250,7 +308,26 @@ function showToast() {
   }, 3000);
 }
 async function deleteContact(id) {
-    if (!currentUser) return;
+  if (!currentUser && isGuestSession()) {
+    contacts = contacts.filter((contact) => contact.id !== id);
+    writeGuestContacts(contacts);
+    renderContactList();
+
+    const detailContainer = document.getElementById("contactDetailContainer");
+    if (detailContainer) {
+      detailContainer.innerHTML = `
+        <p class="select-hint">
+          Select a contact to view details.
+        </p>
+      `;
+    }
+
+    closeContactModal();
+    hideMobileDetail();
+    return;
+  }
+
+  if (!currentUser) return;
 
     try {
         const contactRef = doc(

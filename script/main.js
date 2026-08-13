@@ -11,7 +11,7 @@ import {
 
 const guestUser = JSON.parse(localStorage.getItem("currentUser"));
 
-if (guestUser && guestUser.name === "Guest User") {
+if (guestUser && (guestUser.isGuest || guestUser.name === "Guest User")) {
   document.getElementById("userNameDisplay").textContent = guestUser.name;
 } else {
   onAuthStateChanged(auth, async (user) => {
