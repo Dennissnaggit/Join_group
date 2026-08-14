@@ -66,8 +66,13 @@ function ensureGuestTasksForSummary() {
 async function getSummaryTasks() {
   const currentUser = getCurrentUser();
   if (currentUser?.isGuest || currentUser?.name === "Guest User") {
-    ensureGuestTasksForSummary();
-    return normalizeSummaryTasks(JSON.parse(localStorage.getItem("tasks")) || []);
+    try {
+      await loadTasksFromFirestore();
+      return normalizeSummaryTasks(state.tasks);
+    } catch {
+      ensureGuestTasksForSummary();
+      return normalizeSummaryTasks(JSON.parse(localStorage.getItem("tasks")) || []);
+    }
   }
 
   await loadTasksFromFirestore();
