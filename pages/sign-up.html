@@ -23,7 +23,7 @@
         <img src="../assets/icons/Capa 2.png" alt="Logo" class="logo" />
       </a>
       <section class="log-in">
-        <form class="login-box" id="signupForm">
+        <form class="login-box" id="signupForm" novalidate>
           <div class="sign-up-head">
             <a href="../index.html"
               ><img src="../assets/icons/images/arrow-left-line.png" alt=""
@@ -50,6 +50,11 @@
               alt="Name"
               class="custom-icon"
             />
+            <p
+              class="signup-field-error"
+              id="signupNameError"
+              aria-live="polite"
+            ></p>
           </div>
 
           <div class="form-floating position-relative mb-3">
@@ -69,6 +74,11 @@
               alt="Email"
               class="custom-icon"
             />
+            <p
+              class="signup-field-error"
+              id="signupEmailError"
+              aria-live="polite"
+            ></p>
           </div>
 
           <div class="form-floating position-relative mb-3">
@@ -90,6 +100,11 @@
               class="custom-icon"
               id="togglePassword"
             />
+            <p
+              class="signup-field-error"
+              id="signupPasswordError"
+              aria-live="polite"
+            ></p>
           </div>
 
           <div class="form-floating position-relative mb-3">
@@ -111,6 +126,11 @@
               class="custom-icon"
               id="togglePasswordUp"
             />
+            <p
+              class="signup-field-error"
+              id="signupConfirmPasswordError"
+              aria-live="polite"
+            ></p>
           </div>
           <div class="form-check">
             <input
@@ -122,6 +142,11 @@
             <label class="form-check-label" for="checkDefault">
               accept the <a href="./privacy_policy.html?view=external">Privacy Policy</a>
             </label>
+            <p
+              class="signup-field-error"
+              id="checkDefaultError"
+              aria-live="polite"
+            ></p>
           </div>
           <div class="btn-group">
             <button type="submit" class="button-dark">Sign Up</button>

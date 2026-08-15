@@ -21,6 +21,13 @@ const confirmPasswordInput = document.getElementById(
   "signupConfirmPassword"
 );
 const privacyCheckbox = document.getElementById("checkDefault");
+const fieldErrors = {
+  signupName: document.getElementById("signupNameError"),
+  signupEmail: document.getElementById("signupEmailError"),
+  signupPassword: document.getElementById("signupPasswordError"),
+  signupConfirmPassword: document.getElementById("signupConfirmPasswordError"),
+  checkDefault: document.getElementById("checkDefaultError"),
+};
 
 let messageTimeout;
 
@@ -38,52 +45,45 @@ signupForm.addEventListener("submit", async (event) => {
 
   // Eigene Validierung vor Firebase
   if (!name) {
-    showMessage("Please enter your name.", "error");
-    markInvalid(nameInput);
+    showFieldError(nameInput, "Please enter your name.");
     return;
   }
 
   if (!email) {
-    showMessage("Please enter your email address.", "error");
-    markInvalid(emailInput);
+    showFieldError(emailInput, "Please enter your email address.");
     return;
   }
 
   if (!isValidEmail(email)) {
-    showMessage("Please enter a valid email address.", "error");
-    markInvalid(emailInput);
+    showFieldError(emailInput, "Please enter a valid email address.");
     return;
   }
 
   if (!password) {
-    showMessage("Please enter a password.", "error");
-    markInvalid(passwordInput);
+    showFieldError(passwordInput, "Please enter a password.");
     return;
   }
 
   if (password.length < 6) {
-    showMessage("Your password must contain at least 6 characters.", "error");
-    markInvalid(passwordInput);
+    showFieldError(
+      passwordInput,
+      "Your password must contain at least 6 characters."
+    );
     return;
   }
 
   if (!confirmPassword) {
-    showMessage("Please confirm your password.", "error");
-    markInvalid(confirmPasswordInput);
+    showFieldError(confirmPasswordInput, "Please confirm your password.");
     return;
   }
 
   if (password !== confirmPassword) {
-    showMessage("The passwords do not match.", "error");
-    markInvalid(passwordInput);
-    markInvalid(confirmPasswordInput);
+    showFieldError(confirmPasswordInput, "The passwords do not match.");
     return;
   }
 
   if (!acceptedPrivacy) {
-    showMessage("Please accept the Privacy Policy.", "error");
-    privacyCheckbox.classList.add("is-invalid");
-    privacyCheckbox.focus();
+    showFieldError(privacyCheckbox, "Please accept the Privacy Policy.");
     return;
   }
 
@@ -121,8 +121,14 @@ signupForm.addEventListener("submit", async (event) => {
     }, 2000);
   } catch (error) {
     console.error("Firebase Fehler:", error.code, error.message);
+    const message = getFirebaseErrorMessage(error.code);
+    const target = getFirebaseErrorTarget(error.code);
 
-    showMessage(getFirebaseErrorMessage(error.code), "error");
+    if (target) {
+      showFieldError(target, message);
+    } else {
+      showMessage(message, "error");
+    }
   } finally {
     submitButton.disabled = false;
     submitButton.textContent = "Sign Up";
@@ -162,21 +168,51 @@ function hideMessage() {
   signupMessage.classList.remove("show");
 }
 
-function markInvalid(input) {
+function showFieldError(input, message) {
   input.classList.add("is-invalid");
+  input.setAttribute("aria-invalid", "true");
+  input.setAttribute("aria-describedby", `${input.id}Error`);
+  fieldErrors[input.id].textContent = message;
+  fieldErrors[input.id].classList.add("show");
   input.focus();
 }
 
 function resetInvalidFields() {
-  nameInput.classList.remove("is-invalid");
-  emailInput.classList.remove("is-invalid");
-  passwordInput.classList.remove("is-invalid");
-  confirmPasswordInput.classList.remove("is-invalid");
-  privacyCheckbox.classList.remove("is-invalid");
+  [nameInput, emailInput, passwordInput, confirmPasswordInput, privacyCheckbox]
+    .forEach((input) => {
+      input.classList.remove("is-invalid");
+      input.removeAttribute("aria-invalid");
+      input.removeAttribute("aria-describedby");
+      fieldErrors[input.id].textContent = "";
+      fieldErrors[input.id].classList.remove("show");
+    });
+}
+
+[nameInput, emailInput, passwordInput, confirmPasswordInput].forEach((input) => {
+  input.addEventListener("input", () => clearFieldError(input));
+});
+privacyCheckbox.addEventListener("change", () =>
+  clearFieldError(privacyCheckbox)
+);
+
+function clearFieldError(input) {
+  input.classList.remove("is-invalid");
+  input.removeAttribute("aria-invalid");
+  input.removeAttribute("aria-describedby");
+  fieldErrors[input.id].textContent = "";
+  fieldErrors[input.id].classList.remove("show");
 }
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function getFirebaseErrorTarget(errorCode) {
+  if (errorCode === "auth/weak-password") return passwordInput;
+  if (["auth/email-already-in-use", "auth/invalid-email"].includes(errorCode)) {
+    return emailInput;
+  }
+  return null;
 }
 
 function getFirebaseErrorMessage(errorCode) {
