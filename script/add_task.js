@@ -70,6 +70,16 @@ let selectedContactIds = [];
 const dueDateInput = document.getElementById(
   "exampleFormControlInput1"
 );
+const titleInput = document.getElementById("TitleOfTask");
+const categoryInput = document.getElementById("category");
+const requiredTaskFields = [titleInput, dueDateInput, categoryInput];
+const taskFieldErrors = {
+  TitleOfTask: document.getElementById("TitleOfTaskError"),
+  exampleFormControlInput1: document.getElementById(
+    "exampleFormControlInput1Error"
+  ),
+  category: document.getElementById("categoryError"),
+};
 
 
 /* =========================================================
@@ -479,6 +489,7 @@ clearBtn.addEventListener("click", () => {
  */
 function resetAddTaskForm() {
     addTaskForm.reset();
+    resetTaskFieldErrors();
 
     // Priority zurücksetzen
     document.querySelector(".urgentBtn img").src =
@@ -664,10 +675,71 @@ return docRef.id;
    FORM SUBMIT
 ========================================================= */
 
+function showTaskFieldError(field, message) {
+  const errorElement = taskFieldErrors[field.id];
+
+  field.classList.add("is-invalid");
+  field.setAttribute("aria-invalid", "true");
+  field.setAttribute("aria-describedby", errorElement.id);
+  errorElement.textContent = message;
+  errorElement.classList.add("show");
+}
+
+function clearTaskFieldError(field) {
+  const errorElement = taskFieldErrors[field.id];
+
+  field.classList.remove("is-invalid");
+  field.removeAttribute("aria-invalid");
+  field.removeAttribute("aria-describedby");
+  errorElement.textContent = "";
+  errorElement.classList.remove("show");
+}
+
+function resetTaskFieldErrors() {
+  requiredTaskFields.forEach(clearTaskFieldError);
+}
+
+function validateAddTaskForm() {
+  resetTaskFieldErrors();
+
+  if (!titleInput.value.trim()) {
+    showTaskFieldError(titleInput, "This field is required.");
+  }
+
+  if (!dueDateInput.value) {
+    showTaskFieldError(dueDateInput, "This field is required.");
+  } else if (dueDateInput.value < dueDateInput.min) {
+    showTaskFieldError(dueDateInput, "Please select a current or future date.");
+  }
+
+  if (!categoryInput.value) {
+    showTaskFieldError(categoryInput, "This field is required.");
+  }
+
+  const firstInvalidField = requiredTaskFields.find((field) =>
+    field.classList.contains("is-invalid")
+  );
+
+  firstInvalidField?.focus();
+  return !firstInvalidField;
+}
+
+titleInput.addEventListener("input", () => clearTaskFieldError(titleInput));
+dueDateInput.addEventListener("change", () =>
+  clearTaskFieldError(dueDateInput)
+);
+categoryInput.addEventListener("change", () =>
+  clearTaskFieldError(categoryInput)
+);
+
 addTaskForm.addEventListener(
   "submit",
   async (event) => {
     event.preventDefault();
+
+    if (!validateAddTaskForm()) {
+      return;
+    }
 
     console.log(
       "Create Task Button geklickt"
