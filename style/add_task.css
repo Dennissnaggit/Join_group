@@ -18,9 +18,13 @@
 }
 
 .headerTask h1 {
-    font-size: 3.8125rem;
+    font-family: "Inter", sans-serif;
     font-weight: 700;
-    color: var(--primary-color);
+    font-style: normal;
+    font-size: 61px;
+    line-height: 120%;
+    letter-spacing: 0;
+    color: rgba(0, 0, 0, 1);
     margin: 0;
 }
 
