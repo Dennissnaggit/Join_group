@@ -7,8 +7,8 @@ import {
 
 import {
   doc,
-  setDoc,
   serverTimestamp,
+  writeBatch,
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 const signupForm = document.getElementById("signupForm");
@@ -105,12 +105,7 @@ signupForm.addEventListener("submit", async (event) => {
       displayName: name,
     });
 
-    await setDoc(doc(db, "users", user.uid), {
-      uid: user.uid,
-      name,
-      email: user.email,
-      createdAt: serverTimestamp(),
-    });
+    await createInitialUserData(user, name);
 
     showMessage("You signed up successfully.", "success");
 
@@ -205,6 +200,105 @@ function clearFieldError(input) {
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function getFutureDate(daysFromToday) {
+  const date = new Date();
+  date.setUTCDate(date.getUTCDate() + daysFromToday);
+  return date.toISOString().slice(0, 10);
+}
+
+async function createInitialUserData(user, name) {
+  const batch = writeBatch(db);
+  const userRef = doc(db, "users", user.uid);
+  const contacts = [
+    {
+      id: "example-contact-1",
+      name: "Max Mustermann",
+      email: "max.mustermann@example.com",
+      phone: "+49 170 1234567",
+      color: "#ff7a00",
+    },
+    {
+      id: "example-contact-2",
+      name: "Anna Schmidt",
+      email: "anna.schmidt@example.com",
+      phone: "+49 171 2345678",
+      color: "#9327ff",
+    },
+    {
+      id: "example-contact-3",
+      name: "Peter Müller",
+      email: "peter.mueller@example.com",
+      phone: "+49 172 3456789",
+      color: "#00bee8",
+    },
+  ];
+  const tasks = [
+    {
+      id: "example-task-1",
+      title: "Explore Join",
+      description: "Get familiar with the board and move this task.",
+      type: "User Story",
+      category: "kategorie1",
+      status: "todo",
+      priority: "medium",
+      assignedTo: ["Max Mustermann"],
+      dueDate: getFutureDate(3),
+      subtasks: [
+        { title: "Open the board", done: true },
+        { title: "Move the task", done: false },
+      ],
+    },
+    {
+      id: "example-task-2",
+      title: "Prepare project kickoff",
+      description: "Collect the first ideas for the new project.",
+      type: "Technical Task",
+      category: "kategorie2",
+      status: "in-progress",
+      priority: "urgent",
+      assignedTo: ["Anna Schmidt", "Peter Müller"],
+      dueDate: getFutureDate(7),
+      subtasks: [
+        { title: "Create an agenda", done: false },
+        { title: "Invite participants", done: false },
+      ],
+    },
+    {
+      id: "example-task-3",
+      title: "Review first results",
+      description: "Review the current progress with the team.",
+      type: "User Story",
+      category: "kategorie1",
+      status: "await-feedback",
+      priority: "low",
+      assignedTo: ["Peter Müller"],
+      dueDate: getFutureDate(14),
+      subtasks: [],
+    },
+  ];
+
+  batch.set(userRef, {
+    uid: user.uid,
+    name,
+    email: user.email,
+    createdAt: serverTimestamp(),
+  });
+
+  contacts.forEach(({ id, ...contact }) => {
+    batch.set(doc(userRef, "contacts", id), contact);
+  });
+
+  tasks.forEach(({ id, ...task }) => {
+    batch.set(doc(userRef, "tasks", id), {
+      ...task,
+      createdBy: user.uid,
+      createdAt: serverTimestamp(),
+    });
+  });
+
+  await batch.commit();
 }
 
 function getFirebaseErrorTarget(errorCode) {
