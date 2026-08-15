@@ -164,17 +164,21 @@ function normalizeContact(id, data) {
 
 /** Loads all tasks from the shared Firestore collection into state.tasks. */
 export async function loadTasksFromFirestore() {
-  await waitForAuthUser();
-  try {
-    const snap = await getDocs(collection(db, "tasks"));
-    state.tasks = snap.docs.map(d => normalizeBoardTask(d.id, d.data()));
-  } catch (err) {
-    if (!isGuestSession()) {
-      state.tasks = [];
-      throw err;
-    }
+  const user = await waitForAuthUser();
+
+  if (!user) {
+    if (!isGuestSession()) throw new Error("Not logged in");
     ensureGuestData();
     state.tasks = readGuestList(GUEST_TASKS_KEY).map(t => normalizeBoardTask(t.id, t));
+    return;
+  }
+
+  try {
+    const snap = await getDocs(collection(db, "users", user.uid, "tasks"));
+    state.tasks = snap.docs.map(d => normalizeBoardTask(d.id, d.data()));
+  } catch (err) {
+    state.tasks = [];
+    throw err;
   }
 }
 
@@ -183,21 +187,25 @@ export async function loadTasksFromFirestore() {
  * Loads all contacts from the shared Firestore collection into state.contacts.
  */
 export async function loadContactsFromFirestore() {
-  await waitForAuthUser();
-  try {
-    const snap = await getDocs(collection(db, "contacts"));
-    state.contacts = snap.docs
-      .map(d => normalizeContact(d.id, d.data()))
-      .filter(c => !!c.name);
-  } catch (err) {
-    if (!isGuestSession()) {
-      state.contacts = [];
-      throw err;
-    }
+  const user = await waitForAuthUser();
+
+  if (!user) {
+    if (!isGuestSession()) throw new Error("Not logged in");
     ensureGuestData();
     state.contacts = readGuestList(GUEST_CONTACTS_KEY)
       .map(c => normalizeContact(c.id, c))
       .filter(c => !!c.name);
+    return;
+  }
+
+  try {
+    const snap = await getDocs(collection(db, "users", user.uid, "contacts"));
+    state.contacts = snap.docs
+      .map(d => normalizeContact(d.id, d.data()))
+      .filter(c => !!c.name);
+  } catch (err) {
+    state.contacts = [];
+    throw err;
   }
 }
 
@@ -214,7 +222,7 @@ export async function saveTaskStatus(taskId, status) {
     writeGuestList(GUEST_TASKS_KEY, list);
     return;
   }
-  await updateDoc(doc(db, "tasks", taskId), { status });
+  await updateDoc(doc(db, "users", user.uid, "tasks", taskId), { status });
 }
 
 
@@ -227,7 +235,7 @@ export async function deleteTaskFromFirestore(taskId) {
     writeGuestList(GUEST_TASKS_KEY, list);
     return;
   }
-  await deleteDoc(doc(db, "tasks", taskId));
+  await deleteDoc(doc(db, "users", user.uid, "tasks", taskId));
 }
 
 
@@ -244,7 +252,7 @@ export async function createTaskInFirestore(taskData) {
   }
 
   const ref = await addDoc(
-    collection(db, "tasks"),
+    collection(db, "users", user.uid, "tasks"),
     { ...taskData, createdBy: user.uid, createdAt: serverTimestamp() },
   );
   return ref.id;
@@ -263,5 +271,5 @@ export async function updateTaskInFirestore(taskId, updates) {
     writeGuestList(GUEST_TASKS_KEY, list);
     return;
   }
-  await updateDoc(doc(db, "tasks", taskId), updates);
+  await updateDoc(doc(db, "users", user.uid, "tasks", taskId), updates);
 }

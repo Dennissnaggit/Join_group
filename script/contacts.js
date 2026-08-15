@@ -73,25 +73,20 @@ async function initContacts() {
 }
 
 async function loadSharedContactsForGuest() {
-  try {
-    const contactsRef = collection(db, "contacts");
-    const snapshot = await getDocs(contactsRef);
-    contacts = snapshot.docs.map((document) => ({
-      id: document.id,
-      ...document.data(),
-    }));
-  } catch (error) {
-    console.error("Guest konnte Kontakte nicht aus Firebase laden, nutze Fallback:", error);
-    ensureGuestContacts();
-    contacts = readGuestContacts();
-  }
+  ensureGuestContacts();
+  contacts = readGuestContacts();
 }
 
 async function loadContacts() {
   if (!currentUser) return;
 
     try {
-        const contactsRef = collection(db, "contacts");
+        const contactsRef = collection(
+            db,
+            "users",
+            currentUser.uid,
+            "contacts"
+        );
 
         const snapshot = await getDocs(contactsRef);
 
@@ -223,7 +218,12 @@ async function saveNewContact(event) {
   }
 
     try {
-      const contactsRef = collection(db, "contacts");
+      const contactsRef = collection(
+        db,
+        "users",
+        currentUser.uid,
+        "contacts"
+      );
 
         const docRef = await addDoc(contactsRef, newContact);
 
@@ -276,7 +276,13 @@ async function updateContact(event, id) {
       if (!currentUser) return;
 
     try {
-      const contactRef = doc(db, "contacts", id);
+      const contactRef = doc(
+        db,
+        "users",
+        currentUser.uid,
+        "contacts",
+        id
+      );
 
         await updateDoc(contactRef, updatedData);
 
@@ -328,7 +334,13 @@ async function deleteContact(id) {
   if (!currentUser) return;
 
     try {
-      const contactRef = doc(db, "contacts", id);
+      const contactRef = doc(
+        db,
+        "users",
+        currentUser.uid,
+        "contacts",
+        id
+      );
 
         await deleteDoc(contactRef);
 
