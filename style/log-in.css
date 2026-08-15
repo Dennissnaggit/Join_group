@@ -574,6 +574,52 @@ font-size: 16px;
   background-color: #e74c3c;
 }
 
+/* Keep login and sign-up usable on smartphones with a short viewport. */
+@media (max-width: 768px) {
+  html,
+  body {
+    min-height: 100%;
+    overflow-y: auto;
+  }
+
+  .start-logo,
+  .sign-up-page .start-logo {
+    height: auto;
+    min-height: 100svh;
+    padding: 112px 16px 24px;
+    box-sizing: border-box;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 24px;
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+
+  .start-logo .log-in {
+    position: relative;
+    order: 1;
+    flex: 0 0 auto;
+  }
+
+  .start-logo .nav-bar {
+    position: static;
+    order: 2;
+    flex: 0 0 auto;
+  }
+
+  .start-logo .legals,
+  .sign-up-page .legals {
+    position: static;
+    order: 3;
+    flex: 0 0 auto;
+    margin-top: 0;
+  }
+
+  .sign-up-page .start-logo {
+    padding-top: 88px;
+  }
+}
+
 .form-control.is-invalid,
 .form-check-input.is-invalid {
   border-color: #e74c3c;
