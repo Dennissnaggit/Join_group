@@ -911,3 +911,139 @@ SUBTASKS
         height: 18px;
     }
 }
+
+/* The app header and navigation stay fixed; only the Add Task content scrolls. */
+body .app-shell .main-content-wrapper #content.content-panel {
+    min-height: 0;
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+.category-dropdown-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+}
+
+.category-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 48px;
+    padding: 12px 21px;
+    border: 1px solid rgba(104, 104, 104, 1);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--primary-color);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.category-toggle:hover,
+.category-toggle:focus {
+    border-color: #29abe2;
+    outline: none;
+}
+
+.category-toggle.is-invalid {
+    border-color: rgba(230, 0, 38, 1);
+}
+
+.category-arrow {
+    flex-shrink: 0;
+    font-size: 1rem;
+}
+
+.category-options {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    left: 0;
+    z-index: 200;
+    overflow: hidden;
+    border: 1px solid #d1d1d1;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.category-options button {
+    display: block;
+    width: 100%;
+    padding: 12px 21px;
+    border: 0;
+    background: #fff;
+    color: var(--primary-color);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.category-options button:hover,
+.category-options button:focus {
+    background: #f0f4ff;
+    outline: none;
+}
+
+.task-added-message {
+    position: fixed;
+    left: 50%;
+    bottom: 50%;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: min(326px, calc(100% - 32px));
+    height: 74px;
+    box-sizing: border-box;
+    gap: 16px;
+    padding: 0 20px;
+    border-radius: 20px;
+    background: rgba(42, 54, 71, 1);
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15);
+    color: #fff;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, 50%) scale(0.96);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+
+.task-added-message.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 50%) scale(1);
+}
+
+.task-added-message img {
+    width: 30px;
+    height: 25px;
+    filter: brightness(0) invert(1);
+}
+
+@media (max-width: 767px) {
+    body .app-shell .main-content-wrapper #content.content-panel {
+        padding-bottom: 120px !important;
+    }
+
+    .add-task-container input.form-control,
+    .add-task-container .form-select,
+    .add-task-container .input-field,
+    .add-task-container .bat-dropdown-toggle,
+    .add-task-container .category-toggle {
+        width: 100%;
+        max-width: 396px;
+        height: 40px;
+        min-height: 40px;
+        box-sizing: border-box;
+        padding: 10px 21px;
+        gap: 10px;
+        border-width: 1px;
+        border-radius: 10px;
+        opacity: 1;
+    }
+}

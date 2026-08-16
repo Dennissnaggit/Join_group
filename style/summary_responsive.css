@@ -280,21 +280,6 @@
 
 /* Keep every summary tile at the same height in the mobile layout. */
 @media(max-width: 767px) {
-    html,
-    body {
-        height: auto;
-        min-height: 100%;
-        overflow-y: auto;
-    }
-
-    .app-shell,
-    .main-content-wrapper,
-    #content.content-panel,
-    .summary-content-container {
-        height: auto;
-        overflow-y: visible;
-    }
-
     .app-shell .main-content-wrapper #content.content-panel {
         padding-bottom: 120px;
     }

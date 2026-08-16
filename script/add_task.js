@@ -40,6 +40,7 @@ function waitForAuth() {
 
 const addTaskForm = document.getElementById("addTaskForm");
 const clearBtn = document.querySelector(".clearBtn");
+const taskAddedMessage = document.getElementById("taskAddedMessage");
 
 const input = document.getElementById("subtaskInput");
 const inputActions = document.getElementById("inputActions");
@@ -72,6 +73,10 @@ const dueDateInput = document.getElementById(
 );
 const titleInput = document.getElementById("TitleOfTask");
 const categoryInput = document.getElementById("category");
+const categoryToggle = document.getElementById("categoryToggle");
+const categoryOptions = document.getElementById("categoryOptions");
+const categorySelectedText = document.getElementById("categorySelectedText");
+const categoryDropdownWrapper = document.getElementById("categoryDropdownWrapper");
 const requiredTaskFields = [titleInput, dueDateInput, categoryInput];
 const taskFieldErrors = {
   TitleOfTask: document.getElementById("TitleOfTaskError"),
@@ -354,6 +359,8 @@ function getContactInitials(name) {
 assignedToOptions.addEventListener(
     "click",
     (event) => {
+        event.stopPropagation();
+
         const option =
             event.target.closest(
                 ".bat-contact-option"
@@ -385,6 +392,9 @@ function toggleAssignedContact(contactId) {
     );
 
     renderSelectedContacts();
+
+    assignedToDropdown.classList.remove("d-none");
+    assignedToSearch.focus({ preventScroll: true });
 }
 
 function renderSelectedContacts() {
@@ -459,6 +469,60 @@ document.addEventListener("click", (event) => {
 });
 
 /* =========================================================
+   CATEGORY DROPDOWN
+========================================================= */
+
+function closeCategoryDropdown() {
+  categoryOptions.classList.add("d-none");
+  categoryToggle.setAttribute("aria-expanded", "false");
+}
+
+function openCategoryDropdown() {
+  categoryOptions.classList.remove("d-none");
+  categoryToggle.setAttribute("aria-expanded", "true");
+  assignedToDropdown.classList.add("d-none");
+}
+
+categoryToggle.addEventListener("click", (event) => {
+  event.stopPropagation();
+
+  if (categoryOptions.classList.contains("d-none")) {
+    openCategoryDropdown();
+  } else {
+    closeCategoryDropdown();
+  }
+});
+
+categoryOptions.addEventListener("click", (event) => {
+  event.stopPropagation();
+
+  const option = event.target.closest("[data-value]");
+
+  if (!option) {
+    return;
+  }
+
+  categoryInput.value = option.dataset.value;
+  categorySelectedText.textContent = option.textContent.trim();
+  categoryInput.dispatchEvent(new Event("change", { bubbles: true }));
+  closeCategoryDropdown();
+  categoryToggle.focus();
+});
+
+categoryDropdownWrapper.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeCategoryDropdown();
+    categoryToggle.focus();
+  }
+});
+
+document.addEventListener("click", (event) => {
+  if (!event.target.closest("#categoryDropdownWrapper")) {
+    closeCategoryDropdown();
+  }
+});
+
+/* =========================================================
    DATUM
 ========================================================= */
 
@@ -489,6 +553,8 @@ clearBtn.addEventListener("click", () => {
  */
 function resetAddTaskForm() {
     addTaskForm.reset();
+    categorySelectedText.textContent = "Select task category";
+    closeCategoryDropdown();
     resetTaskFieldErrors();
 
     // Priority zurücksetzen
@@ -655,9 +721,11 @@ async function createTask() {
       docRef.id
     );
 
+    await showTaskAddedMessage();
+
     window.location.href = "board.html";
 
-return docRef.id;
+    return docRef.id;
   } catch (error) {
     console.error(
       "Fehler beim Speichern des Tasks:",
@@ -670,6 +738,16 @@ return docRef.id;
   }
 }
 
+/** Shows the success message before opening the board. */
+function showTaskAddedMessage() {
+  taskAddedMessage.classList.add("show");
+  taskAddedMessage.setAttribute("aria-hidden", "false");
+
+  return new Promise((resolve) => {
+    window.setTimeout(resolve, 1200);
+  });
+}
+
 
 /* =========================================================
    FORM SUBMIT
@@ -677,20 +755,22 @@ return docRef.id;
 
 function showTaskFieldError(field, message) {
   const errorElement = taskFieldErrors[field.id];
+  const visibleField = field === categoryInput ? categoryToggle : field;
 
-  field.classList.add("is-invalid");
-  field.setAttribute("aria-invalid", "true");
-  field.setAttribute("aria-describedby", errorElement.id);
+  visibleField.classList.add("is-invalid");
+  visibleField.setAttribute("aria-invalid", "true");
+  visibleField.setAttribute("aria-describedby", errorElement.id);
   errorElement.textContent = message;
   errorElement.classList.add("show");
 }
 
 function clearTaskFieldError(field) {
   const errorElement = taskFieldErrors[field.id];
+  const visibleField = field === categoryInput ? categoryToggle : field;
 
-  field.classList.remove("is-invalid");
-  field.removeAttribute("aria-invalid");
-  field.removeAttribute("aria-describedby");
+  visibleField.classList.remove("is-invalid");
+  visibleField.removeAttribute("aria-invalid");
+  visibleField.removeAttribute("aria-describedby");
   errorElement.textContent = "";
   errorElement.classList.remove("show");
 }
@@ -720,7 +800,11 @@ function validateAddTaskForm() {
     field.classList.contains("is-invalid")
   );
 
-  firstInvalidField?.focus();
+  if (firstInvalidField === categoryInput) {
+    categoryToggle.focus();
+  } else {
+    firstInvalidField?.focus();
+  }
   return !firstInvalidField;
 }
 

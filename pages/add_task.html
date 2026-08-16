@@ -172,19 +172,31 @@
 </div>
 
                 <div class="form-group">
-                  <label for="category" class="form-label"
+                  <label for="categoryToggle" class="form-label"
                     >Category<span class="required-star">*</span></label
                   >
-                  <select
-                    class="form-select"
-                    id="category"
-                    name="category"
-                    required
-                  >
-                    <option value="">Select task category</option>
-                    <option value="kategorie1">User Story</option>
-                    <option value="kategorie2">Technical Task</option>
-                  </select>
+                  <div class="category-dropdown-wrapper" id="categoryDropdownWrapper">
+                    <input type="hidden" id="category" name="category" />
+                    <button
+                      type="button"
+                      class="category-toggle"
+                      id="categoryToggle"
+                      aria-haspopup="listbox"
+                      aria-expanded="false"
+                      aria-controls="categoryOptions"
+                    >
+                      <span id="categorySelectedText">Select task category</span>
+                      <span class="category-arrow" aria-hidden="true">⌄</span>
+                    </button>
+                    <div
+                      class="category-options d-none"
+                      id="categoryOptions"
+                      role="listbox"
+                    >
+                      <button type="button" role="option" data-value="kategorie1">User Story</button>
+                      <button type="button" role="option" data-value="kategorie2">Technical Task</button>
+                    </div>
+                  </div>
                   <p
                     class="add-task-field-error"
                     id="categoryError"
@@ -245,6 +257,17 @@
           </form>
         </main>
       </div>
+    </div>
+
+    <div
+      class="task-added-message"
+      id="taskAddedMessage"
+      role="status"
+      aria-live="polite"
+      aria-hidden="true"
+    >
+      <span>Task added to board</span>
+      <img src="../assets/icons/board.svg" alt="" />
     </div>
   </body>
 </html>
