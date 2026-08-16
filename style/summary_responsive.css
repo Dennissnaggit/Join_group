@@ -256,15 +256,6 @@
    📱 ULTRA-MOBILE RESCUE SHIELD (375px)
    ========================================================================== */
 @media(max-width: 375px) {
-    .metrics-container > .metrics-row:last-child {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .metrics-container > .metrics-row:last-child .summary-card:last-child {
-        grid-column: 1 / -1;
-    }
-
     .summary-content-container .summary-card.card-wide {
         flex-direction: column;
         height: auto;
@@ -284,5 +275,34 @@
     .summary-card.card-small,
     .summary-card.card-mini {
         height: 7rem;
+    }
+}
+
+/* Keep every summary tile at the same height in the mobile layout. */
+@media(max-width: 767px) {
+    html,
+    body {
+        height: auto;
+        min-height: 100%;
+        overflow-y: auto;
+    }
+
+    .app-shell,
+    .main-content-wrapper,
+    #content.content-panel,
+    .summary-content-container {
+        height: auto;
+        overflow-y: visible;
+    }
+
+    .app-shell .main-content-wrapper #content.content-panel {
+        padding-bottom: 120px;
+    }
+
+    .summary-content-container .summary-card.card-small,
+    .summary-content-container .summary-card.card-wide,
+    .summary-content-container .summary-card.card-mini {
+        height: 110px;
+        min-height: 110px;
     }
 }
