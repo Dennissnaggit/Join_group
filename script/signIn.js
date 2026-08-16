@@ -55,18 +55,7 @@ loginForm.addEventListener("submit", async (event) => {
     console.error(error);
     emailInput.classList.add("is-invalid");
     passwordInput.classList.add("is-invalid");
-    if (error.code === "auth/invalid-credential") {
-      showMessage("E-Mail oder Passwort ist falsch.", "error");
-    } else if (error.code === "auth/invalid-email") {
-      showMessage("Die E-Mail-Adresse ist ungültig.", "error");
-    } else if (error.code === "auth/too-many-requests") {
-      showMessage(
-        "Zu viele Login-Versuche. Bitte versuche es später erneut.",
-        "error",
-      );
-    } else {
-      showMessage("Beim Login ist ein Fehler aufgetreten.", "error");
-    }
+    showMessage("Der Login ist fehlgeschlagen.", "error");
   }
 });
 function showMessage(message, type = "success") {
