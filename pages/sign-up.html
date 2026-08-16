@@ -84,7 +84,7 @@
           <div class="form-floating position-relative mb-3">
             <input
               type="password"
-              class="form-control pe-5"
+              class="form-control password-input"
               id="signupPassword"
               placeholder="Password"
               autocomplete="new-password"
@@ -94,12 +94,27 @@
 
             <label for="signupPassword">Password</label>
 
-            <img
-              src="../assets/icons/images/lock.png"
-              alt="Passwort anzeigen"
-              class="custom-icon"
+            <button
+              type="button"
+              class="password-toggle"
               id="togglePassword"
-            />
+              aria-label="Passwort anzeigen"
+              aria-pressed="false"
+            >
+              <img
+                src="../assets/icons/images/lock.png"
+                alt=""
+                class="password-toggle__lock"
+              />
+              <svg
+                class="password-toggle__eye"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z" />
+                <circle cx="12" cy="12" r="2.5" />
+              </svg>
+            </button>
             <p
               class="signup-field-error"
               id="signupPasswordError"
@@ -110,7 +125,7 @@
           <div class="form-floating position-relative mb-3">
             <input
               type="password"
-              class="form-control pe-5"
+              class="form-control password-input"
               id="signupConfirmPassword"
               placeholder="Password"
               autocomplete="new-password"
@@ -120,12 +135,27 @@
 
             <label for="signupConfirmPassword">Confirm Password</label>
 
-             <img
-              src="../assets/icons/images/lock.png"
-              alt="Passwort anzeigen"
-              class="custom-icon"
+            <button
+              type="button"
+              class="password-toggle"
               id="togglePasswordUp"
-            />
+              aria-label="Passwort anzeigen"
+              aria-pressed="false"
+            >
+              <img
+                src="../assets/icons/images/lock.png"
+                alt=""
+                class="password-toggle__lock"
+              />
+              <svg
+                class="password-toggle__eye"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z" />
+                <circle cx="12" cy="12" r="2.5" />
+              </svg>
+            </button>
             <p
               class="signup-field-error"
               id="signupConfirmPasswordError"

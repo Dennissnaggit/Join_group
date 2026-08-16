@@ -7,7 +7,20 @@ import {
 const loginForm = document.getElementById("loginForm");
 const emailInput = document.getElementById("loginEmail");
 const passwordInput = document.getElementById("loginPassword");
+const passwordToggle = document.getElementById("toggleLoginPassword");
 const messageBox = document.getElementById("signupMessage");
+
+passwordToggle?.addEventListener("click", () => {
+  const passwordIsVisible = passwordInput.type === "text";
+  passwordInput.type = passwordIsVisible ? "password" : "text";
+  passwordToggle.setAttribute("aria-pressed", String(!passwordIsVisible));
+  passwordToggle.setAttribute(
+    "aria-label",
+    passwordIsVisible ? "Passwort anzeigen" : "Passwort verbergen",
+  );
+  passwordInput.focus();
+});
+
 loginForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   resetValidation();

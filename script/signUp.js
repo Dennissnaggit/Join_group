@@ -335,8 +335,14 @@ const togglePassword = document.getElementById("togglePassword");
 
 if (passwordInput && togglePassword) {
   togglePassword.addEventListener("click", () => {
-    passwordInputDown.type =
-      passwordInputDown.type === "password" ? "text" : "password";
+    const passwordIsVisible = passwordInputDown.type === "text";
+    passwordInputDown.type = passwordIsVisible ? "password" : "text";
+    togglePassword.setAttribute("aria-pressed", String(!passwordIsVisible));
+    togglePassword.setAttribute(
+      "aria-label",
+      passwordIsVisible ? "Passwort anzeigen" : "Passwort verbergen"
+    );
+    passwordInputDown.focus();
   });
 }
 const passwordInputUp = document.getElementById("signupConfirmPassword");
@@ -344,7 +350,13 @@ const togglePasswordUp = document.getElementById("togglePasswordUp");
 
 if (passwordInputUp && togglePasswordUp) {
   togglePasswordUp.addEventListener("click", () => {
-    passwordInputUp.type =
-      passwordInputUp.type === "password" ? "text" : "password";
+    const passwordIsVisible = passwordInputUp.type === "text";
+    passwordInputUp.type = passwordIsVisible ? "password" : "text";
+    togglePasswordUp.setAttribute("aria-pressed", String(!passwordIsVisible));
+    togglePasswordUp.setAttribute(
+      "aria-label",
+      passwordIsVisible ? "Passwort anzeigen" : "Passwort verbergen"
+    );
+    passwordInputUp.focus();
   });
 }
