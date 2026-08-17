@@ -210,15 +210,15 @@ function toggleLogoutMenu(event) {
     event.stopPropagation();
     const dropdown = document.getElementById('headerDropdown');
     if (dropdown) {
-        dropdown.classList.toggle('d-none');
+        dropdown.classList.toggle('show-menu');
     }
 }
 
 // Automatically closes the dropdown if the user clicks anywhere outside the profile element
 document.addEventListener('click', () => {
     const dropdown = document.getElementById('headerDropdown');
-    if (dropdown && !dropdown.classList.contains('d-none')) {
-        dropdown.classList.add('d-none');
+    if (dropdown) {
+        dropdown.classList.remove('show-menu');
     }
 });
 

@@ -104,6 +104,15 @@
     cursor: pointer;
     flex-shrink: 0;
 }
+
+.user-profile-wrapper:hover,
+.user-profile-wrapper:focus,
+.user-profile-wrapper:focus-visible {
+    background: transparent;
+    outline: none;
+    box-shadow: none;
+}
+
 .header-dropdown-menu {
     position: fixed !important;
     top: 80px !important;
@@ -124,7 +133,6 @@
     transition: opacity 0.15s ease-in-out, visibility 0.15s ease-in-out;
 }
 
-.user-profile-wrapper:hover .header-dropdown-menu,
 .header-dropdown-menu.show-menu {
     opacity: 1 !important;
     visibility: visible !important;
@@ -163,7 +171,7 @@
 }
 
 .dropdown-item:hover {
-    background-color: var(--primary-color);
+    background-color: transparent;
     color: var(--white);
 }
 
