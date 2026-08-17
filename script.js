@@ -68,6 +68,19 @@ function setActivePage() {
     .querySelectorAll(".nav-item")
     .forEach((item) => item.classList.remove("active"));
   updateActiveNav(page || "summary.html");
+  updateActiveLegalLink(page);
+}
+
+/** Marks the currently displayed legal page in the public bottom navigation. */
+function updateActiveLegalLink(page) {
+  document.querySelectorAll(".sidebar-footer .footer-link").forEach((link) => {
+    const linkPage = new URL(link.href, window.location.href).pathname.split("/").pop();
+    if (linkPage === page) {
+      link.setAttribute("aria-current", "page");
+    } else {
+      link.removeAttribute("aria-current");
+    }
+  });
 }
 
 /** Applies the active CSS class to the matching navigation sidebar item. */
@@ -113,6 +126,8 @@ function saveUser(newUser) {
 
 /** Strips down and modifies the sidebar structure for unauthenticated layouts. */
 function handleExternalLayout() {
+  document.body.classList.add("external-view");
+
   let loginBtn = document.getElementById("sidebar-login-btn");
   let mainNav = document.getElementById("nav-links");
   let headerActions = document.querySelector(".header-user-actions");
@@ -120,7 +135,6 @@ function handleExternalLayout() {
   if (loginBtn) {
     loginBtn.classList.remove("d-none");
     loginBtn.style.setProperty("display", "flex", "important");
-    loginBtn.style.setProperty("margin-top", "160px", "important");
   }
   if (mainNav) mainNav.style.setProperty("display", "none", "important");
   if (headerActions) headerActions.style.setProperty("display", "none", "important");
@@ -128,6 +142,8 @@ function handleExternalLayout() {
 
 /** Optimizes the layout views for logged-in users inside the main panel. */
 function handleInternalLayout(isSpecialPage) {
+  document.body.classList.remove("external-view");
+
   let helpBtn = document.querySelector(".help-btn") || document.querySelector("header img[src*='help']");
   let logoutBtn = document.querySelector(".logout-button") || Array.from(document.querySelectorAll("header button")).find(el => el.textContent.includes("Log out"));
   let loginBtn = document.getElementById("sidebar-login-btn");

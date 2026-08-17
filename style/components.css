@@ -257,10 +257,15 @@
     display: flex;
 }
 
+/* Public legal pages: keep the login action separated on desktop. */
+.external-view #sidebar-login-btn {
+    margin-top: 10rem;
+}
+
 /* ==========================================================================
    🔄 BREAKPOINT: RESPONSIVE OVERRIDES FOR COMPONENTS
    ========================================================================== */
-@media(max-width: 1024px) {
+@media(max-width: 1023px) {
     .sidebar {
         height: 5rem;
         min-height: 5rem;
@@ -312,6 +317,53 @@
         width: 1.5rem;
         height: 1.5rem;
         margin: 0 auto;
+    }
+
+    /* Public bottom navigation for visitors without an active session. */
+    .external-view .sidebar {
+        justify-content: stretch;
+    }
+
+    .external-view .sidebar-top-group {
+        flex: 0 0 25%;
+        width: 25%;
+    }
+
+    .external-view #sidebar-login-btn {
+        width: 100%;
+        height: 100%;
+        margin-top: 0;
+        padding: 0 0.5rem;
+    }
+
+    .external-view .sidebar-footer {
+        display: flex !important;
+        flex: 0 0 58%;
+        width: 58%;
+        height: 100%;
+        margin: 0 0 0 auto;
+        padding: 0;
+        flex-direction: row;
+        justify-content: stretch;
+        align-items: stretch;
+        gap: 0;
+    }
+
+    .external-view .sidebar-footer .footer-link {
+        display: flex;
+        flex: 1 1 50%;
+        align-items: center;
+        justify-content: center;
+        padding: 0 0.5rem;
+        color: var(--footer);
+        font-size: 0.75rem;
+        line-height: 1.2;
+    }
+
+    .external-view .sidebar-footer .footer-link:hover,
+    .external-view .sidebar-footer .footer-link[aria-current="page"] {
+        background-color: var(--hover) !important;
+        color: var(--white);
     }
 }
 

@@ -1,7 +1,7 @@
 /* ==========================================================================
-   6. RESPONSIVE DESIGN: TABLETS & MOBILE COMPACT (1024px)
+   6. RESPONSIVE DESIGN: TABLETS & MOBILE COMPACT (below 1024px)
    ========================================================================== */
-@media(max-width: 1024px) {
+@media(max-width: 1023px) {
     .summary-content-container {
         width: 100%;
         max-width: 100%;

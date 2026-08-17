@@ -543,10 +543,10 @@ SUBTASKS
 }
 
 /* ==========================================================================
-⚡ 2. TABLET RESPONSIVE (1024px and below)
+⚡ 2. TABLET RESPONSIVE (below 1024px)
 ========================================================================== */
 
-@media (max-width: 1024px) {
+@media (max-width: 1023px) {
 
     .add-task-container {
         max-width: 100%;
