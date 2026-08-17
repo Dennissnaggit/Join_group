@@ -1,7 +1,10 @@
 .help-text-content {
     font-family: 'Inter', sans-serif;
     font-size: 16px;
+    font-weight: 400;
+    font-style: normal;
     line-height: 1.2;
+    letter-spacing: 0;
     color: #000000;
     display: flex;
     flex-direction: column;
@@ -25,9 +28,13 @@
 }
 
 .help-header h1 {
+    font-family: 'Inter', sans-serif;
     font-size: 61px;
     font-weight: 700;
-    color: var(--navy-blue, #2A3647);
+    font-style: normal;
+    line-height: 1.2;
+    letter-spacing: 0;
+    color: #000000;
     margin: 0;
 }
 
@@ -50,19 +57,14 @@
     height: 24px;
 }
 
-.help-text-content {
-    font-size: 19px;
-    line-height: 1.4;
-    color: #000000;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
-
 .help-text-content h2 {
+    font-family: 'Inter', sans-serif;
     font-size: 27px;
     font-weight: 700;
-    color: var(--navy-blue, #2A3647);
+    font-style: normal;
+    line-height: 1.2;
+    letter-spacing: 0;
+    color: #000000;
     margin-top: 16px;
     margin-bottom: 0;
 }
@@ -81,12 +83,16 @@
 }
 
 .help-steps-list li {
-    font-size: 19px;
+    font-size: 16px;
 }
 
 .help-steps-list strong {
+    font-family: 'Inter', sans-serif;
     font-size: 27px;
     font-weight: 700;
+    font-style: normal;
+    line-height: 1.2;
+    letter-spacing: 0;
     color: #000000;
     display: block;
     margin-bottom: 8px;
@@ -94,18 +100,4 @@
 
 .help-steps-list p {
     margin: 0;
-}
-
-@media (max-width: 768px) {
-    .help-header h1 {
-        font-size: 47px;
-    }
-    
-    .help-text-content {
-        font-size: 16px;
-    }
-    
-    .help-steps-list strong {
-        font-size: 20px;
-    }
 }
