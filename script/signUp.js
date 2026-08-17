@@ -42,48 +42,62 @@ signupForm.addEventListener("submit", async (event) => {
   const password = passwordInput.value;
   const confirmPassword = confirmPasswordInput.value;
   const acceptedPrivacy = privacyCheckbox.checked;
+  const validationErrors = [];
 
   // Eigene Validierung vor Firebase
   if (!name) {
-    showFieldError(nameInput, "Please enter your name.");
-    return;
+    validationErrors.push([nameInput, "Please enter your name."]);
   }
 
   if (!email) {
-    showFieldError(emailInput, "Please enter your email address.");
-    return;
-  }
-
-  if (!isValidEmail(email)) {
-    showFieldError(emailInput, "Please enter a valid email address.");
-    return;
+    validationErrors.push([
+      emailInput,
+      "Please enter your email address.",
+    ]);
+  } else if (!isValidEmail(email)) {
+    validationErrors.push([
+      emailInput,
+      "Please enter a valid email address.",
+    ]);
   }
 
   if (!password) {
-    showFieldError(passwordInput, "Please enter a password.");
-    return;
-  }
-
-  if (password.length < 6) {
-    showFieldError(
+    validationErrors.push([
       passwordInput,
-      "Your password must contain at least 6 characters."
-    );
-    return;
+      "Please enter a password.",
+    ]);
+  } else if (password.length < 6) {
+    validationErrors.push([
+      passwordInput,
+      "Your password must contain at least 6 characters.",
+    ]);
   }
 
   if (!confirmPassword) {
-    showFieldError(confirmPasswordInput, "Please confirm your password.");
-    return;
-  }
-
-  if (password !== confirmPassword) {
-    showFieldError(confirmPasswordInput, "The passwords do not match.");
-    return;
+    validationErrors.push([
+      confirmPasswordInput,
+      "Please confirm your password.",
+    ]);
+  } else if (password !== confirmPassword) {
+    validationErrors.push([
+      confirmPasswordInput,
+      "The passwords do not match.",
+    ]);
   }
 
   if (!acceptedPrivacy) {
-    showFieldError(privacyCheckbox, "Please accept the Privacy Policy.");
+    validationErrors.push([
+      privacyCheckbox,
+      "Please accept the Privacy Policy.",
+    ]);
+  }
+
+  if (validationErrors.length) {
+    validationErrors.forEach(([input, message]) => {
+      showFieldError(input, message);
+    });
+
+    validationErrors[0][0].focus();
     return;
   }
 
