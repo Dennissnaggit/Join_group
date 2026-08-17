@@ -21,8 +21,8 @@
     font-family: "Inter", sans-serif;
     font-weight: 700;
     font-style: normal;
-    font-size: 61px;
-    line-height: 120%;
+    font-size: clamp(2.5rem, 4vw, 3.813rem);
+    line-height: 1.2;
     letter-spacing: 0;
     color: rgba(0, 0, 0, 1);
     margin: 0;
@@ -617,8 +617,8 @@ SUBTASKS
     }
 
     .headerTask h1 {
-        font-size: 2rem;
-        line-height: 1.1;
+        font-size: 2.5rem;
+        line-height: 1.2;
         overflow-wrap: break-word;
     }
 
@@ -770,7 +770,7 @@ SUBTASKS
     }
 
     .headerTask h1 {
-        font-size: 2rem;
+        font-size: 2.5rem;
     }
 
     .priorityButtons {
@@ -813,7 +813,7 @@ SUBTASKS
     }
 
     .headerTask h1 {
-        font-size: 1.75rem;
+        font-size: 2.5rem;
     }
 
     .inputsTask {
