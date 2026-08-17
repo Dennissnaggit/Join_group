@@ -257,9 +257,17 @@
     display: flex;
 }
 
-/* Public legal pages: keep the login action separated on desktop. */
+/* Public legal pages: place login exactly 110px below the logo on desktop. */
+.external-view .sidebar-top-group {
+    gap: 0;
+}
+
+.external-view .sidebar-logo {
+    margin-bottom: 0;
+}
+
 .external-view #sidebar-login-btn {
-    margin-top: 10rem;
+    margin-top: 110px;
 }
 
 /* ==========================================================================
@@ -438,4 +446,9 @@
     .app-header {
         padding: 0 2rem;
     }
+}
+
+/* Highlight the page that is currently open in the sidebar navigation. */
+.sidebar .nav-item.active {
+    background-color: rgba(9, 25, 49, 1) !important;
 }
