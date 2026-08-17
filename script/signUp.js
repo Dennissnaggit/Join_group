@@ -344,33 +344,44 @@ function getFirebaseErrorMessage(errorCode) {
       return "Sign up failed. Please try again.";
   }
 }
-const passwordInputDown = document.getElementById("signupPassword");
 const togglePassword = document.getElementById("togglePassword");
-
-if (passwordInput && togglePassword) {
-  togglePassword.addEventListener("click", () => {
-    const passwordIsVisible = passwordInputDown.type === "text";
-    passwordInputDown.type = passwordIsVisible ? "password" : "text";
-    togglePassword.setAttribute("aria-pressed", String(!passwordIsVisible));
-    togglePassword.setAttribute(
-      "aria-label",
-      passwordIsVisible ? "Passwort anzeigen" : "Passwort verbergen"
-    );
-    passwordInputDown.focus();
-  });
-}
-const passwordInputUp = document.getElementById("signupConfirmPassword");
 const togglePasswordUp = document.getElementById("togglePasswordUp");
 
-if (passwordInputUp && togglePasswordUp) {
-  togglePasswordUp.addEventListener("click", () => {
-    const passwordIsVisible = passwordInputUp.type === "text";
-    passwordInputUp.type = passwordIsVisible ? "password" : "text";
-    togglePasswordUp.setAttribute("aria-pressed", String(!passwordIsVisible));
-    togglePasswordUp.setAttribute(
+function setupPasswordToggle(input, toggleButton) {
+  if (!input || !toggleButton) return () => {};
+
+  const updateIcon = () => {
+    toggleButton.classList.toggle(
+      "password-toggle--has-value",
+      input.value.length > 0
+    );
+  };
+
+  input.addEventListener("input", updateIcon);
+  toggleButton.addEventListener("click", () => {
+    const passwordIsVisible = input.type === "text";
+    input.type = passwordIsVisible ? "password" : "text";
+    toggleButton.setAttribute("aria-pressed", String(!passwordIsVisible));
+    toggleButton.setAttribute(
       "aria-label",
       passwordIsVisible ? "Passwort anzeigen" : "Passwort verbergen"
     );
-    passwordInputUp.focus();
+    input.focus();
   });
+
+  updateIcon();
+  return updateIcon;
 }
+
+const updatePasswordIcon = setupPasswordToggle(passwordInput, togglePassword);
+const updateConfirmPasswordIcon = setupPasswordToggle(
+  confirmPasswordInput,
+  togglePasswordUp
+);
+
+signupForm.addEventListener("reset", () => {
+  requestAnimationFrame(() => {
+    updatePasswordIcon();
+    updateConfirmPasswordIcon();
+  });
+});

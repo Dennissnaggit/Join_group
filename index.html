@@ -26,19 +26,18 @@
         <a class="button-dark sign-up-link" href="./pages/sign-up.html">Sign up</a>
       </section>
       <section class="log-in">
-    <form class="login-box" id="loginForm" novalidate>
+    <form class="login-box login-box--login" id="loginForm" novalidate>
         <h2 class="auth-title text-center">Log in</h2>
         <hr class="custom-hr" />
 
-          <div class=" form-floating position-relative mb-3">
+          <div class="auth-input-group position-relative mb-3">
             <input
               type="email"
               class="form-control pe-5"
               id="loginEmail"
-              placeholder="name@example.com"
+              placeholder="Email"
+              aria-label="Email"
             />
-
-            <label for="loginEmail">Email</label>
 
             <img
               src="./assets/icons/images/mail.png"
@@ -47,16 +46,15 @@
             />
           </div>
 
-          <div class="form-floating position-relative login-password-field">
+          <div class="auth-input-group position-relative login-password-field">
             <input
               type="password"
               class="form-control password-input"
               id="loginPassword"
               placeholder="Password"
+              aria-label="Password"
               autocomplete="current-password"
             />
-
-            <label for="loginPassword">Password</label>
 
             <button
               type="button"
@@ -77,6 +75,7 @@
               >
                 <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z" />
                 <circle cx="12" cy="12" r="2.5" />
+                <path class="password-toggle__slash" d="M4 4l16 16" />
               </svg>
             </button>
           </div>

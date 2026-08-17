@@ -13,6 +13,16 @@ const credentialsError = document.getElementById("loginCredentialsError");
 const credentialsErrorMessage =
   "Check your email and password. Please try again.";
 
+function updatePasswordIcon() {
+  passwordToggle?.classList.toggle(
+    "password-toggle--has-value",
+    passwordInput.value.length > 0,
+  );
+}
+
+passwordInput.addEventListener("input", updatePasswordIcon);
+updatePasswordIcon();
+
 passwordToggle?.addEventListener("click", () => {
   const passwordIsVisible = passwordInput.type === "text";
   passwordInput.type = passwordIsVisible ? "password" : "text";

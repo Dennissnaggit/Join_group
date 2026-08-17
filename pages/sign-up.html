@@ -23,7 +23,7 @@
         <img src="../assets/icons/Capa 2.png" alt="Logo" class="logo" />
       </a>
       <section class="log-in">
-        <form class="login-box" id="signupForm" novalidate>
+        <form class="login-box login-box--signup" id="signupForm" novalidate>
           <div class="sign-up-head">
             <a href="../index.html"
               ><img src="../assets/icons/images/arrow-left-line.png" alt=""
@@ -33,17 +33,16 @@
           </div>
           <hr class="custom-hr" />
 
-          <div class="form-floating position-relative mb-3">
+          <div class="auth-input-group position-relative mb-3">
             <input
               type="text"
               class="form-control pe-5"
               id="signupName"
-              placeholder="Dennis"
+              placeholder="Name"
+              aria-label="Name"
               autocomplete="name"
               required
             />
-
-            <label for="signupName">Name</label>
 
             <img
               src="../assets/icons/images/person.png"
@@ -57,17 +56,16 @@
             ></p>
           </div>
 
-          <div class="form-floating position-relative mb-3">
+          <div class="auth-input-group position-relative mb-3">
             <input
               type="email"
               class="form-control pe-5"
               id="signupEmail"
-              placeholder="name@example.com"
+              placeholder="Email"
+              aria-label="Email"
               autocomplete="email"
               required
             />
-
-            <label for="signupEmail">Email</label>
 
             <img
               src="../assets/icons/images/mail.png"
@@ -81,18 +79,17 @@
             ></p>
           </div>
 
-          <div class="form-floating position-relative mb-3">
+          <div class="auth-input-group position-relative mb-3">
             <input
               type="password"
               class="form-control password-input"
               id="signupPassword"
               placeholder="Password"
+              aria-label="Password"
               autocomplete="new-password"
               minlength="6"
               required
             />
-
-            <label for="signupPassword">Password</label>
 
             <button
               type="button"
@@ -113,6 +110,7 @@
               >
                 <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z" />
                 <circle cx="12" cy="12" r="2.5" />
+                <path class="password-toggle__slash" d="M4 4l16 16" />
               </svg>
             </button>
             <p
@@ -122,18 +120,17 @@
             ></p>
           </div>
 
-          <div class="form-floating position-relative mb-3">
+          <div class="auth-input-group position-relative mb-3">
             <input
               type="password"
               class="form-control password-input"
               id="signupConfirmPassword"
-              placeholder="Password"
+              placeholder="Confirm Password"
+              aria-label="Confirm Password"
               autocomplete="new-password"
               minlength="6"
               required
             />
-
-            <label for="signupConfirmPassword">Confirm Password</label>
 
             <button
               type="button"
@@ -154,6 +151,7 @@
               >
                 <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z" />
                 <circle cx="12" cy="12" r="2.5" />
+                <path class="password-toggle__slash" d="M4 4l16 16" />
               </svg>
             </button>
             <p
