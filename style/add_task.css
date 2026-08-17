@@ -788,10 +788,11 @@ SUBTASKS
     }
 }
 
-/* Sticky edges for the Add Task page: directly below the header and above
-   the fixed mobile navigation. */
-.app-shell .main-content-wrapper #content.content-panel:has(> .add-task-container) {
-    padding-top: 0 !important;
+/* On responsive layouts the title sits directly below the compact header. */
+@media (max-width: 1023px) {
+    .app-shell .main-content-wrapper #content.content-panel:has(> .add-task-container) {
+        padding-top: 0 !important;
+    }
 }
 
 /* ==========================================================================
