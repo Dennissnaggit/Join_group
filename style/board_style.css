@@ -204,6 +204,21 @@ body.board-no-scroll {
   transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
+/* Enable reliable card dragging on touch and hybrid devices at every width. */
+@media (any-pointer: coarse) {
+  .board-task-card {
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .board-task-card:active {
+    cursor: grabbing;
+    transform: rotate(-5deg);
+    opacity: 0.85;
+  }
+}
+
 /* Hover: lift only when not grabbed */
 .board-task-card:hover:not(:active):not(.board-task-dragging) {
   box-shadow: 0px 4px 16px 6px rgba(0, 0, 0, 0.12);

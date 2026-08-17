@@ -3,6 +3,7 @@ import { getInitials, getAvatarColor, getPriorityIconPath, getPriorityLabel } fr
 import {
   handleTaskDragStart, handleTaskDragEnd,
   handleTaskTouchStart, handleTaskTouchMove, handleTaskTouchEnd,
+  handleTaskTouchCancel,
 } from "./board-drag.js";
 
 const COLUMNS = [
@@ -82,6 +83,7 @@ function attachDragListeners(card) {
   card.addEventListener("touchstart", handleTaskTouchStart, { passive: true });
   card.addEventListener("touchmove",  handleTaskTouchMove,  { passive: false });
   card.addEventListener("touchend",   handleTaskTouchEnd,   { passive: false });
+  card.addEventListener("touchcancel", handleTaskTouchCancel);
 }
 
 /** Builds the subtask progress bar HTML, or empty string if no subtasks. */

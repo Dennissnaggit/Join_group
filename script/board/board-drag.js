@@ -167,3 +167,12 @@ export function handleTaskTouchEnd(event) {
   clearDropActive();
   setTimeout(() => { state.ignoreNextCardClick = false; }, 120);
 }
+
+/** Resets touch drag state when the browser interrupts the gesture. */
+export function handleTaskTouchCancel() {
+  state.touchDraggedTaskId = null;
+  state.touchDropListId = null;
+  state.isTouchDragging = false;
+  state.ignoreNextCardClick = false;
+  clearDropActive();
+}

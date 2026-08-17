@@ -120,6 +120,28 @@ span.desktop-only {
     font-weight: bold; 
 }
 
+/* Shared desktop content frame for the four main application pages. */
+@media (min-width: 1400px) {
+    .app-shell .main-content-wrapper #content.content-panel:has(> .app-page-layout) {
+        padding-top: 126px;
+        padding-left: 96px;
+        padding-right: 96px;
+    }
+
+    #content.content-panel > .app-page-layout {
+        width: 100%;
+        max-width: 976px;
+        min-height: 545px;
+        gap: 48px;
+        box-sizing: border-box;
+        opacity: 1;
+    }
+
+    #content.content-panel > .contacts-main-grid.app-page-layout .contacts-detail-panel {
+        padding-top: 0;
+    }
+}
+
 
 /* ==========================================================================
    ⚡ BREAKPOINT: TABLETS (Below notebook width)
