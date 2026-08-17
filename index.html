@@ -47,7 +47,7 @@
             />
           </div>
 
-          <div class="form-floating position-relative mb-3">
+          <div class="form-floating position-relative login-password-field">
             <input
               type="password"
               class="form-control password-input"
@@ -80,6 +80,12 @@
               </svg>
             </button>
           </div>
+          <p
+            class="login-field-error"
+            id="loginCredentialsError"
+            role="alert"
+            aria-live="polite"
+          ></p>
           <div class="btn-group">
             <button type="submit" class="button-dark">Log In</button>
             <a class="guest-login" href="./pages/summary.html" onclick="localStorage.removeItem('userName'); localStorage.setItem('currentUser', JSON.stringify({email: 'guest@join.com', name: 'Guest User', isGuest: true}))">

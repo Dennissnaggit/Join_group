@@ -829,7 +829,8 @@ font-size: 16px;
   background-size: auto;
 }
 
-.sign-up-page .signup-field-error {
+.sign-up-page .signup-field-error,
+.login-field-error {
   display: none;
   width: 100%;
   margin: 6px 0 0;
@@ -845,7 +846,12 @@ font-size: 16px;
   letter-spacing: 0;
 }
 
-.sign-up-page .signup-field-error.show {
+.login-password-field + .login-field-error {
+  margin-top: 6px;
+}
+
+.sign-up-page .signup-field-error.show,
+.login-field-error.show {
   display: block;
 }
 

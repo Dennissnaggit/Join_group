@@ -9,6 +9,9 @@ const emailInput = document.getElementById("loginEmail");
 const passwordInput = document.getElementById("loginPassword");
 const passwordToggle = document.getElementById("toggleLoginPassword");
 const messageBox = document.getElementById("signupMessage");
+const credentialsError = document.getElementById("loginCredentialsError");
+const credentialsErrorMessage =
+  "Check your email and password. Please try again.";
 
 passwordToggle?.addEventListener("click", () => {
   const passwordIsVisible = passwordInput.type === "text";
@@ -33,7 +36,7 @@ loginForm.addEventListener("submit", async (event) => {
     if (!password) {
       passwordInput.classList.add("is-invalid");
     }
-    showMessage("Bitte gib E-Mail und Passwort ein.", "error");
+    showCredentialsError();
     return;
   }
   try {
@@ -68,7 +71,9 @@ loginForm.addEventListener("submit", async (event) => {
     console.error(error);
     emailInput.classList.add("is-invalid");
     passwordInput.classList.add("is-invalid");
-    showMessage("Der Login ist fehlgeschlagen.", "error");
+    passwordInput.value = "";
+    showCredentialsError();
+    passwordInput.focus();
   }
 });
 function showMessage(message, type = "success") {
@@ -86,6 +91,21 @@ function showMessage(message, type = "success") {
 function resetValidation() {
   emailInput.classList.remove("is-invalid");
   passwordInput.classList.remove("is-invalid");
+  emailInput.removeAttribute("aria-invalid");
+  passwordInput.removeAttribute("aria-invalid");
+  emailInput.removeAttribute("aria-describedby");
+  passwordInput.removeAttribute("aria-describedby");
+  credentialsError.textContent = "";
+  credentialsError.classList.remove("show");
+}
+
+function showCredentialsError() {
+  [emailInput, passwordInput].forEach((input) => {
+    input.setAttribute("aria-invalid", "true");
+    input.setAttribute("aria-describedby", "loginCredentialsError");
+  });
+  credentialsError.textContent = credentialsErrorMessage;
+  credentialsError.classList.add("show");
 }
 emailInput.addEventListener("input", resetValidation);
 passwordInput.addEventListener("input", resetValidation);
