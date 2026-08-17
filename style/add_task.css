@@ -17,6 +17,16 @@
     box-sizing: border-box;
 }
 
+.headerTask {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    padding: 0 0 0.75rem;
+    background-color: var(--background-color);
+    box-shadow: 0 0 0 100vmax var(--background-color);
+    clip-path: inset(0 -100vmax);
+}
+
 .headerTask h1 {
     font-family: "Inter", sans-serif;
     font-weight: 700;
@@ -196,12 +206,16 @@ FOOTER
 ========================================================================== */
 
 .footerTask {
+    position: sticky;
+    bottom: 0;
+    z-index: 20;
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     margin-top: 1.5rem;
-    padding-top: 1rem;
+    padding: 1rem 0;
+    background-color: var(--background-color);
     box-sizing: border-box;
 }
 
@@ -580,8 +594,19 @@ SUBTASKS
     }
 
     .footerTask {
+        position: static;
         margin-top: 3rem;
-        padding-bottom: 1.5rem;
+        padding-bottom: 0;
+    }
+
+    .footerButtons {
+        position: fixed;
+        right: 1rem;
+        bottom: calc(5rem + 8px);
+        z-index: 30;
+        width: min(440px, calc(100% - 2rem));
+        padding: 0.75rem 0 0;
+        background-color: var(--background-color);
     }
 }
 
@@ -725,16 +750,20 @@ SUBTASKS
     /* Footer */
     .footerTask {
         width: 100%;
-        flex-direction: column-reverse;
+        flex-direction: column;
         align-items: stretch;
         gap: 1.5rem;
         margin-top: 2rem;
-        padding-top: 0;
+        padding-top: 0.75rem;
+        padding-bottom: 0;
     }
 
     .footerButtons {
         display: flex;
-        width: 100%;
+        right: 1rem;
+        left: 1rem;
+        width: auto;
+        max-width: none;
         gap: 0.75rem;
     }
 
@@ -757,6 +786,12 @@ SUBTASKS
         opacity: 1;
         visibility: visible;
     }
+}
+
+/* Sticky edges for the Add Task page: directly below the header and above
+   the fixed mobile navigation. */
+.app-shell .main-content-wrapper #content.content-panel:has(> .add-task-container) {
+    padding-top: 0 !important;
 }
 
 /* ==========================================================================
