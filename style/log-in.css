@@ -869,7 +869,8 @@ font-size: 16px;
 .custom-icon {
   position: absolute;
   right: 16px;
-  top: 50%;
+  /* Keep the icon centered on the input, independent of validation content. */
+  top: 29px;
   transform: translateY(-50%);
   width: 20px;
   height: 20px;
@@ -877,6 +878,12 @@ font-size: 16px;
   z-index: 10;
   cursor: pointer;
   pointer-events: auto;
+}
+
+@media (max-width: 480px) {
+  .login-box .custom-icon {
+    top: 24px;
+  }
 }
 .success-message {
   position: fixed;
