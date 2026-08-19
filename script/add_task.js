@@ -185,20 +185,94 @@ function removeSubtask(icon) {
  */
 function editSubtask(icon) {
   const li = icon.closest("li");
+  const textElement = li.querySelector(".subtask-text");
+  const actions = li.querySelector(".subtask-actions");
+  const text = textElement.textContent.replace("•", "").trim();
+  const editInput = document.createElement("input");
 
-  const text = li
-    .querySelector(".subtask-text")
-    .textContent
-    .replace("•", "")
-    .trim();
+  editInput.type = "text";
+  editInput.className = "subtask-edit-input";
+  editInput.value = text;
+  editInput.dataset.originalValue = text;
+  editInput.setAttribute("aria-label", "Subtask bearbeiten");
+  textElement.replaceWith(editInput);
 
-  input.value = text;
-  input.focus();
+  actions.innerHTML = `
+    <img
+      src="../assets/AdTask/close.png"
+      class="action-icon"
+      onclick="cancelSubtaskEdit(this)"
+      alt="Abbrechen"
+    >
+    <div class="action-divider"></div>
+    <img
+      src="../assets/AdTask/check.png"
+      class="action-icon"
+      onclick="saveSubtaskEdit(this)"
+      alt="Speichern"
+    >
+  `;
 
-  li.remove();
+  li.classList.add("is-editing");
+  editInput.addEventListener("keydown", handleSubtaskEditKeydown);
+  editInput.focus();
+  editInput.select();
+}
 
-  inputActions.classList.remove("d-none");
-  inputActions.classList.add("d-flex");
+function handleSubtaskEditKeydown(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    saveSubtaskEdit(event.currentTarget);
+  }
+
+  if (event.key === "Escape") {
+    cancelSubtaskEdit(event.currentTarget);
+  }
+}
+
+function saveSubtaskEdit(element) {
+  const li = element.closest("li");
+  const editInput = li.querySelector(".subtask-edit-input");
+  const text = editInput.value.trim();
+
+  if (!text) {
+    editInput.focus();
+    return;
+  }
+
+  finishSubtaskEdit(li, text);
+}
+
+function cancelSubtaskEdit(element) {
+  const li = element.closest("li");
+  const editInput = li.querySelector(".subtask-edit-input");
+
+  finishSubtaskEdit(li, editInput.dataset.originalValue);
+}
+
+function finishSubtaskEdit(li, text) {
+  const editInput = li.querySelector(".subtask-edit-input");
+  const textElement = document.createElement("span");
+
+  textElement.className = "subtask-text";
+  textElement.textContent = `• ${text}`;
+  editInput.replaceWith(textElement);
+  li.querySelector(".subtask-actions").innerHTML = `
+    <img
+      src="../assets/AdTask/edit.png"
+      class="action-icon"
+      onclick="editSubtask(this)"
+      alt="Bearbeiten"
+    >
+    <div class="action-divider"></div>
+    <img
+      src="../assets/AdTask/close.png"
+      class="action-icon"
+      onclick="removeSubtask(this)"
+      alt="Löschen"
+    >
+  `;
+  li.classList.remove("is-editing");
 }
 
 
@@ -211,6 +285,8 @@ window.clearSubtaskInput = clearSubtaskInput;
 window.addSubtask = addSubtask;
 window.removeSubtask = removeSubtask;
 window.editSubtask = editSubtask;
+window.saveSubtaskEdit = saveSubtaskEdit;
+window.cancelSubtaskEdit = cancelSubtaskEdit;
 
 
 /* =========================================================
@@ -600,13 +676,13 @@ function resetAddTaskForm() {
 function getSubtasks() {
   const subtaskElements =
     document.querySelectorAll(
-      "#subtaskList .subtask-text"
+      "#subtaskList .subtask-text, #subtaskList .subtask-edit-input"
     );
 
   return [...subtaskElements].map(
     (subtaskElement) => {
       return {
-        title: subtaskElement.textContent
+        title: (subtaskElement.value || subtaskElement.textContent)
           .replace("•", "")
           .trim(),
 

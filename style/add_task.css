@@ -444,6 +444,10 @@ FOOTER
     min-height: 2.5rem;
 }
 
+.bat-selected-avatars:empty {
+    display: none;
+}
+
 .bat-selected-avatar {
     width: 2.5rem;
     height: 2.5rem;
@@ -527,6 +531,22 @@ SUBTASKS
 .subtask-item:hover .subtask-actions {
     opacity: 1;
     visibility: visible;
+}
+
+.subtask-item.is-editing .subtask-actions {
+    opacity: 1;
+    visibility: visible;
+}
+
+.subtask-edit-input {
+    flex: 1;
+    min-width: 0;
+    padding: 4px 0;
+    border: 0;
+    background: transparent;
+    color: var(--primary-color);
+    font: inherit;
+    outline: none;
 }
 
 .subtask-actions .action-icon {
