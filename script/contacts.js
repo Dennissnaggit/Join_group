@@ -1,4 +1,5 @@
 import { auth, db } from "./firebase.js";
+import { ensureGuestContacts, isGuestSession, writeGuestList, GUEST_CONTACTS_KEY } from "./guest-data.js";
 
 import {
     collection,
@@ -15,22 +16,6 @@ import {
 
 let contacts = [];
 let currentUser = null;
-const GUEST_CONTACTS_KEY = "contacts";
-const GUEST_CONTACTS_SEED = [
-  { id: "guest-contact-1", name: "Max Mustermann", email: "max@guest.join", phone: "+49 170 1000001", color: "#ff7a00" },
-  { id: "guest-contact-2", name: "Erika Muster", email: "erika@guest.join", phone: "+49 170 1000002", color: "#2fd7c4" },
-  { id: "guest-contact-3", name: "Alex Demo", email: "alex@guest.join", phone: "+49 170 1000003", color: "#5a42b2" },
-];
-
-function isGuestSession() {
-  try {
-    const current = JSON.parse(localStorage.getItem("currentUser") || "null");
-    return !!(current && (current.isGuest || current.name === "Guest User"));
-  } catch {
-    return false;
-  }
-}
-
 function readGuestContacts() {
   try {
     const raw = JSON.parse(localStorage.getItem(GUEST_CONTACTS_KEY) || "[]");
@@ -41,12 +26,7 @@ function readGuestContacts() {
 }
 
 function writeGuestContacts(list) {
-  localStorage.setItem(GUEST_CONTACTS_KEY, JSON.stringify(Array.isArray(list) ? list : []));
-}
-
-function ensureGuestContacts() {
-  const list = readGuestContacts();
-  if (!list.length) writeGuestContacts(GUEST_CONTACTS_SEED);
+  writeGuestList(GUEST_CONTACTS_KEY, list);
 }
 /** Initializes the contacts view by triggering the rendering process. */
 async function initContacts() {

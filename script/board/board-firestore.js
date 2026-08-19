@@ -1,5 +1,9 @@
 import { auth, db } from "../firebase.js";
 import { state } from "./board-state.js";
+import {
+  GUEST_CONTACTS_KEY, GUEST_TASKS_KEY, ensureGuestData,
+  isGuestSession, readGuestList, writeGuestList,
+} from "../guest-data.js";
 
 import {
   collection, getDocs, doc,
@@ -9,63 +13,6 @@ import {
 import { onAuthStateChanged }
   from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
-const GUEST_TASKS_KEY = "tasks";
-const GUEST_CONTACTS_KEY = "contacts";
-
-const GUEST_CONTACTS_SEED = [
-  { id: "guest-contact-1", name: "Max Mustermann", email: "max@guest.join", phone: "+49 170 1000001", color: "#ff7a00" },
-  { id: "guest-contact-2", name: "Erika Muster", email: "erika@guest.join", phone: "+49 170 1000002", color: "#2fd7c4" },
-  { id: "guest-contact-3", name: "Alex Demo", email: "alex@guest.join", phone: "+49 170 1000003", color: "#5a42b2" },
-];
-
-const GUEST_TASKS_SEED = [
-  {
-    id: "guest-task-1",
-    title: "Welcome Task",
-    description: "This is a demo task for guest mode.",
-    type: "User Story",
-    status: "todo",
-    priority: "medium",
-    assignedTo: ["Max Mustermann"],
-    dueDate: "2026-08-20",
-    subtasks: [{ title: "Open board", done: true }, { title: "Move card", done: false }],
-  },
-  {
-    id: "guest-task-2",
-    title: "Prepare Feedback",
-    description: "Review progress with team.",
-    type: "Technical Task",
-    status: "in-progress",
-    priority: "urgent",
-    assignedTo: ["Erika Muster", "Alex Demo"],
-    dueDate: "2026-08-18",
-    subtasks: [{ title: "Collect notes", done: false }],
-  },
-  {
-    id: "guest-task-3",
-    title: "Client Review",
-    description: "Waiting for feedback.",
-    type: "User Story",
-    status: "await-feedback",
-    priority: "low",
-    assignedTo: ["Alex Demo"],
-    dueDate: "2026-08-25",
-    subtasks: [],
-  },
-  {
-    id: "guest-task-4",
-    title: "Done Example",
-    description: "Completed task sample.",
-    type: "Technical Task",
-    status: "done",
-    priority: "medium",
-    assignedTo: ["Max Mustermann"],
-    dueDate: "2026-08-10",
-    subtasks: [{ title: "Close task", done: true }],
-  },
-];
-
-
 /** Resolves once Firebase Auth has determined the current user. */
 export function waitForAuthUser() {
   return new Promise(resolve => {
@@ -73,37 +20,6 @@ export function waitForAuthUser() {
     const unsub = onAuthStateChanged(auth, user => { unsub(); resolve(user); });
   });
 }
-
-function isGuestSession() {
-  try {
-    const current = JSON.parse(localStorage.getItem("currentUser") || "null");
-    return !!(current && (current.isGuest || current.name === "Guest User"));
-  } catch {
-    return false;
-  }
-}
-
-function readGuestList(key) {
-  try {
-    const raw = JSON.parse(localStorage.getItem(key) || "[]");
-    return Array.isArray(raw) ? raw : [];
-  } catch {
-    return [];
-  }
-}
-
-function writeGuestList(key, list) {
-  localStorage.setItem(key, JSON.stringify(Array.isArray(list) ? list : []));
-}
-
-function ensureGuestData() {
-  const contacts = readGuestList(GUEST_CONTACTS_KEY);
-  if (!contacts.length) writeGuestList(GUEST_CONTACTS_KEY, GUEST_CONTACTS_SEED);
-
-  const tasks = readGuestList(GUEST_TASKS_KEY);
-  if (!tasks.length) writeGuestList(GUEST_TASKS_KEY, GUEST_TASKS_SEED);
-}
-
 
 /** Normalises raw Firestore data into the board task shape. */
 function normalizeBoardTask(id, data) {
@@ -164,14 +80,14 @@ function normalizeContact(id, data) {
 
 /** Loads all tasks from the shared Firestore collection into state.tasks. */
 export async function loadTasksFromFirestore() {
-  const user = await waitForAuthUser();
-
-  if (!user) {
-    if (!isGuestSession()) throw new Error("Not logged in");
+  if (isGuestSession()) {
     ensureGuestData();
     state.tasks = readGuestList(GUEST_TASKS_KEY).map(t => normalizeBoardTask(t.id, t));
     return;
   }
+
+  const user = await waitForAuthUser();
+  if (!user) throw new Error("Not logged in");
 
   try {
     const snap = await getDocs(collection(db, "users", user.uid, "tasks"));
@@ -187,16 +103,16 @@ export async function loadTasksFromFirestore() {
  * Loads all contacts from the shared Firestore collection into state.contacts.
  */
 export async function loadContactsFromFirestore() {
-  const user = await waitForAuthUser();
-
-  if (!user) {
-    if (!isGuestSession()) throw new Error("Not logged in");
+  if (isGuestSession()) {
     ensureGuestData();
     state.contacts = readGuestList(GUEST_CONTACTS_KEY)
       .map(c => normalizeContact(c.id, c))
       .filter(c => !!c.name);
     return;
   }
+
+  const user = await waitForAuthUser();
+  if (!user) throw new Error("Not logged in");
 
   try {
     const snap = await getDocs(collection(db, "users", user.uid, "contacts"));
@@ -213,8 +129,7 @@ export async function loadContactsFromFirestore() {
 /** Persists a task's status change to Firestore. */
 export async function saveTaskStatus(taskId, status) {
   const user = auth.currentUser;
-  if (!user) {
-    if (!isGuestSession()) return;
+  if (isGuestSession()) {
     const list = readGuestList(GUEST_TASKS_KEY);
     const idx = list.findIndex(t => t.id === taskId);
     if (idx < 0) return;
@@ -222,6 +137,7 @@ export async function saveTaskStatus(taskId, status) {
     writeGuestList(GUEST_TASKS_KEY, list);
     return;
   }
+  if (!user) return;
   await updateDoc(doc(db, "users", user.uid, "tasks", taskId), { status });
 }
 
@@ -229,12 +145,12 @@ export async function saveTaskStatus(taskId, status) {
 /** Deletes a task document from Firestore. */
 export async function deleteTaskFromFirestore(taskId) {
   const user = auth.currentUser;
-  if (!user) {
-    if (!isGuestSession()) throw new Error("Not logged in");
+  if (isGuestSession()) {
     const list = readGuestList(GUEST_TASKS_KEY).filter(t => t.id !== taskId);
     writeGuestList(GUEST_TASKS_KEY, list);
     return;
   }
+  if (!user) throw new Error("Not logged in");
   await deleteDoc(doc(db, "users", user.uid, "tasks", taskId));
 }
 
@@ -242,14 +158,14 @@ export async function deleteTaskFromFirestore(taskId) {
 /** Creates a new task document in Firestore and returns the new document ID. */
 export async function createTaskInFirestore(taskData) {
   const user = auth.currentUser;
-  if (!user) {
-    if (!isGuestSession()) throw new Error("Not logged in");
+  if (isGuestSession()) {
     const id = `guest-task-${crypto.randomUUID()}`;
     const list = readGuestList(GUEST_TASKS_KEY);
     list.push({ id, ...taskData });
     writeGuestList(GUEST_TASKS_KEY, list);
     return id;
   }
+  if (!user) throw new Error("Not logged in");
 
   const ref = await addDoc(
     collection(db, "users", user.uid, "tasks"),
@@ -262,8 +178,7 @@ export async function createTaskInFirestore(taskData) {
 /** Updates specific fields of an existing task document in Firestore. */
 export async function updateTaskInFirestore(taskId, updates) {
   const user = auth.currentUser;
-  if (!user) {
-    if (!isGuestSession()) throw new Error("Not logged in");
+  if (isGuestSession()) {
     const list = readGuestList(GUEST_TASKS_KEY);
     const idx = list.findIndex(t => t.id === taskId);
     if (idx < 0) return;
@@ -271,5 +186,6 @@ export async function updateTaskInFirestore(taskId, updates) {
     writeGuestList(GUEST_TASKS_KEY, list);
     return;
   }
+  if (!user) throw new Error("Not logged in");
   await updateDoc(doc(db, "users", user.uid, "tasks", taskId), updates);
 }

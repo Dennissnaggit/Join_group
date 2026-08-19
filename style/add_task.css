@@ -150,11 +150,15 @@ textarea.form-control {
 .form-control.is-invalid,
 .form-select.is-invalid {
     border-color: rgba(230, 0, 38, 1);
+    background-image: none !important;
 }
 
 .add-task-field-error {
-    display: none;
+    display: block;
+    visibility: hidden;
     width: 100%;
+    height: 27px;
+    box-sizing: border-box;
     margin: 0;
     padding: 4px 8px;
     background: transparent;
@@ -168,7 +172,13 @@ textarea.form-control {
 }
 
 .add-task-field-error.show {
-    display: block;
+    visibility: visible;
+}
+
+@media (max-width: 480px) {
+    .add-task-field-error {
+        height: 46px;
+    }
 }
 
 /* ==========================================================================
@@ -326,7 +336,7 @@ FOOTER
     border: 1px solid #d1d1d1;
     border-radius: 0.625rem;
     z-index: 200;
-    max-height: 15rem;
+    max-height: 11rem;
     overflow-y: auto;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -367,7 +377,7 @@ FOOTER
     align-items: center;
     justify-content: space-between;
 
-    padding: 0.625rem 0.875rem;
+    padding: 0.5rem 0.875rem;
     box-sizing: border-box;
 
     cursor: pointer;
@@ -401,10 +411,10 @@ FOOTER
 /* Avatar */
 
 .bat-contact-avatar {
-    width: 2.625rem;
-    height: 2.625rem;
+    width: 1.75rem;
+    height: 1.75rem;
 
-    flex: 0 0 2.625rem;
+    flex: 0 0 1.75rem;
 
     border-radius: 50%;
 
@@ -415,42 +425,20 @@ FOOTER
     color: white;
 
     font-size: 0.75rem;
-    font-weight: 500;
+    font-weight: 700;
 
-    border: 2px solid white;
+    border: 1px solid white;
 }
 
 
 /* Checkbox */
 
-.bat-checkbox {
+.bat-contact-check {
     width: 1.25rem;
     height: 1.25rem;
-
     flex-shrink: 0;
-
-    border: 2px solid #2a3647;
-    border-radius: 0.25rem;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    font-size: 0.875rem;
-    font-weight: 700;
-
-    color: #2a3647;
-
-    background-color: white;
-}
-
-
-/* Nur Checkbox ändert sich */
-
-.bat-contact-option.selected .bat-checkbox {
-    background-color: #2a3647;
-    border-color: #2a3647;
-    color: white;
+    accent-color: #2a3647;
+    cursor: pointer;
 }
 
 
@@ -461,11 +449,9 @@ FOOTER
     flex-direction: row;
     flex-wrap: wrap;
 
-    gap: 0.375rem;
-
     margin-top: 0.375rem;
 
-    min-height: 2.5rem;
+    min-height: 1.75rem;
 }
 
 .bat-selected-avatars:empty {
@@ -473,8 +459,8 @@ FOOTER
 }
 
 .bat-selected-avatar {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 1.75rem;
+    height: 1.75rem;
 
     border-radius: 50%;
 
@@ -485,9 +471,17 @@ FOOTER
     color: white;
 
     font-size: 0.75rem;
-    font-weight: 500;
+    font-weight: 700;
 
-    border: 2px solid white;
+    border: 1px solid white;
+}
+
+.bat-selected-avatar + .bat-selected-avatar {
+    margin-left: -0.375rem;
+}
+
+.bat-selected-avatar--more {
+    background-color: var(--primary-color, #2a3647);
 }
 
 
@@ -520,6 +514,21 @@ SUBTASKS
 #inputActions {
     gap: 10px;
     flex-shrink: 0;
+}
+
+#inputActions .action-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: scale-down;
+    opacity: 1;
+    transform: rotate(0deg);
+}
+
+#inputActions .action-divider {
+    width: 1px;
+    height: 20px;
+    flex-shrink: 0;
+    background-color: #cbd5e1;
 }
 
 /* Hinzugefügte Subtask */
@@ -562,21 +571,37 @@ SUBTASKS
     visibility: visible;
 }
 
+.subtask-item.is-editing,
+.subtask-item.is-editing:hover {
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #000000 !important;
+    border-radius: 0;
+}
+
 .subtask-edit-input {
     flex: 1;
     min-width: 0;
-    padding: 4px 0;
+    padding: 4px 8px;
     border: 0;
-    background: transparent;
+    border-radius: 0;
+    background-color: #ffffff;
     color: var(--primary-color);
     font: inherit;
     outline: none;
 }
 
+.subtask-text {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: text;
+}
+
 .subtask-actions .action-icon {
     width: 20px;
     height: 20px;
-    object-fit: contain;
+    object-fit: scale-down;
     cursor: pointer;
 }
 
@@ -591,12 +616,25 @@ SUBTASKS
 #subtaskList {
     width: 100%;
     max-width: 100%;
+    height: 80px;
+    margin-bottom: 1.5rem;
+    padding-right: 4px;
     border: none;
     box-sizing: border-box;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+}
+
+#subtaskList .subtask-item {
+    min-height: 40px;
+}
+
+#subtaskList .list-group-item:not(.is-editing) {
+    border: none !important;
 }
 
 #subtaskList .list-group-item {
-    border: none !important;
     box-shadow: none !important;
 }
 
