@@ -114,6 +114,30 @@ textarea.form-control {
     resize: vertical;
 }
 
+.due-date-input-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+}
+
+.due-date-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 21px;
+    color: #6c757d;
+    pointer-events: none;
+    transform: translateY(-50%);
+}
+
+.due-date-input:valid + .due-date-placeholder,
+.due-date-input:focus + .due-date-placeholder {
+    display: none;
+}
+
+.due-date-input:invalid:not(:focus)::-webkit-datetime-edit {
+    color: transparent;
+}
+
 /* Bootstrap-Fokus sauberer */
 .form-control:focus,
 .form-select:focus,

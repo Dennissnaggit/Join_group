@@ -50,7 +50,7 @@
                     type="text"
                     class="form-control"
                     id="TitleOfTask"
-                    placeholder="Title of the task"
+                    placeholder="Enter a Title"
                     required
                   />
                   <p
@@ -68,7 +68,7 @@
                     class="form-control"
                     id="exampleFormControlTextarea1"
                     rows="3"
-                    placeholder="Description of the task"
+                    placeholder="Enter a Description"
                   ></textarea>
                 </div>
 
@@ -77,12 +77,18 @@
                     Due date<span class="required-star">*</span>
                   </label>
 
-                  <input
-                    type="date"
-                    class="form-control"
-                    id="exampleFormControlInput1"
-                    required
-                  />
+                  <div class="due-date-input-wrapper">
+                    <input
+                      type="date"
+                      class="form-control due-date-input"
+                      id="exampleFormControlInput1"
+                      lang="en-GB"
+                      required
+                    />
+                    <span class="due-date-placeholder" aria-hidden="true"
+                      >dd/mm/yyyy</span
+                    >
+                  </div>
                   <p
                     class="add-task-field-error"
                     id="exampleFormControlInput1Error"
