@@ -40,50 +40,13 @@ signupForm.addEventListener("submit", async (event) => {
   const name = nameInput.value.trim();
   const email = emailInput.value.trim();
   const password = passwordInput.value;
-  const confirmPassword = confirmPasswordInput.value;
   const acceptedPrivacy = privacyCheckbox.checked;
   const validationErrors = [];
 
-  // Eigene Validierung vor Firebase
-  if (!name) {
-    validationErrors.push([nameInput, "Please enter your name."]);
-  }
-
-  if (!email) {
-    validationErrors.push([
-      emailInput,
-      "Please enter your email address.",
-    ]);
-  } else if (!isValidEmail(email)) {
-    validationErrors.push([
-      emailInput,
-      "Please enter a valid email address.",
-    ]);
-  }
-
-  if (!password) {
-    validationErrors.push([
-      passwordInput,
-      "Please enter a password.",
-    ]);
-  } else if (password.length < 6) {
-    validationErrors.push([
-      passwordInput,
-      "Your password must contain at least 6 characters.",
-    ]);
-  }
-
-  if (!confirmPassword) {
-    validationErrors.push([
-      confirmPasswordInput,
-      "Please confirm your password.",
-    ]);
-  } else if (password !== confirmPassword) {
-    validationErrors.push([
-      confirmPasswordInput,
-      "The passwords do not match.",
-    ]);
-  }
+  [nameInput, emailInput, passwordInput, confirmPasswordInput].forEach((input) => {
+    const error = getFieldValidationError(input);
+    if (error) validationErrors.push([input, error]);
+  });
 
   if (!acceptedPrivacy) {
     validationErrors.push([
@@ -183,7 +146,6 @@ function showFieldError(input, message) {
   input.setAttribute("aria-describedby", `${input.id}Error`);
   fieldErrors[input.id].textContent = message;
   fieldErrors[input.id].classList.add("show");
-  input.focus();
 }
 
 function resetInvalidFields() {
@@ -199,6 +161,7 @@ function resetInvalidFields() {
 
 [nameInput, emailInput, passwordInput, confirmPasswordInput].forEach((input) => {
   input.addEventListener("input", () => clearFieldError(input));
+  input.addEventListener("blur", () => validateField(input));
 });
 privacyCheckbox.addEventListener("change", () =>
   clearFieldError(privacyCheckbox)
@@ -210,6 +173,32 @@ function clearFieldError(input) {
   input.removeAttribute("aria-describedby");
   fieldErrors[input.id].textContent = "";
   fieldErrors[input.id].classList.remove("show");
+}
+
+function validateField(input) {
+  const error = getFieldValidationError(input);
+
+  if (error) {
+    showFieldError(input, error);
+    return false;
+  }
+
+  clearFieldError(input);
+  return true;
+}
+
+function getFieldValidationError(input) {
+  const value = input.value.trim();
+
+  if (input === nameInput && !value) return "Please enter your name.";
+  if (input === emailInput && !value) return "Please enter your email address.";
+  if (input === emailInput && !isValidEmail(value)) return "Please enter a valid email address.";
+  if (input === passwordInput && !input.value) return "Please enter a password.";
+  if (input === passwordInput && input.value.length < 6) return "Your password must contain at least 6 characters.";
+  if (input === confirmPasswordInput && !input.value) return "Please confirm your password.";
+  if (input === confirmPasswordInput && input.value !== passwordInput.value) return "The passwords do not match.";
+
+  return "";
 }
 
 function isValidEmail(email) {

@@ -1041,10 +1041,24 @@ body:not(.sign-up-page) .login-box--login > .btn-group {
 
 .sign-up-page .form-check {
   flex-wrap: wrap;
+  padding-left: 0;
+}
+
+.sign-up-page .form-check .form-check-input {
+  float: none;
+  margin-left: 0;
+}
+
+.sign-up-page .form-check-input.is-invalid ~ .form-check-label {
+  color: var(--bs-body-color, #212529);
 }
 
 .sign-up-page .form-check .signup-field-error {
   flex-basis: 100%;
+  width: 100%;
+  margin-top: 2px;
+  padding-left: 8px;
+  text-align: left;
 }
 .auth-input-group {
   position: relative;
