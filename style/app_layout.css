@@ -284,7 +284,7 @@ span.desktop-only {
    ========================================================================== */
 @media(max-width: 767px) {
     #content.content-panel {
-        padding-top: 1rem !important;
+        padding-top: 0.5rem !important;
         padding-left: 1rem !important;
         padding-right: 1rem !important;
     }
@@ -394,7 +394,7 @@ span.desktop-only {
     }
 
     #content.content-panel {
-        padding: 1rem 1rem 6rem;
+        padding: 0.5rem 1rem 6rem;
         min-height: calc(100dvh - 11rem);
         box-sizing: border-box;
     }
