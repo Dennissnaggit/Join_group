@@ -1,5 +1,6 @@
 import { state } from "./board/board-state.js";
 import { loadTasksFromFirestore } from "./board/board-firestore.js";
+import { ensureGuestTasks } from "./guest-data.js";
 
 /**
  * Main initialization for Summary page
@@ -49,20 +50,6 @@ function displayUserName() {
   }
 }
 
-function ensureGuestTasksForSummary() {
-  const existing = JSON.parse(localStorage.getItem("tasks") || "[]");
-  if (Array.isArray(existing) && existing.length) return;
-
-  const guestSeed = [
-    { id: "guest-task-1", status: "todo", priority: "medium", dueDate: "2026-08-20" },
-    { id: "guest-task-2", status: "in-progress", priority: "urgent", dueDate: "2026-08-18" },
-    { id: "guest-task-3", status: "await-feedback", priority: "low", dueDate: "2026-08-25" },
-    { id: "guest-task-4", status: "done", priority: "medium", dueDate: "2026-08-10" },
-  ];
-
-  localStorage.setItem("tasks", JSON.stringify(guestSeed));
-}
-
 async function getSummaryTasks() {
   const currentUser = getCurrentUser();
   if (currentUser?.isGuest || currentUser?.name === "Guest User") {
@@ -70,8 +57,7 @@ async function getSummaryTasks() {
       await loadTasksFromFirestore();
       return normalizeSummaryTasks(state.tasks);
     } catch {
-      ensureGuestTasksForSummary();
-      return normalizeSummaryTasks(JSON.parse(localStorage.getItem("tasks")) || []);
+      return normalizeSummaryTasks(ensureGuestTasks());
     }
   }
 

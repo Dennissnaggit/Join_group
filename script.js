@@ -22,23 +22,25 @@ let users = JSON.parse(localStorage.getItem("users")) || [
 /** Initializes the application components and security checks globally. */
 async function init() {
   checkAuthentication();
+
+  let currentFile = window.location.pathname.split("/").pop();
+  let isSpecialPage = currentFile === "legal_notice.html" || currentFile === "privacy_policy.html" || currentFile === "help.html";
+  let urlParams = new URLSearchParams(window.location.search);
+  let isExternal = urlParams.get("view") === "external" || !localStorage.getItem("currentUser");
+
+  // Set the public layout before components are injected so the private
+  // navigation can never flash briefly on legal pages.
+  document.body.classList.toggle("external-view", isSpecialPage && isExternal);
+
   await includeHTML();
   setActivePage();
   initSummaryMobileAnimation();
-  
-  let currentFile = window.location.pathname.split("/").pop();
-  let isSpecialPage = currentFile === "legal_notice.html" || currentFile === "privacy_policy.html" || currentFile === "help.html";
-  
-  let urlParams = new URLSearchParams(window.location.search);
-  let isExternal = urlParams.get("view") === "external" || !localStorage.getItem("currentUser");
-  
-  setTimeout(() => {
-    if (isSpecialPage && isExternal) {
-      handleExternalLayout();
-    } else {
-      handleInternalLayout(isSpecialPage);
-    }
-  }, 50);
+
+  if (isSpecialPage && isExternal) {
+    handleExternalLayout();
+  } else {
+    handleInternalLayout(isSpecialPage);
+  }
   return true;
 }
 

@@ -1,4 +1,8 @@
 import { auth, db } from "./firebase.js";
+import {
+    GUEST_TASKS_KEY, ensureGuestContacts,
+    isGuestSession, readGuestList, writeGuestList,
+} from "./guest-data.js";
 
 import {
     collection,
@@ -185,20 +189,104 @@ function removeSubtask(icon) {
  */
 function editSubtask(icon) {
   const li = icon.closest("li");
+  const textElement = li.querySelector(".subtask-text");
+  const actions = li.querySelector(".subtask-actions");
 
-  const text = li
-    .querySelector(".subtask-text")
-    .textContent
-    .replace("•", "")
-    .trim();
+  if (!textElement || li.classList.contains("is-editing")) {
+    return;
+  }
 
-  input.value = text;
-  input.focus();
+  const text = textElement.textContent.replace("•", "").trim();
+  const editInput = document.createElement("input");
 
-  li.remove();
+  editInput.type = "text";
+  editInput.className = "subtask-edit-input";
+  editInput.value = text;
+  editInput.dataset.originalValue = text;
+  editInput.setAttribute("aria-label", "Subtask bearbeiten");
+  textElement.replaceWith(editInput);
 
-  inputActions.classList.remove("d-none");
-  inputActions.classList.add("d-flex");
+  actions.innerHTML = `
+    <img
+      src="../assets/AdTask/close.png"
+      class="action-icon"
+      onclick="cancelSubtaskEdit(this)"
+      alt="Abbrechen"
+    >
+    <div class="action-divider"></div>
+    <img
+      src="../assets/AdTask/check.png"
+      class="action-icon"
+      onclick="saveSubtaskEdit(this)"
+      alt="Speichern"
+    >
+  `;
+
+  li.classList.add("is-editing");
+  editInput.addEventListener("keydown", handleSubtaskEditKeydown);
+  editInput.focus();
+  editInput.select();
+}
+
+document.getElementById("subtaskList").addEventListener("dblclick", (event) => {
+  const textElement = event.target.closest(".subtask-text");
+  if (textElement) editSubtask(textElement);
+});
+
+function handleSubtaskEditKeydown(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    saveSubtaskEdit(event.currentTarget);
+  }
+
+  if (event.key === "Escape") {
+    cancelSubtaskEdit(event.currentTarget);
+  }
+}
+
+function saveSubtaskEdit(element) {
+  const li = element.closest("li");
+  const editInput = li.querySelector(".subtask-edit-input");
+  const text = editInput.value.trim();
+
+  if (!text) {
+    editInput.focus();
+    return;
+  }
+
+  finishSubtaskEdit(li, text);
+}
+
+function cancelSubtaskEdit(element) {
+  const li = element.closest("li");
+  const editInput = li.querySelector(".subtask-edit-input");
+
+  finishSubtaskEdit(li, editInput.dataset.originalValue);
+}
+
+function finishSubtaskEdit(li, text) {
+  const editInput = li.querySelector(".subtask-edit-input");
+  const textElement = document.createElement("span");
+
+  textElement.className = "subtask-text";
+  textElement.textContent = `• ${text}`;
+  editInput.replaceWith(textElement);
+  li.querySelector(".subtask-actions").innerHTML = `
+    <img
+      src="../assets/AdTask/edit.png"
+      class="action-icon"
+      onclick="editSubtask(this)"
+      alt="Bearbeiten"
+    >
+    <div class="action-divider"></div>
+    <img
+      src="../assets/AdTask/close.png"
+      class="action-icon"
+      onclick="removeSubtask(this)"
+      alt="Löschen"
+    >
+  `;
+  li.classList.remove("is-editing");
 }
 
 
@@ -211,6 +299,8 @@ window.clearSubtaskInput = clearSubtaskInput;
 window.addSubtask = addSubtask;
 window.removeSubtask = removeSubtask;
 window.editSubtask = editSubtask;
+window.saveSubtaskEdit = saveSubtaskEdit;
+window.cancelSubtaskEdit = cancelSubtaskEdit;
 
 
 /* =========================================================
@@ -243,6 +333,12 @@ document
  */
 async function loadContacts() {
     const user = auth.currentUser;
+
+    if (isGuestSession()) {
+        availableContacts = ensureGuestContacts().sort((a, b) => a.name.localeCompare(b.name));
+        renderAssignedToOptions();
+        return;
+    }
 
     if (!user) {
         console.error("Kontakte konnten nicht geladen werden: Kein User eingeloggt.");
@@ -314,7 +410,7 @@ function createAssignedContactTemplate(contact) {
         getContactInitials(contact.name);
 
     return `
-        <div
+        <label
             class="bat-contact-option ${selected ? "selected" : ""}"
             data-contact-id="${contact.id}"
         >
@@ -332,11 +428,13 @@ function createAssignedContactTemplate(contact) {
 
             </div>
 
-            <div class="bat-checkbox">
-                ${selected ? "✓" : ""}
-            </div>
+            <input
+                type="checkbox"
+                class="bat-contact-check"
+                ${selected ? "checked" : ""}
+            >
 
-        </div>
+        </label>
     `;
 }
 
@@ -398,36 +496,34 @@ function toggleAssignedContact(contactId) {
 }
 
 function renderSelectedContacts() {
-    assignedToSelected.innerHTML =
-        selectedContactIds
-            .map((contactId) => {
+    const selectedContacts = selectedContactIds
+        .map((contactId) =>
+            availableContacts.find((contact) => contact.id === contactId)
+        )
+        .filter(Boolean);
 
-                const contact =
-                    availableContacts.find(
-                        (contact) =>
-                            contact.id === contactId
-                    );
+    const visibleAvatars = selectedContacts
+        .slice(0, 4)
+        .map((contact) => `
+            <div
+                class="bat-selected-avatar"
+                style="background-color: ${contact.color}"
+                title="${contact.name}"
+            >
+                ${getContactInitials(contact.name)}
+            </div>
+        `)
+        .join("");
 
-                if (!contact) {
-                    return "";
-                }
+    const additionalCount = selectedContacts.length - 4;
+    const additionalAvatar = additionalCount > 0
+        ? `<div class="bat-selected-avatar bat-selected-avatar--more"
+                title="${additionalCount} additional assignee${additionalCount === 1 ? "" : "s"}">
+                +${additionalCount}
+           </div>`
+        : "";
 
-                const initials =
-                    getContactInitials(
-                        contact.name
-                    );
-
-                return `
-                    <div
-                        class="bat-selected-avatar"
-                        style="background-color: ${contact.color}"
-                        title="${contact.name}"
-                    >
-                        ${initials}
-                    </div>
-                `;
-            })
-            .join("");
+    assignedToSelected.innerHTML = visibleAvatars + additionalAvatar;
 }
 
 assignedToToggle.addEventListener(
@@ -562,7 +658,7 @@ function resetAddTaskForm() {
         "../assets/AdTask/prioUrgentNotActive.png";
 
     document.querySelector(".mediumBtn img").src =
-        "../assets/AdTask/prioMedNotActive.png";
+        "../assets/AdTask/prioMedActive.png";
 
     document.querySelector(".lowBtn img").src =
         "../assets/AdTask/prioLowNotActive.png";
@@ -600,13 +696,13 @@ function resetAddTaskForm() {
 function getSubtasks() {
   const subtaskElements =
     document.querySelectorAll(
-      "#subtaskList .subtask-text"
+      "#subtaskList .subtask-text, #subtaskList .subtask-edit-input"
     );
 
   return [...subtaskElements].map(
     (subtaskElement) => {
       return {
-        title: subtaskElement.textContent
+        title: (subtaskElement.value || subtaskElement.textContent)
           .replace("•", "")
           .trim(),
 
@@ -654,6 +750,17 @@ function getPriority() {
 async function createTask() {
   const user = auth.currentUser;
 
+  if (isGuestSession()) {
+    const task = buildTaskData();
+    const tasks = readGuestList(GUEST_TASKS_KEY);
+    const id = `guest-task-${crypto.randomUUID()}`;
+    tasks.push({ id, ...task });
+    writeGuestList(GUEST_TASKS_KEY, tasks);
+    await showTaskAddedMessage();
+    window.location.href = "board.html";
+    return id;
+  }
+
   if (!user) {
     console.error(
       "Task konnte nicht erstellt werden: Kein User eingeloggt."
@@ -664,37 +771,9 @@ async function createTask() {
     return;
   }
 
-  const title = document
-    .getElementById("TitleOfTask")
-    .value
-    .trim();
-
-  const description = document
-    .getElementById(
-      "exampleFormControlTextarea1"
-    )
-    .value
-    .trim();
-
-  const dueDate = document.getElementById(
-    "exampleFormControlInput1"
-  ).value;
-
-  const category =
-    document.getElementById("category").value;
-
-  const task = {
-    title: title,
-    description: description,
-    dueDate: dueDate,
-    priority: getPriority(),
-    category: category,
-    assignedTo: getAssignedTo(),
-    subtasks: getSubtasks(),
-
-    createdBy: user.uid,
-    createdAt: serverTimestamp(),
-  };
+  const task = buildTaskData();
+  task.createdBy = user.uid;
+  task.createdAt = serverTimestamp();
 
   console.log("User UID:", user.uid);
   console.log("Task wird gespeichert:", task);
@@ -738,6 +817,37 @@ async function createTask() {
   }
 }
 
+function buildTaskData() {
+  const title = document
+    .getElementById("TitleOfTask")
+    .value
+    .trim();
+
+  const description = document
+    .getElementById(
+      "exampleFormControlTextarea1"
+    )
+    .value
+    .trim();
+
+  const dueDate = document.getElementById(
+    "exampleFormControlInput1"
+  ).value;
+
+  const category =
+    document.getElementById("category").value;
+
+  return {
+    title: title,
+    description: description,
+    dueDate: dueDate,
+    priority: getPriority(),
+    category: category,
+    assignedTo: getAssignedTo(),
+    subtasks: getSubtasks(),
+  };
+}
+
 /** Shows the success message before opening the board. */
 function showTaskAddedMessage() {
   taskAddedMessage.classList.add("show");
@@ -779,26 +889,36 @@ function resetTaskFieldErrors() {
   requiredTaskFields.forEach(clearTaskFieldError);
 }
 
+function getTaskFieldError(field) {
+  if (field === titleInput && !field.value.trim()) {
+    return "This field is required.";
+  }
+  if (field === dueDateInput && !field.value) {
+    return "This field is required.";
+  }
+  if (field === dueDateInput && field.value < field.min) {
+    return "Please select a current or future date.";
+  }
+  if (field === categoryInput && !field.value) {
+    return "This field is required.";
+  }
+  return "";
+}
+
+function validateTaskField(field) {
+  const error = getTaskFieldError(field);
+  if (error) {
+    showTaskFieldError(field, error);
+    return false;
+  }
+  clearTaskFieldError(field);
+  return true;
+}
+
 function validateAddTaskForm() {
-  resetTaskFieldErrors();
+  requiredTaskFields.forEach(validateTaskField);
 
-  if (!titleInput.value.trim()) {
-    showTaskFieldError(titleInput, "This field is required.");
-  }
-
-  if (!dueDateInput.value) {
-    showTaskFieldError(dueDateInput, "This field is required.");
-  } else if (dueDateInput.value < dueDateInput.min) {
-    showTaskFieldError(dueDateInput, "Please select a current or future date.");
-  }
-
-  if (!categoryInput.value) {
-    showTaskFieldError(categoryInput, "This field is required.");
-  }
-
-  const firstInvalidField = requiredTaskFields.find((field) =>
-    field.classList.contains("is-invalid")
-  );
+  const firstInvalidField = requiredTaskFields.find(getTaskFieldError);
 
   if (firstInvalidField === categoryInput) {
     categoryToggle.focus();
@@ -809,12 +929,21 @@ function validateAddTaskForm() {
 }
 
 titleInput.addEventListener("input", () => clearTaskFieldError(titleInput));
+titleInput.addEventListener("blur", () => validateTaskField(titleInput));
 dueDateInput.addEventListener("change", () =>
   clearTaskFieldError(dueDateInput)
 );
+dueDateInput.addEventListener("blur", () => validateTaskField(dueDateInput));
 categoryInput.addEventListener("change", () =>
   clearTaskFieldError(categoryInput)
 );
+categoryToggle.addEventListener("blur", () => {
+  window.setTimeout(() => {
+    if (!categoryDropdownWrapper.contains(document.activeElement)) {
+      validateTaskField(categoryInput);
+    }
+  }, 0);
+});
 
 addTaskForm.addEventListener(
   "submit",

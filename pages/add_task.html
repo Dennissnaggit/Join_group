@@ -50,7 +50,7 @@
                     type="text"
                     class="form-control"
                     id="TitleOfTask"
-                    placeholder="Title of the task"
+                    placeholder="Enter a Title"
                     required
                   />
                   <p
@@ -68,7 +68,7 @@
                     class="form-control"
                     id="exampleFormControlTextarea1"
                     rows="3"
-                    placeholder="Description of the task"
+                    placeholder="Enter a Description"
                   ></textarea>
                 </div>
 
@@ -77,12 +77,18 @@
                     Due date<span class="required-star">*</span>
                   </label>
 
-                  <input
-                    type="date"
-                    class="form-control"
-                    id="exampleFormControlInput1"
-                    required
-                  />
+                  <div class="due-date-input-wrapper">
+                    <input
+                      type="date"
+                      class="form-control due-date-input"
+                      id="exampleFormControlInput1"
+                      lang="en-GB"
+                      required
+                    />
+                    <span class="due-date-placeholder" aria-hidden="true"
+                      >dd/mm/yyyy</span
+                    >
+                  </div>
                   <p
                     class="add-task-field-error"
                     id="exampleFormControlInput1Error"
@@ -117,10 +123,11 @@
                       name="priority"
                       id="medium"
                       autocomplete="off"
+                      checked
                     />
                     <label class="priorityBtn mediumBtn" for="medium">
                       <span>Medium</span>
-                      <img src="../assets/AdTask/prioMedNotActive.png" alt="" />
+                      <img src="../assets/AdTask/prioMedActive.png" alt="" />
                     </label>
 
                     <input
@@ -220,7 +227,7 @@
                       class="position-absolute top-50 end-0 translate-middle-y me-2 d-none align-items-center"
                     >
                       <img
-                        src="../assets/AdTask/close.png"
+                        src="../assets/subtask/delete.png"
                         class="action-icon"
                         onclick="clearSubtaskInput()"
                         alt="Abbrechen"
@@ -229,7 +236,7 @@
                       <div class="action-divider"></div>
 
                       <img
-                        src="../assets/AdTask/check.png"
+                        src="../assets/subtask/check.png"
                         class="action-icon"
                         onclick="addSubtask()"
                         alt="Hinzufügen"
