@@ -2,7 +2,7 @@
    6. RESPONSIVE DESIGN: TABLETS & MOBILE COMPACT (below 1024px)
    ========================================================================== */
 @media(max-width: 1023px) {
-    .summary-content-container {
+    /* .summary-content-container {
         width: 100%;
         max-width: 100%;
         margin: 0 auto;
@@ -12,7 +12,13 @@
         padding: 0 1rem;
         gap: 1.5rem;
         box-sizing: border-box;
-    }
+    } */
+    .summary-content-container {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+}
     .greeting-section {
         display: none;
     }
@@ -23,9 +29,9 @@
         flex-direction: column;
         align-items: center;
     }
-    .main-stats > div {
+    /* .main-stats > div {
         width: 100%;
-    }
+    } */
     .summary-header {
         display: flex;
         justify-content: center;
@@ -41,27 +47,43 @@
     .summary-header span {
         font-size: 1.25rem;
     }
-    .metrics-container {
+    /* .metrics-container {
         display: flex;
         flex-direction: column;
         width: 100%;
+        max-width: 700px;
+        margin: 0 auto;
         align-items: center;
         gap: 1rem;
+    } */
+    .metrics-container {
+        gap: 2.25rem; /* Le da más "aire" y altura visual al layout */
+        width: 100%;
     }
-    .metrics-row {
+    /* .metrics-row {
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
         justify-content: space-between;
         width: 100%;
         max-width: 56rem;
-        gap: 0.75rem;
+        gap: 1rem;
         margin: 0 auto;
+    } */
+    .main-stats,
+    .metrics-row,
+    .summary-header {
+        max-width: 720px; /* Evita que las tarjetas se estiren demasiado hacia los lados */
+        width: 100%;
+    }
+    .metrics-row {
+        gap: 1.25rem;
     }
     .summary-card.card-small {
         flex: 1 1 50%;
         max-width: 100%;
-        height: 7.5rem;
+        min-height: 13.5rem;
+        height: auto;
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -73,7 +95,8 @@
     .summary-card.card-wide {
         width: 100%;
         max-width: 56rem;
-        height: 8.5rem;
+        min-height: 13.5rem;
+        height: auto;
         padding: 0 1.5rem;
         border-radius: 1.25rem;
     }
@@ -93,6 +116,16 @@
     .card-mini .tile-info {
         align-items: center;
     }
+    .card-small {
+        max-width: 100%;
+        height: 12rem; /* Aumentamos el alto de 10.5rem a 12rem */
+        padding: 1.5rem 1rem;
+    }
+    .card-wide {
+        max-width: 600px;
+        height: 12rem; /* Mantenemos la misma altura que las tarjetas pequeñas */
+        padding: 1.5rem 2rem;
+    }
     .summary-content-container .summary-card .icon-circle.navy {
         background-color: var(--primary-color);
         width: 3.5rem;
@@ -105,10 +138,10 @@
     }
 
     .count {
-        font-size: 2rem;
+        font-size: 3rem;
     }
     .label {
-        font-size: 0.8rem;
+        font-size: 1.25rem;
         text-align: center;
         line-height: 1.1;
     }
@@ -117,15 +150,15 @@
         margin: 0 0.5rem;
     }
     .date {
-        font-size: 1rem;
+        font-size: 1.25rem;
     }
     .date-label {
-        font-size: 0.8rem;
+        font-size: 1rem;
     }
 }
 
 /* ==========================================================================
-   ⚡ BREAKPOINT MÓVIL EN SU ARCHIVO CORRECTO (summary_style.css)
+   ⚡ BREAKPOINT MOBILE
    ========================================================================== */
 @media(max-width: 767px) {
 
@@ -187,7 +220,7 @@
         height: 3px;
         background-color: #29ABE2;
         flex-shrink: 0;
-        margin: 0.5rem 0 0;
+        margin: 0.2rem 0 0;
     }
 }
 
@@ -256,6 +289,12 @@
    📱 ULTRA-MOBILE RESCUE SHIELD (375px)
    ========================================================================== */
 @media(max-width: 375px) {
+    .summary-header {
+        margin-bottom: 0.8rem;
+    }
+    .metrics-container {
+        gap: 0.5rem;
+    }
     .summary-content-container .summary-card.card-wide {
         flex-direction: column;
         height: auto;

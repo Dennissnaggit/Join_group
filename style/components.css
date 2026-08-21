@@ -235,9 +235,9 @@
 .sidebar-footer {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.75rem;
-    padding: 4rem 0;
+    padding: 4rem 0rem;
     margin-top: auto;
     width: 100%;
 }
@@ -254,8 +254,7 @@
     font-style: normal;
     line-height: 1.2;
     letter-spacing: 0;
-    vertical-align: middle;
-    padding: 0.5rem calc(50% - 64px);
+    padding: 0.5rem 2.5rem;
     text-align: left;
 }
 

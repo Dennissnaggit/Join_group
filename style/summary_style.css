@@ -34,7 +34,7 @@
     justify-content: space-between;
     width: 100%;
     max-width: 35rem;
-    gap: 2rem;
+    gap: 1rem;
 }
 
 /* ==========================================================================
@@ -43,7 +43,7 @@
 .summary-header {
     display: flex;
     align-items: center;
-    gap: clamp(1rem, 2vw, 1.875rem);
+    gap: clamp(1rem, 2vw, 1.875rem);            
     width: 100%;
     max-width: 40rem;
     margin-bottom: 2rem;
@@ -75,7 +75,7 @@
 }
 
 /* ==========================================================================
-   3. TARJETAS DE MÉTRICAS (Estructura de Escritorio)
+   3.METRICS CARDS
    ========================================================================== */
 .summary-content-container .summary-card {
     background-color: var(--white);
@@ -195,6 +195,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+    gap: 0.5rem;
 }
 .date {
     font-size: 1.313rem;
@@ -218,7 +219,7 @@
 }
 
 /* ==========================================================================
-   5. SECCIÓN GREETING (Escritorio)
+   5. SECTION GREETING
    ========================================================================== */
 .greeting-section {
     flex: 0 0 auto;
