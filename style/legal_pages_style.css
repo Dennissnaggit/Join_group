@@ -65,3 +65,14 @@ main.content-panel a:hover,
     text-decoration: underline; 
     color: #2A3647;
 }
+
+.app-shell.loading {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.app-shell {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.25s ease-in-out;
+}

@@ -2,17 +2,6 @@
    6. RESPONSIVE DESIGN: TABLETS & MOBILE COMPACT (below 1024px)
    ========================================================================== */
 @media(max-width: 1023px) {
-    /* .summary-content-container {
-        width: 100%;
-        max-width: 100%;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column-reverse;
-        align-items: center;
-        padding: 0 1rem;
-        gap: 1.5rem;
-        box-sizing: border-box;
-    } */
     .summary-content-container {
     flex-direction: column;
     align-items: center;
@@ -29,9 +18,6 @@
         flex-direction: column;
         align-items: center;
     }
-    /* .main-stats > div {
-        width: 100%;
-    } */
     .summary-header {
         display: flex;
         justify-content: center;
@@ -47,33 +33,14 @@
     .summary-header span {
         font-size: 1.25rem;
     }
-    /* .metrics-container {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        max-width: 700px;
-        margin: 0 auto;
-        align-items: center;
-        gap: 1rem;
-    } */
     .metrics-container {
-        gap: 2.25rem; /* Le da más "aire" y altura visual al layout */
+        gap: 2.25rem;
         width: 100%;
     }
-    /* .metrics-row {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: space-between;
-        width: 100%;
-        max-width: 56rem;
-        gap: 1rem;
-        margin: 0 auto;
-    } */
     .main-stats,
     .metrics-row,
     .summary-header {
-        max-width: 720px; /* Evita que las tarjetas se estiren demasiado hacia los lados */
+        max-width: 720px;
         width: 100%;
     }
     .metrics-row {
@@ -118,12 +85,12 @@
     }
     .card-small {
         max-width: 100%;
-        height: 12rem; /* Aumentamos el alto de 10.5rem a 12rem */
+        height: 12rem;
         padding: 1.5rem 1rem;
     }
     .card-wide {
         max-width: 600px;
-        height: 12rem; /* Mantenemos la misma altura que las tarjetas pequeñas */
+        height: 12rem;
         padding: 1.5rem 2rem;
     }
     .summary-content-container .summary-card .icon-circle.navy {
@@ -226,7 +193,7 @@
 
 /* ==========================================================================
    7. PURE MOBILE MATRIX (428px)
-   ========================================================================== */
+   ==========================================================================*/
 @media(max-width: 428px) {
     .metrics-row {
         max-width: 100%;
