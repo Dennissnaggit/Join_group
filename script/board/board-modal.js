@@ -260,9 +260,9 @@ function buildEditHTML(task) {
           <div id="batSelectedAvatars" class="bat-selected-avatars"></div>
         </div>
         <div class="bat-field">
-          <label class="bat-label">Subtasks</label>
+          <label for="subtaskInput" class="bat-label">Subtasks</label>
           <div class="bat-subtask-input-wrap">
-            <input id="batSubtaskInput" class="bat-input bat-subtask-field" type="text" placeholder="Add new subtask">
+            <input id="subtaskInput" class="bat-input bat-subtask-field" type="text" placeholder="Add new subtask">
             <div class="bat-subtask-input-icons is-empty">
               <button type="button" class="bat-subtask-icon-btn bat-si-plus">+</button>
               <button type="button" class="bat-subtask-icon-btn bat-si-clear"><img src="../assets/icons/board/subtasks/close.svg" alt="x" width="16" height="16"></button>
@@ -335,7 +335,7 @@ function setupEditListeners(task) {
     .forEach(btn => btn.addEventListener("click", () => selectPriority(btn.dataset.prio)));
 
   setupDropdown("batAssignedToggle", "batAssignedDropdown", updateSelectedAvatars);
-  setupSubtaskInput("batSubtaskInput", "batSubtaskAdd", "batSubtaskList");
+  setupSubtaskInput("subtaskInput", "batSubtaskAdd", "batSubtaskList");
   updateSelectedAvatars();
 }
 
