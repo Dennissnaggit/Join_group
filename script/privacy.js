@@ -21,4 +21,4 @@ async function initPrivacy() {
             appShell.classList.remove('loading');
         }
     });
-}
+} 
