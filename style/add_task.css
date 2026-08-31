@@ -451,6 +451,11 @@ FOOTER
     display: none;
 }
 
+/* Keep the dropdown directly below the field while it is open. */
+.bat-dropdown:not(.d-none) + .bat-selected-avatars {
+    display: none;
+}
+
 .bat-selected-avatar {
     width: 1.75rem;
     height: 1.75rem;

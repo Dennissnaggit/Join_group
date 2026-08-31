@@ -108,12 +108,13 @@ export function buildSubtasksBar(task) {
 export function buildAvatarGroup(users) {
   if (!Array.isArray(users) || !users.length) return "";
   return users.map((user, i) => {
-    const contact = state.contacts.find(c => c.name === user);
-    const color = contact?.color || getAvatarColor(user);
+    const contact = state.contacts.find(c => c.name === user || c.id === user);
+    const displayName = contact?.name || user;
+    const color = contact?.color || getAvatarColor(displayName);
     return (
     `<span class="board-avatar"
       style="background-color:${color};z-index:${100 - i}"
-      title="${user}">${getInitials(user)}</span>`
+      title="${displayName}">${getInitials(displayName)}</span>`
     );
   }).join("");
 }

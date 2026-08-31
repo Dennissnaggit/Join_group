@@ -107,12 +107,13 @@ function buildDetailHTML(task) {
 function buildUsersHtml(assignedTo) {
   if (!assignedTo?.length) return "<li>Not assigned</li>";
   return assignedTo.map(user => {
-    const contact = state.contacts.find(c => c.name === user);
-    const color = contact?.color || getAvatarColor(user);
+    const contact = state.contacts.find(c => c.name === user || c.id === user);
+    const displayName = contact?.name || user;
+    const color = contact?.color || getAvatarColor(displayName);
     return `
     <li class="board-modal-user-item">
-      <span class="board-avatar" style="background-color:${color}">${getInitials(user)}</span>
-      <span>${user}</span>
+      <span class="board-avatar" style="background-color:${color}">${getInitials(displayName)}</span>
+      <span>${displayName}</span>
     </li>`;
   }).join("");
 }
@@ -296,7 +297,7 @@ function buildContactCheckboxes(assignedTo) {
         <span>${c.name}</span>
       </div>
       <input type="checkbox" value="${c.name}" class="bat-contact-check"
-        ${(assignedTo || []).includes(c.name) ? "checked" : ""}>
+        ${(assignedTo || []).includes(c.name) || (assignedTo || []).includes(c.id) ? "checked" : ""}>
     </label>`).join("");
 }
 

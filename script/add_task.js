@@ -717,7 +717,11 @@ function getSubtasks() {
  * Alle ausgewählten Kontakte holen.
  */
 function getAssignedTo() {
-    return [...selectedContactIds];
+    return selectedContactIds
+        .map((contactId) =>
+            availableContacts.find((contact) => contact.id === contactId)?.name
+        )
+        .filter(Boolean);
 }
 
 
