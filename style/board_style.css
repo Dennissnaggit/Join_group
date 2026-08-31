@@ -115,6 +115,7 @@ body.board-no-scroll {
 .board-column {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .board-column-header {
@@ -641,6 +642,7 @@ body.board-no-scroll {
   .board-content-container {
     max-width: 100%;
     padding-bottom: calc(5.75rem + env(safe-area-inset-bottom));
+    overflow-x: clip;
   }
 
   .board-top-row {
@@ -692,20 +694,30 @@ body.board-no-scroll {
   .board-columns {
     grid-template-columns: 1fr;
     margin-bottom: 1rem;
+    width: 100%;
+    min-width: 0;
   }
 
   .board-task-list {
     gap: 0.625rem;
     flex-direction: row;
-    flex-wrap: wrap;
-    overflow-x: visible;
-    padding-bottom: 0;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 0.75rem;
     align-items: flex-start;
     min-height: 12rem;
+    max-width: 100%;
+    min-width: 0;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
   }
 
   .board-task-card {
-    width: 100%;
+    width: min(15.75rem, calc(100vw - 3rem));
+    min-width: min(15.75rem, calc(100vw - 3rem));
+    flex: 0 0 auto;
+    scroll-snap-align: start;
   }
 
   .board-task-modal {
