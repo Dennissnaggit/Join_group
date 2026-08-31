@@ -17,7 +17,7 @@ function createContactListItemTemplate(contact, initials) {
 function createContactDetailTemplate(contact, initials) {
   return `
         <div class="contact-detail-view animate-fade-in">
-            <div class="mobile-back-arrow" onclick="hideMobileDetail()"><img src="../assets/logo/arrow-left.svg"></div>
+            <div class="mobile-back-arrow" onclick="hideMobileDetail()"><img src="../assets/icons/arrow-left-line.svg"></div>
             <div class="contact-detail-header">
                 <div class="contact-avatar-large" style="background-color: ${
                   contact.color
@@ -65,7 +65,7 @@ function getEditFormTemplate(c) {
         <div class="input-icon-container"><input type="tel" id="modalPhone" value="${c.phone}" required><img src="../assets/icons/lock.svg"></div>
         <div class="modal-actions-container">
             <button type="button" class="btn-cancel" style="width:113px;height:55px;" onclick="deleteContact('${c.id}')">Delete</button>
-            <button type="submit" class="btn-create" style="width:113px;height:55px;">Save <img src="../assets/icons/check_white.svg"></button>
+            <button type="submit" class="btn-create" style="width:113px;height:55px;">Save <img src="../assets/icons/check.svg"></button>
         </div>
     </form>`;
 }
