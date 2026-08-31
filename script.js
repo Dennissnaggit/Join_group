@@ -41,6 +41,11 @@ async function init() {
   } else {
     handleInternalLayout(isSpecialPage);
   }
+
+  requestAnimationFrame(() => {
+    document.querySelector(".app-shell")?.classList.remove("loading");
+  });
+
   return true;
 }
 
