@@ -194,12 +194,12 @@
         height: 2.5rem;
         flex-shrink: 0;
     }
-.icon-circle.orange img,
-.icon-circle.navy img {
-    width: 2.5rem;
-    height: 2.5rem;
-    object-fit: contain;
-}
+    .icon-circle.orange img,
+    .icon-circle.navy img {
+        width: 2.5rem;
+        height: 2.5rem;
+        object-fit: contain;
+    }
 
     .count {
         font-size: 2.5rem;
@@ -234,6 +234,12 @@
    7. PURE MOBILE MATRIX (428px)
    ==========================================================================*/
 @media(max-width: 428px) {
+#content.content-panel {
+    padding-top: 0.5rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+
     .metrics-row {
         max-width: 100%;
         gap: 0.5rem;
