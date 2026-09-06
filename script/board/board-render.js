@@ -107,10 +107,7 @@ export function buildSubtasksBar(task) {
 /** Builds stacked avatar circles for the given list of user names. */
 export function buildAvatarGroup(users) {
   if (!Array.isArray(users) || !users.length) return "";
-  const visibleUsers = users.slice(0, 3);
-  const hiddenCount = Math.max(0, users.length - visibleUsers.length);
-
-  const avatars = visibleUsers.map((user, i) => {
+  return users.map((user, i) => {
     const contact = state.contacts.find(c => c.name === user || c.id === user);
     const displayName = contact?.name || user;
     const color = contact?.color || getAvatarColor(displayName);
@@ -120,10 +117,4 @@ export function buildAvatarGroup(users) {
       title="${displayName}">${getInitials(displayName)}</span>`
     );
   }).join("");
-
-  const moreBadge = hiddenCount
-    ? `<span class="board-avatar board-avatar-more" title="${hiddenCount} weitere Kontakte">+${hiddenCount}</span>`
-    : "";
-
-  return `${avatars}${moreBadge}`;
 }
