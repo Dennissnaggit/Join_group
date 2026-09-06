@@ -1,21 +1,23 @@
 import { auth, db } from "./firebase.js";
-import { ensureGuestContacts, isGuestSession, writeGuestList, GUEST_CONTACTS_KEY } from "./guest-data.js";
-
 import {
-    collection,
-    addDoc,
-    getDocs,
-    doc,
-    updateDoc,
-    deleteDoc
+  ensureGuestContacts,
+  isGuestSession,
+  writeGuestList,
+  GUEST_CONTACTS_KEY,
+} from "./guest-data.js";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  doc,
+  updateDoc,
+  deleteDoc,
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
-
-import {
-    onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
 let contacts = [];
 let currentUser = null;
+
 function readGuestContacts() {
   try {
     const raw = JSON.parse(localStorage.getItem(GUEST_CONTACTS_KEY) || "[]");
@@ -28,28 +30,21 @@ function readGuestContacts() {
 function writeGuestContacts(list) {
   writeGuestList(GUEST_CONTACTS_KEY, list);
 }
-/** Initializes the contacts view by triggering the rendering process. */
-async function initContacts() {
-    await init();
 
+async function initContacts() {
+  await init();
   if (isGuestSession()) {
     currentUser = null;
     await loadSharedContactsForGuest();
     renderContactList();
     return;
   }
-
-    onAuthStateChanged(auth, async (user) => {
-        if (!user) {
-            console.error("Kein Benutzer eingeloggt.");
-            return;
-        }
-
-        currentUser = user;
-
-        await loadContacts();
-        renderContactList();
-    });
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) return console.error("Kein Benutzer eingeloggt.");
+    currentUser = user;
+    await loadContacts();
+    renderContactList();
+  });
 }
 
 async function loadSharedContactsForGuest() {
@@ -59,27 +54,18 @@ async function loadSharedContactsForGuest() {
 
 async function loadContacts() {
   if (!currentUser) return;
-
-    try {
-        const contactsRef = collection(
-            db,
-            "users",
-            currentUser.uid,
-            "contacts"
-        );
-
-        const snapshot = await getDocs(contactsRef);
-
-        contacts = snapshot.docs.map((document) => ({
-            id: document.id,
-            ...document.data()
-        }));
-    } catch (error) {
-        console.error("Fehler beim Laden der Kontakte:", error);
-    }
+  try {
+    const contactsRef = collection(db, "users", currentUser.uid, "contacts");
+    const snapshot = await getDocs(contactsRef);
+    contacts = snapshot.docs.map((document) => ({
+      id: document.id,
+      ...document.data(),
+    }));
+  } catch (error) {
+    console.error("Fehler beim Laden der Kontakte:", error);
+  }
 }
 
-/** Sorts contacts alphabetically and clears the container before building the list. */
 function renderContactList() {
   let container = document.getElementById("contactsListContainer");
   if (!container) return;
@@ -88,7 +74,6 @@ function renderContactList() {
   buildListHTML(container);
 }
 
-/** Iterates through contacts to inject letter dividers and individual contact items. */
 function buildListHTML(container) {
   let currentLetter = "";
   contacts.forEach((contact) => {
@@ -102,18 +87,28 @@ function buildListHTML(container) {
   });
 }
 
-/** Finds a specific contact, highlights it in the list, and displays its full details. */
 function showContactDetails(id) {
-  let contact = contacts.find((c) => c.id === id);
+  let contact = contacts.find((c) => String(c.id) === String(id));
   let container = document.getElementById("contactDetailContainer");
   if (!contact || !container) return;
+
   highlightActiveItem(id);
   let initials = getInitials(contact.name);
   container.innerHTML = createContactDetailTemplate(contact, initials);
   handleMobileViewToggle();
+
+  let mobileMenu = document.getElementById("mobileActionMenu");
+  let mobileEditBtn = document.querySelector(".action-btn-edit");
+  let mobileDeleteBtn = document.querySelector(".action-btn-delete");
+
+  if (mobileEditBtn) mobileEditBtn.setAttribute("data-id", id);
+  if (mobileDeleteBtn) mobileDeleteBtn.setAttribute("data-id", id);
+
+  if (mobileMenu) {
+    mobileMenu.classList.remove("d-none");
+  }
 }
 
-/** Removes the active styling from all list items and applies it to the selected contact. */
 function highlightActiveItem(id) {
   document
     .querySelectorAll(".contact-list-item")
@@ -122,228 +117,214 @@ function highlightActiveItem(id) {
   if (activeItem) activeItem.classList.add("active");
 }
 
-/** Switches the mobile interface visibility from the contact list to the detailed panel. */
 function handleMobileViewToggle() {
   if (window.innerWidth <= 850) {
     document
       .querySelector(".contacts-sidebar-list")
-      .classList.add("d-none-mobile");
+      ?.classList.add("d-none-mobile");
     document
       .querySelector(".contacts-detail-panel")
-      .classList.add("d-show-mobile");
+      ?.classList.add("d-show-mobile");
   }
 }
 
-/** Restores the contact list view and hides the detailed panel on mobile devices. */
 function hideMobileDetail() {
   document
     .querySelector(".contacts-sidebar-list")
-    .classList.remove("d-none-mobile");
+    ?.classList.remove("d-none-mobile");
   document
     .querySelector(".contacts-detail-panel")
-    .classList.remove("d-show-mobile");
+    ?.classList.remove("d-show-mobile");
 }
 
-/** Injects the creation form template and makes the contact modal visible. */
 function openAddContactModal() {
   let overlay = document.getElementById("contactModalOverlay");
   let content = document.getElementById("contactModalContent");
-  content.innerHTML = createAddModalTemplate();
-  overlay.classList.remove("d-none");
+  if (content) content.innerHTML = createAddModalTemplate();
+  if (overlay) overlay.classList.remove("d-none");
 }
 
-function openEditModal(id) {
-  let contact = contacts.find((c) => c.id === id);
-  if (!contact) return;
+function getTargetId(event, element) {
+  if (typeof element === "string" || typeof element === "number")
+    return String(element).trim();
+  if (typeof event === "string" || typeof event === "number")
+    return String(event).trim();
+  let el = element || event?.currentTarget || event?.target;
+  let target = el?.closest?.("[data-id]") || el;
+  return target?.getAttribute?.("data-id") || null;
+}
+
+function openEditModal(event, element) {
+  event?.preventDefault?.();
+  event?.stopPropagation?.();
+  let targetId = getTargetId(event, element);
+  let contact = contacts.find(
+    (c) => String(c.id).trim() === String(targetId).trim()
+  );
   let overlay = document.getElementById("contactModalOverlay");
   let content = document.getElementById("contactModalContent");
-  let initials = getInitials(contact.name);
-  content.innerHTML = createEditModalTemplate(contact, initials);
+  if (!contact || !overlay || !content) return;
+
+  content.innerHTML = createEditModalTemplate(
+    contact,
+    getInitials(contact.name)
+  );
   overlay.classList.remove("d-none");
 }
 
 function closeContactModal() {
   let overlay = document.getElementById("contactModalOverlay");
   let content = document.getElementById("contactModalContent");
-  
-  overlay.classList.add("d-none");
-  
-  if (content) {
-    content.innerHTML = "";
-  }
+  if (overlay) overlay.classList.add("d-none");
+  if (content) content.innerHTML = "";
 }
 
-/** Prevents form submission default behavior, creates a new contact object, and saves it. */
 async function saveNewContact(event) {
-    event.preventDefault();
-
-    const newContact = {
-    id: `contact-${crypto.randomUUID()}`,
-        name: document.getElementById("modalName").value.trim(),
-        email: document.getElementById("modalEmail").value.trim(),
-        phone: document.getElementById("modalPhone").value.trim(),
-        color: getRandomColor()
-    };
-
+  event.preventDefault();
+  const newContact = createContactDataObj();
   if (!currentUser && isGuestSession()) {
     contacts.push(newContact);
     writeGuestContacts(contacts);
     executePostSaveActions();
     return;
   }
+  if (!currentUser) return console.error("Kein Benutzer eingeloggt.");
+  await saveContactToFirestore(newContact);
+}
 
-  if (!currentUser) {
-    console.error("Kein Benutzer eingeloggt.");
-    return;
+function createContactDataObj() {
+  return {
+    id: `contact-${crypto.randomUUID()}`,
+    name: document.getElementById("modalName").value.trim(),
+    email: document.getElementById("modalEmail").value.trim(),
+    phone: document.getElementById("modalPhone").value.trim(),
+    color: getRandomColor(),
+  };
+}
+
+async function saveContactToFirestore(newContact) {
+  try {
+    const contactsRef = collection(db, "users", currentUser.uid, "contacts");
+    const docRef = await addDoc(contactsRef, newContact);
+    contacts.push({ ...newContact, id: docRef.id });
+    executePostSaveActions();
+  } catch (error) {
+    console.error("Kontakt konnte nicht gespeichert werden:", error);
   }
-
-    try {
-      const contactsRef = collection(
-        db,
-        "users",
-        currentUser.uid,
-        "contacts"
-      );
-
-        const docRef = await addDoc(contactsRef, newContact);
-
-        contacts.push({
-          ...newContact,
-          id: docRef.id,
-        });
-
-        executePostSaveActions();
-    } catch (error) {
-        console.error("Kontakt konnte nicht gespeichert werden:", error);
-    }
 }
 
 function getRandomColor() {
-    return "#" + Math.floor(Math.random() * 16777215)
-        .toString(16)
-        .padStart(6, "0");
+  return (
+    "#" +
+    Math.floor(Math.random() * 16777215)
+      .toString(16)
+      .padStart(6, "0")
+  );
 }
 
-/** Concludes the creation flow by closing the modal, refreshing the list, and showing a toast notification. */
 function executePostSaveActions() {
   closeContactModal();
   renderContactList();
   showToast();
 }
 
-/** Modifies an existing contact's attributes in local memory and refreshes the current views. */
 async function updateContact(event, id) {
-    event.preventDefault();
-
-    let contact = contacts.find((c) => c.id === id);
-    if (!contact) return;
-
-    const updatedData = {
-        name: document.getElementById("modalName").value.trim(),
-        email: document.getElementById("modalEmail").value.trim(),
-        phone: document.getElementById("modalPhone").value.trim()
-    };
-
-      if (!currentUser && isGuestSession()) {
-        Object.assign(contact, updatedData);
-        writeGuestContacts(contacts);
-        closeContactModal();
-        renderContactList();
-        showContactDetails(id);
-        return;
-      }
-
-      if (!currentUser) return;
-
-    try {
-      const contactRef = doc(
-        db,
-        "users",
-        currentUser.uid,
-        "contacts",
-        id
-      );
-
-        await updateDoc(contactRef, updatedData);
-
-        Object.assign(contact, updatedData);
-
-        closeContactModal();
-        renderContactList();
-        showContactDetails(id);
-    } catch (error) {
-        console.error("Kontakt konnte nicht aktualisiert werden:", error);
-    }
+  event.preventDefault();
+  let contact = contacts.find((c) => String(c.id) === String(id));
+  if (!contact) return;
+  const updatedData = getModalFormData();
+  if (!currentUser && isGuestSession()) {
+    return handleGuestUpdate(contact, updatedData, id);
+  }
+  if (!currentUser) return;
+  await handleFirestoreUpdate(contact, updatedData, id);
 }
-/** Extracts and returns the capitalized first letters of the provided name string. */
+
+function getModalFormData() {
+  return {
+    name: document.getElementById("modalName").value.trim(),
+    email: document.getElementById("modalEmail").value.trim(),
+    phone: document.getElementById("modalPhone").value.trim(),
+  };
+}
+
+function handleGuestUpdate(contact, updatedData, id) {
+  Object.assign(contact, updatedData);
+  writeGuestContacts(contacts);
+  finalizeUpdate(id);
+}
+
+async function handleFirestoreUpdate(contact, updatedData, id) {
+  try {
+    const contactRef = doc(db, "users", currentUser.uid, "contacts", id);
+    await updateDoc(contactRef, updatedData);
+    Object.assign(contact, updatedData);
+    finalizeUpdate(id);
+  } catch (error) {
+    console.error("Kontakt konnte nicht aktualisiert werden:", error);
+  }
+}
+
+function finalizeUpdate(id) {
+  closeContactModal();
+  renderContactList();
+  showContactDetails(id);
+}
+
 function getInitials(name) {
   let parts = name.trim().split(" ");
   if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
   return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
 }
 
-/** Injects a temporary success feedback banner that disappears after three seconds. */
 function showToast() {
   let main = document.getElementById("content");
+  if (!main) return;
   main.insertAdjacentHTML("beforeend", createToastTemplate());
   setTimeout(() => {
     let toast = document.getElementById("contactToast");
     if (toast) toast.remove();
   }, 3000);
 }
-async function deleteContact(id) {
+
+async function deleteContact(event, element) {
+  event?.preventDefault?.();
+  event?.stopPropagation?.();
+  let targetId = getTargetId(event, element);
+  if (!targetId) return;
+
   if (!currentUser && isGuestSession()) {
-    contacts = contacts.filter((contact) => contact.id !== id);
+    contacts = contacts.filter((c) => String(c.id) !== String(targetId));
     writeGuestContacts(contacts);
-    renderContactList();
-
-    const detailContainer = document.getElementById("contactDetailContainer");
-    if (detailContainer) {
-      detailContainer.innerHTML = `
-        <p class="select-hint">
-          Select a contact to view details.
-        </p>
-      `;
-    }
-
-    closeContactModal();
-    hideMobileDetail();
+    resetDetailAndRender();
     return;
   }
+  if (currentUser) await deleteContactFromFirestore(targetId);
+}
 
-  if (!currentUser) return;
+async function deleteContactFromFirestore(id) {
+  try {
+    const contactRef = doc(db, "users", currentUser.uid, "contacts", id);
+    await deleteDoc(contactRef);
+    contacts = contacts.filter((c) => String(c.id) !== String(id));
+    resetDetailAndRender();
+  } catch (error) {
+    console.error("Kontakt konnte nicht gelöscht werden:", error);
+  }
+}
 
-    try {
-      const contactRef = doc(
-        db,
-        "users",
-        currentUser.uid,
-        "contacts",
-        id
-      );
+function resetDetailAndRender() {
+  renderContactList();
+  const detailContainer = document.getElementById("contactDetailContainer");
+  if (detailContainer) {
+    detailContainer.innerHTML = `<p class="select-hint">Select a contact to view details.</p>`;
+  }
 
-        await deleteDoc(contactRef);
+  let mobileMenu = document.getElementById("mobileActionMenu");
+  if (mobileMenu) mobileMenu.classList.add("d-none");
 
-        contacts = contacts.filter((contact) => contact.id !== id);
-
-        renderContactList();
-
-        const detailContainer =
-            document.getElementById("contactDetailContainer");
-
-        if (detailContainer) {
-            detailContainer.innerHTML = `
-                <p class="select-hint">
-                    Select a contact to view details.
-                </p>
-            `;
-        }
-
-        closeContactModal();
-        hideMobileDetail();
-    } catch (error) {
-        console.error("Kontakt konnte nicht gelöscht werden:", error);
-    }
+  closeContactModal();
+  hideMobileDetail();
 }
 
 window.initContacts = initContacts;

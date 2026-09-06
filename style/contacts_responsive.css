@@ -3,13 +3,12 @@
    ========================================================================== */
 @media(max-width: 1023px) {
     .mobile-action-menu {
-        display: flex !important;
+        display: none !important;
         position: fixed;
         bottom: 2rem;
         right: 2rem;
         z-index: 999;
     }
-
 }
 /* ==========================================================================
    💻 📐 DESKTOP & HORIZONTAL TABLET (From 1000px and up)
@@ -86,12 +85,23 @@
         cursor: pointer;
     }
 }
-
 /* ==========================================================================
    📱 VERTICAL MOBILE & TABLET (From 999px down)
    Adjusted spacing to prevent avatar clipping and give inputs more breathing room.
    ========================================================================== */
 @media(max-width: 999px) {
+        .mobile-action-menu {
+        display: none;
+        position: fixed;
+        bottom: 70px;
+        right: 16px;
+        z-index: 99;
+    }
+
+    .mobile-action-menu.d-none {
+        display: none !important;
+    }
+    
     .modal-overlay:not(.d-none) {
         padding: 1rem;
         box-sizing: border-box;
@@ -185,7 +195,6 @@
         max-width: 100%;
         margin-top: 1.5rem;
     }
-
     /* ==========================================================================
        📱 MOBILE ACTION MENU (Edit & Delete Buttons)
     ========================================================================== */
@@ -200,32 +209,22 @@
     }
 
     .mobile-action-menu .action-btn-edit {
-        background-color: #2a3647;
-        color: #ffffff;
-        border: none;
-        border-radius: 0.625rem;
         padding: 0.75rem 1.25rem;
         font-size: 1rem;
         display: flex;
         align-items: center;
         gap: 0.5rem;
         cursor: pointer;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         box-sizing: border-box;
     }
 
     .mobile-action-menu .action-btn-delete {
-        background-color: #ffffff;
-        color: #2a3647;
-        border: 1px solid #2a3647;
-        border-radius: 0.625rem;
         padding: 0.75rem 1.25rem;
         font-size: 1rem;
         display: flex;
         align-items: center;
         gap: 0.5rem;
         cursor: pointer;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         box-sizing: border-box;
     }
 
@@ -235,31 +234,99 @@
         object-fit: contain;
     }
 }
-
 /* ==========================================================================
    📱 SMALL PHONE OPTIMIZATION (From 450px down)
    Squeezes the card to the final 396px width for true mobile devices.
    ========================================================================== */
 @media(max-width: 450px) {
-    .modal-overlay .modal-card {
-        max-width: 24.75rem;
+    .mobile-action-menu:not(.d-none) {
+        display: flex !important;
+        position: fixed;
+        bottom: 80px;
+        right: 16px;
+        z-index: 999;
     }
-
-    .modal-right-panel {
-        padding: 5rem 0.5rem 2rem;
-    }
-    /* .modal-left-panel h1 {
-        font-size: 2.3rem;
-        margin: 0 0 16px;
-        font-weight: 700;
-    }  */
 
     .modal-left-panel p {
         font-size: 1rem;
         margin: 0;
     }
-}
 
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100vw;
+        height: 100dvh;
+        padding: 0;
+        margin: 0;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 1000;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+    }
+
+    .modal-overlay #contactModalContent {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        display: flex;
+    }
+
+    .modal-overlay .modal-card {
+        width: 100%;
+        max-width: 100%;
+        height: 100%;
+        max-height: 100%;
+        border-radius: 0;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow-y: auto;
+    }
+
+    .modal-overlay .modal-left-panel {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 0;
+        padding: 2.5rem 1.5rem 1.5rem;
+        box-sizing: border-box;
+        margin: 0;
+    }
+
+    .modal-overlay .modal-right-panel {
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+        padding: 1.5rem;
+        box-sizing: border-box;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .modal-form .input-icon-container:first-of-type {
+        margin-top: 40px;
+    }
+
+    .modal-overlay #contactModalContent,
+    .modal-overlay .modal-card {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+    }
+}
 /* ==========================================================================
    📱 CONTACTS MOBILE FLOW (Below 824px)
    ========================================================================== */
@@ -330,5 +397,4 @@
         font-size: 18px;
         padding: 12px;
     }
-
 }

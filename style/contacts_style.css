@@ -22,9 +22,8 @@
     overflow-y: auto;
     padding: 0 24px 24px 24px;
 }
-
 /* ==========================================================================
-   2. PRINCIPAL BUTON (Sidebar)
+   2. PRINCIPAL BUtTON (Sidebar)
    ========================================================================== */
 .button-wrapper {
     padding: 24px;
@@ -47,9 +46,8 @@
     justify-content: center;
     gap: 16px;
 }
-
 /* ==========================================================================
-   3. COLUMNA DETALLE Y ELEMENTOS
+3. COLUMN DETAIL AND ELEMENTS
    ========================================================================== */
 .contacts-detail-panel {
     flex: 1;
@@ -118,9 +116,8 @@
     cursor: pointer;
     font-size: 16px;
 }
-
 /* ==========================================================================
-   4. ELEMENTOS DE LA LISTA E INFORMACIÓN
+   4. ELEMENTSLIST & INFORMATION
    ========================================================================== */
 .contact-list-item {
     display: flex;
@@ -225,7 +222,6 @@
         transform: translate(-50%, 0);
     }
 }
-
 /* ==========================================================================
    5. MODAL / OVERLAY HORIZONTAL
    ========================================================================== */
@@ -281,8 +277,9 @@
 }
 
 .modal-left-panel h1 {
-    font-size: 55px;
-    margin: 0 0 16px 0;
+    font-size: clamp(2rem, 5vw + 1rem, 3.5rem);
+    line-height: 1.1;
+    margin: 0 0 1rem;
     font-weight: 700;
 }
 
@@ -434,13 +431,53 @@
     display: none;
 }
 
+.mobile-action-menu {
+    background-color: #ffffff;
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-radius: 20px 20px 0 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.mobile-action-menu button,
+.mobile-action-menu .action-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    color: #2A3647;
+    cursor: pointer;
+    padding: 4px 8px;
+}
+
+.mobile-action-menu img,
+.mobile-action-menu svg {
+    width: 16px;
+    height: 16px;
+}
+
+.d-none {
+    display: none !important;
+    pointer-events: none !important;
+}
+
 .modal-overlay:not(.d-none) {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100 dvh;
+    z-index: 1000;
+    pointer-events: auto;
 }
 
-.mobile-action-menu,
-.d-none-desktop {
-    display: none !important;
+.mobile-action-menu {
+    display: none;
 }
