@@ -8,7 +8,18 @@ const STATUS_MAP = {
   boardColumnDone:          "done",
 };
 
+const TOUCH_DRAG_HOLD_MS = 140;
+const TOUCH_SCROLL_INTENT_PX = 18;
+const TOUCH_DRAG_START_PX = 6;
+
 let dragPreviewEl = null;
+let touchDragHoldTimer = null;
+let touchDragArmed = false;
+let touchDragCancelled = false;
+let touchDragPreviewEl = null;
+let touchDragSourceCard = null;
+let touchPreviewOffsetX = 0;
+let touchPreviewOffsetY = 0;
 
 /** Returns the task status string for a given column element ID. */
 export function getStatusFromTaskList(id) {
@@ -71,6 +82,45 @@ function cleanupDragPreview() {
   dragPreviewEl = null;
 }
 
+function cleanupTouchDragVisuals() {
+  if (touchDragPreviewEl) {
+    touchDragPreviewEl.remove();
+    touchDragPreviewEl = null;
+  }
+  if (touchDragSourceCard) {
+    touchDragSourceCard.classList.remove("board-touch-source");
+    touchDragSourceCard = null;
+  }
+}
+
+function updateTouchDragPreviewPosition(touch) {
+  if (!touchDragPreviewEl) return;
+  const x = touch.clientX - touchPreviewOffsetX;
+  const y = touch.clientY - touchPreviewOffsetY;
+  touchDragPreviewEl.style.left = `${x}px`;
+  touchDragPreviewEl.style.top = `${y}px`;
+}
+
+function createTouchDragPreview(card, touch) {
+  cleanupTouchDragVisuals();
+
+  const rect = card.getBoundingClientRect();
+  const clone = card.cloneNode(true);
+  clone.classList.add("board-touch-drag-preview");
+  clone.style.width = `${rect.width}px`;
+  clone.style.height = `${rect.height}px`;
+
+  touchPreviewOffsetX = touch.clientX - rect.left;
+  touchPreviewOffsetY = touch.clientY - rect.top;
+
+  document.body.appendChild(clone);
+  touchDragPreviewEl = clone;
+  updateTouchDragPreviewPosition(touch);
+
+  touchDragSourceCard = card;
+  touchDragSourceCard.classList.add("board-touch-source");
+}
+
 function attachRotatedDragPreview(event, card) {
   if (!event.dataTransfer) return;
 
@@ -120,26 +170,51 @@ export function handleTaskDragEnd(event) {
 export function handleTaskTouchStart(event) {
   if (event.touches.length !== 1) return;
   const touch = event.touches[0];
+  const card = event.currentTarget;
   state.touchDraggedTaskId = event.currentTarget.dataset.taskId;
   state.touchStartX        = touch.clientX;
   state.touchStartY        = touch.clientY;
   state.touchDropListId    = null;
   state.isTouchDragging    = false;
+
+  touchDragArmed = false;
+  touchDragCancelled = false;
+  touchDragSourceCard = card;
+  window.clearTimeout(touchDragHoldTimer);
+  touchDragHoldTimer = window.setTimeout(() => {
+    if (touchDragCancelled) return;
+    touchDragArmed = true;
+  }, TOUCH_DRAG_HOLD_MS);
 }
 
 export function handleTaskTouchMove(event) {
   if (!state.touchDraggedTaskId || event.touches.length !== 1) return;
   const touch = event.touches[0];
+  const card = event.currentTarget;
   const dx    = Math.abs(touch.clientX - state.touchStartX);
   const dy    = Math.abs(touch.clientY - state.touchStartY);
 
-  if (!state.isTouchDragging && (dx > 8 || dy > 8)) {
+  if (touchDragCancelled) return;
+
+  if (!touchDragArmed) {
+    // Before hold-time has passed, allow normal scrolling gestures.
+    if (dx > TOUCH_SCROLL_INTENT_PX || dy > TOUCH_SCROLL_INTENT_PX) {
+      touchDragCancelled = true;
+      window.clearTimeout(touchDragHoldTimer);
+      cleanupTouchDragVisuals();
+    }
+    return;
+  }
+
+  if (!state.isTouchDragging && (dx > TOUCH_DRAG_START_PX || dy > TOUCH_DRAG_START_PX)) {
     state.isTouchDragging    = true;
     state.ignoreNextCardClick = true;
+    createTouchDragPreview(card, touch);
   }
   if (!state.isTouchDragging) return;
 
   event.preventDefault();
+  updateTouchDragPreviewPosition(touch);
   clearDropActive();
 
   const el   = document.elementFromPoint(touch.clientX, touch.clientY);
@@ -153,6 +228,9 @@ export function handleTaskTouchMove(event) {
 }
 
 export function handleTaskTouchEnd(event) {
+  window.clearTimeout(touchDragHoldTimer);
+  touchDragArmed = false;
+  touchDragCancelled = false;
   if (!state.touchDraggedTaskId) return;
 
   if (state.isTouchDragging && state.touchDropListId) {
@@ -165,14 +243,19 @@ export function handleTaskTouchEnd(event) {
   state.touchDropListId     = null;
   state.isTouchDragging     = false;
   clearDropActive();
+  cleanupTouchDragVisuals();
   setTimeout(() => { state.ignoreNextCardClick = false; }, 120);
 }
 
 /** Resets touch drag state when the browser interrupts the gesture. */
 export function handleTaskTouchCancel() {
+  window.clearTimeout(touchDragHoldTimer);
+  touchDragArmed = false;
+  touchDragCancelled = false;
   state.touchDraggedTaskId = null;
   state.touchDropListId = null;
   state.isTouchDragging = false;
   state.ignoreNextCardClick = false;
   clearDropActive();
+  cleanupTouchDragVisuals();
 }
