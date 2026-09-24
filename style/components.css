@@ -31,6 +31,22 @@
     flex-shrink: 0;
 }
 
+.header-user-avatar,
+.user-profile-icon {
+    position: relative;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.header-dropdown-menu,
+.profile-menu,
+#headerDropdown {
+    position: absolute;
+    z-index: 9999 !important;
+    pointer-events: auto !important;
+}
+
+
 .app-header .help-btn {
     background: none;
     border: none;
@@ -273,7 +289,6 @@
     display: flex;
 }
 
-/* Public legal pages: place login exactly 110px below the logo on desktop. */
 .external-view .sidebar-top-group {
     gap: 0;
 }
@@ -343,7 +358,6 @@
         margin: 0 auto;
     }
 
-    /* Public bottom navigation for visitors without an active session. */
     .external-view .sidebar {
         justify-content: stretch;
     }
@@ -412,11 +426,15 @@
             opacity 0.2s ease,
             transform 0.2s ease,
             visibility 0s linear 0.2s;
+        z-index: 9999 !important;
+        position: absolute !important;
+        pointer-events: none;
     }
 
     .header-dropdown-menu.show-menu {
         transform: translateX(0);
         transition-delay: 0s;
+        pointer-events: auto !important;
     }
 
     .dropdown-item {

@@ -109,12 +109,6 @@ span.desktop-only {
     overflow: hidden;
 }
 
-#content.content-panel {
-    background-color: transparent !important;
-    padding-left: 56px;
-    padding-right: 56px;
-}
-
 .required-star {
     color: red;
     font-weight: bold; 
@@ -141,7 +135,6 @@ span.desktop-only {
         padding-top: 0;
     }
 }
-
 
 /* ==========================================================================
    ⚡ BREAKPOINT: TABLETS (Below notebook width)
@@ -173,6 +166,7 @@ span.desktop-only {
         min-height: 0;
         overflow: hidden;
     }
+    
     .app-shell .sidebar {
         position: fixed;
         bottom: 0;

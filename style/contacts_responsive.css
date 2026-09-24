@@ -10,16 +10,143 @@
         z-index: 999;
     }
 }
+
+@media(max-width: 800px) {
+    .contacts-sidebar-list.d-none-mobile {
+        display: none;
+    }
+
+    .contacts-detail-panel.d-show-mobile {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .mobile-menu-floating-btn {
+        display: flex !important;
+    }
+    .contact-info-body h3 {
+        font-weight: 400;
+    }
+
+    .info-label {
+        font-weight: 700;
+    }
+
+    .contacts-header-title {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .contact-detail-header {
+        gap: 16px;
+    }
+    .contact-header-titles h2,
+    .contact-header-titles span {
+        font-size: 2rem;
+    }
+
+    .title-divider {
+        order: 3;
+        width: 90px;
+        height: 3px;
+        background-color: var(--secondary-color);
+    }
+
+    .contact-actions {
+        display: none;
+    }
+
+    .mobile-back-arrow {
+        position: absolute;
+        right: 0;
+        top: 0;
+        cursor: pointer;
+    }
+
+    .mobile-menu-floating-btn {
+        position: fixed;
+        bottom: 90px;
+        right: 16px;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        cursor: pointer;
+        z-index: 100;
+        display: flex;
+    }
+
+    .mobile-menu-floating-btn.d-none {
+        display: none !important;
+    }
+
+    .mobile-action-menu {
+        position: fixed;
+        bottom: 80px;
+        right: 16px;
+        background-color: #ffffff;
+        border-radius: 20px 20px 0 20px;
+        padding: 10px 14px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        z-index: 999 !important;
+    }
+
+    .mobile-action-menu:not(.d-none) {
+        display: flex !important;
+        flex-direction: column;
+        gap: 8px;
+    }
+    .mobile-action-menu button {
+        background: transparent;
+        border: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        color: var(--primary-color);
+        cursor: pointer;
+        padding: 8px 12px;
+        width: 100%;
+    }
+
+    .mobile-action-menu button:hover {
+        background-color: #f0f0f0;
+        border-radius: 8px;
+    }
+
+    .mobile-action-menu.d-none {
+        display: none !important;
+    }
+
+    .mobile-action-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        color: #2a3647;
+        cursor: pointer;
+    }
+}
+
+@media(min-width: 826px) {
+    .mobile-template-title {
+        display: none !important;
+    }
+}
+
 /* ==========================================================================
    💻 📐 DESKTOP & HORIZONTAL TABLET (From 1000px and up)
    Text sizes and panels shrink slightly so it holds perfectly down to 1000px.
    ========================================================================== */
-@media(min-width: 1000px) {
+    @media(min-width: 768px) {
     .modal-card {
         display: flex;
         flex-direction: row;
-        width: clamp(58rem, 90vw, 75.75rem);
-        height: 35.25rem; /* 564px */
+        width: clamp(38rem, 85vw, 75.75rem);
+        height: clamp(26rem, 60vh, 35.25rem);
+        max-height: 564px;
         background-color: var(--white);
         border-radius: 1.875rem;
         overflow: hidden;
@@ -28,54 +155,77 @@
     }
 
     .modal-left-panel {
-        width: 37.3%;
-        flex-shrink: 0;
+        width: clamp(14rem, 32vw, 28.25rem);
+        flex-shrink: 1;
         background-color: var(--primary-color);
-        padding: clamp(2rem, 3.5vw, 3rem);
+        padding: clamp(1.25rem, 2.5vw, 3rem);
         display: flex;
         flex-direction: column;
         justify-content: center;
         box-sizing: border-box;
     }
 
+
     .modal-left-panel h1 {
-        font-size: clamp(2.5rem, 4vw, 3.75rem);
-        line-height: 1.2;
+        font-size: clamp(1.75rem, 4vw, 3.75rem);
+        line-height: 1.1;
         margin-bottom: 0.5rem;
     }
 
     .modal-left-panel p {
-        font-size: clamp(1rem, 1.5vw, 1.25rem);
+        font-size: clamp(0.85rem, 1.2vw, 1.25rem);
     }
 
     .modal-right-panel {
-        flex-grow: 1;
-        flex-shrink: 1;
+        flex: 1 1 auto;
         min-width: 0;
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: center;
-        gap: clamp(1.5rem, 3vw, 3rem);
-        padding: 3rem clamp(1.5rem, 4vw, 4rem);
+        gap: clamp(0.75rem, 2vw, 2.5rem);
+        padding: 2rem clamp(1rem, 2.5vw, 3rem);
         box-sizing: border-box;
+    }
+
+    .modal-left-panel .modal-logo {
+        margin-bottom: 1.5rem;
     }
 
     .modal-avatar-circle {
         position: static;
         transform: none;
-        width: clamp(6.25rem, 8vw, 7.5rem);
-        height: clamp(6.25rem, 8vw, 7.5rem);
+        width: clamp(4rem, 7.5vw, 6.5rem);
+        height: clamp(4rem, 7.5vw, 6.5rem);
         aspect-ratio: 1 / 1;
         flex-shrink: 0 !important;
+        margin: 0;
+        align-self: center;
+        margin-bottom: 2.5rem;
     }
 
     .modal-form-container {
-        flex-grow: 1;
-        flex-shrink: 1;
+        flex: 1 1 auto;
         min-width: 0;
-        max-width: 26.25rem;
+        max-width: 24.5rem;
         width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .modal-actions-container {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .modal-actions-container button {
+        white-space: nowrap !important;
+        height: 40px;
+        padding: 10px 16px;
+        font-size: 1rem;
     }
 
     .close-btn-container {
@@ -84,142 +234,95 @@
         right: 1.5rem;
         cursor: pointer;
     }
+
 }
+
 /* ==========================================================================
-   📱 VERTICAL MOBILE & TABLET (From 999px down)
-   Adjusted spacing to prevent avatar clipping and give inputs more breathing room.
+   📱 MÓVIL and MODAL (to 767px)
    ========================================================================== */
-@media(max-width: 999px) {
-        .mobile-action-menu {
+@media(max-width: 767px) {
+    .contacts-sidebar-list {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    .contacts-detail-panel:not(.d-show-mobile) {
+        display: none !important;
+    }
+
+    .contacts-detail-panel.d-show-mobile {
+        display: flex !important;
+        width: 100%;
+    }
+
+    .mobile-back-arrow {
         display: none;
+    }
+
+    .letter-divider {
+        font-weight: 400;
+    }
+
+    .contact-avatar,
+    .contact-info-short {
+        font-weight: 400;
+    }
+
+    .contact-list-item,
+    .contact-list-item span {
+        font-weight: 400;
+    }
+
+    .show-detail-active .mobile-back-arrow,
+    .d-show-mobile .mobile-back-arrow {
+        display: inline-block !important;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+    }
+
+    .add-new-contact-btn span {
+        display: none;
+    }
+
+    .contacts-sidebar-list .add-new-contact-btn {
         position: fixed;
-        bottom: 70px;
-        right: 16px;
+        bottom: 90px;
+        right: 18px;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        z-index: 100;
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    .contacts-sidebar-list .add-new-contact-btn img {
+        display: block !important;
+        width: 24px;
+        height: 24px;
+        margin: 0;
+    }
+
+    .mobile-action-menu {
+        position: fixed;
+        bottom: 5.5rem;
+        right: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
         z-index: 99;
     }
 
     .mobile-action-menu.d-none {
         display: none !important;
     }
-    
-    .modal-overlay:not(.d-none) {
-        padding: 1rem;
-        box-sizing: border-box;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
 
-    .modal-overlay .modal-card {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        max-width: 33.75rem;
-        height: auto;
-        background-color: var(--white);
-        border-radius: 1.875rem;
-        overflow: visible;
-        position: relative;
-        box-sizing: border-box;
-    }
-
-    .modal-left-panel {
-        width: 100%;
-        max-width: 24.75rem;
-        height: 19.5rem;
-        background-color: var(--primary-color);
-        padding: 3rem 2rem 4rem;
-        box-sizing: border-box;
-        border-top-left-radius: 1.875rem;
-        border-top-right-radius: 1.875rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-    }
-
-    .modal-logo {
-        display: none;
-    }
-
-    .modal-right-panel {
-        width: 100%;
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 6.5rem 1.5rem 2rem;
-        box-sizing: border-box;
-        border-bottom-left-radius: 1.875rem;
-        border-bottom-right-radius: 1.875rem;
-        position: relative;
-    }
-
-    .modal-avatar-circle {
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 10;
-        width: 7.5rem;
-        height: 7.5rem;
-        border-radius: 50%;
-        border: 0.1875rem solid var(--white);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .modal-form-container {
-        width: 100%;
-        max-width: 22.75rem;
-    }
-
-    .modal-form {
-        margin-top: 0.5rem;
-    }
-
-    .close-btn-container {
-        position: absolute;
-        top: 1.5rem;
-        right: 1.5rem;
-        z-index: 20;
-    }
-
-    .close-btn-container img {
-        filter: brightness(0) invert(1);
-    }
-    .btn-cancel {
-        display: none !important;
-    }
-
-    .btn-create {
-        width: 100% !important;
-        max-width: 100%;
-        margin-top: 1.5rem;
-    }
-    /* ==========================================================================
-       📱 MOBILE ACTION MENU (Edit & Delete Buttons)
-    ========================================================================== */
-    .mobile-action-menu {
-        position: fixed;
-        bottom: 6rem;
-        right: 1.5rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        z-index: 99;
-    }
-
-    .mobile-action-menu .action-btn-edit {
-        padding: 0.75rem 1.25rem;
-        font-size: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        cursor: pointer;
-        box-sizing: border-box;
-    }
-
-    .mobile-action-menu .action-btn-delete {
-        padding: 0.75rem 1.25rem;
+    .mobile-action-menu button {
+        padding: 0.5rem 0.5rem;
         font-size: 1rem;
         display: flex;
         align-items: center;
@@ -233,20 +336,169 @@
         height: 1.25rem;
         object-fit: contain;
     }
+
+    .modal-overlay:not(.d-none) {
+        padding: 1rem;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-card {
+        display: flex;
+        flex-direction: column;
+        width: clamp(280px, 90vw, 396px);
+        height: auto;
+        max-height: 95vh;
+        border-radius: 30px;
+        overflow: visible;
+        position: relative;
+        box-sizing: border-box;
+    }
+
+    .modal-left-panel {
+        width: 100%;
+        height: clamp(220px, 40vh, 351px);
+        /* height: 396px; */
+        background-color: var(--primary-color);
+        padding: 2.5rem 1.5rem 1.5rem;
+        box-sizing: border-box;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+        border-bottom-left-radius: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        position: relative;
+    }
+
+    .modal-card .modal-left-panel {
+        flex: none !important;
+    }
+
+    .modal-card {
+        max-height: 90vh;
+        overflow-y: auto; 
+    }
+
+    .modal-left-panel .modal-logo {
+        display: none;
+    }
+
+    .modal-left-panel h1 {
+        font-size: clamp(2rem, 7vw, 2.75rem);
+        color: var(--white);
+        margin-bottom: 0.5rem;
+    }
+
+    .modal-left-panel p {
+        font-size: clamp(0.95rem, 3.8vw, 1.1rem);
+        color: var(--white);
+    }
+
+    .close-btn-container {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        z-index: 20;
+        cursor: pointer;
+    }
+
+    .close-btn-container img {
+        filter: brightness(0) invert(1);
+    }
+
+    .modal-right-panel {
+        width: 100%;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 4.5rem 1.5rem 2rem;
+        box-sizing: border-box;
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+        position: relative;
+        background-color: var(--white);
+    }
+
+    .modal-avatar-circle {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+        width: clamp(6rem, 18vw, 7.5rem);
+        height: clamp(6rem, 18vw, 7.5rem);
+        border-radius: 50%;
+        border: 3px solid var(--white);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .modal-form-container {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .modal-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+    }
+
+    .modal-card .modal-actions-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        margin-top: 24px;
+        width: 100%;
+    }
+
+    .modal-actions-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-top: 1.5rem;
+    }
+
+    .modal-actions-container .btn-cancel {
+        display: none !important;
+    }
+
+    .modal-card .modal-actions-container .btn-cancel {
+        display: inline-flex;
+        width: auto;
+        height: 48px;
+        padding: 12px 24px;
+        background-color: var(--white);
+        border: 1px solid var(--primary-color);
+        color: var(--primary-color);
+        border-radius: 10px;
+        font-size: 18px;
+        font-weight: 400;
+        white-space: nowrap;
+    }
+
+    .modal-card .modal-actions-container .btn-create {
+        width: auto;
+        height: 48px;
+        padding: 12px 24px;
+        margin-top: 0;
+        white-space: nowrap;
+    }
 }
+
 /* ==========================================================================
    📱 SMALL PHONE OPTIMIZATION (From 450px down)
    Squeezes the card to the final 396px width for true mobile devices.
    ========================================================================== */
 @media(max-width: 450px) {
-    .mobile-action-menu:not(.d-none) {
-        display: flex !important;
-        position: fixed;
-        bottom: 80px;
-        right: 16px;
-        z-index: 999;
-    }
-
     .modal-left-panel p {
         font-size: 1rem;
         margin: 0;
@@ -259,7 +511,7 @@
         right: 0;
         bottom: 0;
         width: 100vw;
-        height: 100dvh;
+        height: 100 dvh;
         padding: 0;
         margin: 0;
         background-color: rgba(0, 0, 0, 0.6);
@@ -326,75 +578,20 @@
         border-radius: 0;
         box-shadow: none;
     }
-}
-/* ==========================================================================
-   📱 CONTACTS MOBILE FLOW (Below 824px)
-   ========================================================================== */
-@media(max-width: 824px) {
-    .contacts-main-grid {
-        display: flex;
-        flex-direction: column;
-        height: calc(100vh - 160px);
-        width: 100%;
-        background-color: var(--background-color);
-        overflow-y: auto;
+
+    .contact-modal-overlay,
+    #contactModalOverlay {
+        padding: 0;
+        align-items: flex-end;
     }
 
-    .contacts-sidebar-list {
-        display: flex;
-        width: 100%;
-        min-width: 100%;
-        height: auto;
-        background-color: var(--white);
-    }
-
-    .contacts-detail-panel {
-        display: none;
+    .contact-modal-container,
+    .add-contact-card {
         width: 100%;
         max-width: 100%;
-        padding: 2rem 16px 120px;
-        background-color: var(--background-color);
-        box-sizing: border-box;
-    }
-
-    .contacts-main-grid.show-detail-active .contacts-sidebar-list {
-        display: none;
-    }
-
-    .contacts-main-grid.show-detail-active .contacts-detail-panel {
-        display: flex;
-    }
-
-    .contacts-header-title {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-        margin-bottom: 24px;
-    }
-
-    .contacts-header-title h1 {
-        font-size: 2.5rem;
+        height: 100%;
         margin: 0;
-    }
-
-    .title-divider {
-        width: 90px;
-        height: 3px;
-        transform: none;
-        background-color: var(--secondary-color);
-    }
-
-    .contacts-scrollable-area {
-        overflow-y: visible;
-        padding: 0 16px 16px;
-    }
-
-    .button-wrapper {
-        padding: 16px;
-    }
-
-    .add-new-contact-btn {
-        font-size: 18px;
-        padding: 12px;
+        border-radius: 0;
+        box-shadow: none;
     }
 }

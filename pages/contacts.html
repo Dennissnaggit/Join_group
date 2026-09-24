@@ -12,11 +12,9 @@
     <link rel="stylesheet" href="../style/contacts_responsive.css"> 
     <script type="module" src="../script/firebase.js"></script>
     <script src="../script.js"></script>
-    <script src="../script/contacts_template.js"></script>
     <script type="module" src="../script/contacts.js"></script> 
-    <script type="module" src="../script/firebase.js"></script>
 </head>
-<body onload="initContacts()">
+<body>
 
     <div class="app-shell">
         <div w3-include-html="../components/sidebar.html"></div>
@@ -30,21 +28,43 @@
                     <div class="contacts-sidebar-list">
                         <div class="button-wrapper">
                             <button class="add-new-contact-btn" onclick="openAddContactModal()">
-                                Add new contact
-                                <img src="../assets/icons/edit_person.svg"></button>
-                            </div>
-                            <div id="contactsListContainer" class="contacts-scrollable-area"></div>
+                                <span>Add new contact</span>
+                                <img src="../assets/icons/edit_person.svg" alt="Add icon">
+                            </button>
                         </div>
 
-                        <div class="contacts-detail-panel">
-                            <div class="contacts-header-title">
-                                <h1>Contacts</h1>
-                                <div class="title-divider"></div>
-                                <span>Better with a team</span>
-                            </div>
-                            <div id="contactDetailContainer" class="detail-content-placeholder">
-                                <p class="select-hint">Select a contact to view details.</p>
+                        <div id="contactsListContainer" class="contacts-scrollable-area"></div>
+                    </div>
+
+                    <div class="contacts-detail-panel">
+                        <div class="contacts-header-title">
+                            <h1>Contacts</h1>
+                            <div class="title-divider"></div>
+                            <span>Better with a team</span>
+                            <img src="../assets/icons/arrow-left-line_dark.svg" class="mobile-back-arrow" onclick="hideMobileDetail()" alt="Back">
                         </div>
+
+                        <div id="contactDetailContainer" class="detail-content-placeholder">
+                            <p class="select-hint">Select a contact to view details.</p>
+                        </div>
+
+                        <div id="mobileActionMenu" class="mobile-action-menu d-none">
+                            <button type="button" onclick="closeMobileMenu(); openEditModal(window.currentSelectedContactId)">
+                                <img src="../assets/icons/edit.svg" alt="Edit">
+                                <span>Edit</span>
+                            </button>
+                            <button type="button" onclick="closeMobileMenu(); deleteContact(window.currentSelectedContactId)">
+                                <img src="../assets/icons/delete.svg" alt="Delete">
+                                <span>Delete</span>
+                             </button>
+                        </div>
+
+
+
+
+                        <button id="mobileMenuBtn" type="button" class="mobile-menu-floating-btn d-none" onclick="toggleMobileMenu(event)">
+                            <img src="../assets/icons/Menu_Contact_options.svg" alt="Options">
+                        </button>
                     </div>
 
                 </div>
@@ -64,6 +84,13 @@
             <img src="../assets/icons/delete.svg" alt="Delete"> Delete
         </button>
     </div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        if (typeof window.initContacts === "function") {
+            window.initContacts();
+        }
+    });
+</script>
 
 </body>
 </html>
