@@ -114,6 +114,7 @@
         line-height: 1.1;
     }
     .separator-v {
+        display: block;
         height: 3.75rem;
         margin: 0 0.5rem;
     }
@@ -133,11 +134,15 @@
     #greeting-section {
         display: none;
     }
+    /* #content.content-panel,
+    main#content {
+        padding: 24px 16px !important;
+    } */
     .summary-content-container {
         width: 100%;
         max-width: 100%;
         margin: 0 auto;
-        padding-inline: 1rem;
+        /* padding-inline: 1rem; */
         box-sizing: border-box;
         justify-content: center;
     }
@@ -145,14 +150,7 @@
         width: 3.688rem;
         height: 0.188rem;
         order: 3;
-    }
-    .summary-content-container {
-        width: 100%;
-        max-width: 100%;
-        margin: 0 auto;
-        padding-inline: 1rem;
-        box-sizing: border-box;
-    }
+    }  
     .main-stats {
         width: 100%;
         max-width: 600px;
@@ -175,7 +173,7 @@
     .summary-card.card-small,
     .summary-card.card-mini {
         min-height: 8.5rem;
-        padding: 0.85rem;
+        padding: 0.5rem;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -183,7 +181,7 @@
     }
     .summary-card.card-wide {
         min-height: 9.5rem;
-        padding: 1rem;
+        padding: 0.5rem;
         display: flex;
         align-items: center;
         border-radius: 0.8rem;
@@ -228,17 +226,23 @@
         order: 2;
         margin: 0;
     }
+    .summary-content-container .summary-card.card-small,
+    .summary-content-container .summary-card.card-wide,
+    .summary-content-container .summary-card.card-mini {
+        height: 110px;
+        min-height: 110px;
+    }
 }
 
 /* ==========================================================================
    7. PURE MOBILE MATRIX (428px)
    ==========================================================================*/
 @media(max-width: 428px) {
-#content.content-panel {
+/* #content.content-panel {
     padding-top: 0.5rem !important;
     padding-left: 1rem !important;
     padding-right: 1rem !important;
-}
+} */
 
     .metrics-row {
         max-width: 100%;
@@ -257,12 +261,12 @@
         font-size: 2.25rem;
     }
     .label {
-        font-size: 0.875rem;
+        font-size: 1rem;
     }
     .summary-content-container .summary-card.card-wide {
         max-width: 100%;
         height: 8rem;
-        padding: 1rem;
+        /* padding: 1rem; */
         gap: 0.75rem;
     }
     .summary-content-container .summary-card.card-wide .separator-v {
@@ -274,17 +278,17 @@
         justify-content: center;
     }
     .tile-right .date {
-        font-size: 0.9rem;
+        font-size: 1rem;
         font-weight: 700;
     }
     .tile-right .date-label {
-        font-size: 0.75rem;
+        font-size: 1rem;
         white-space: nowrap;
     }
-    .tile-right span:not(.date) {
-        font-size: 0.85rem !important;
+    /* .tile-right span:not(.date) {
+        font-size: 1rem !important;
         line-height: 1.2;
-    }
+    } */
     .tile-left {
         gap: 0.5rem;
     }
@@ -308,13 +312,15 @@
         gap: 0.5rem;
     }
     .summary-content-container .summary-card.card-wide {
-        flex-direction: column;
+        flex-direction: row;
         height: auto;
-        padding: 1rem;
+        /* padding: 1rem; */
         gap: 0.75rem;
     }
     .summary-content-container .summary-card.card-wide .separator-v {
-        display: none;
+        display: block;
+        height: 3.25rem;
+        margin: 0 0.25rem;
     }
     .tile-left,
     .tile-right {
@@ -331,14 +337,14 @@
 
 /* Keep every summary tile at the same height in the mobile layout. */
 @media(max-width: 767px) {
-    .app-shell .main-content-wrapper #content.content-panel {
+    /* .app-shell .main-content-wrapper #content.content-panel {
         padding-bottom: 120px;
-    }
+    } */
 
-    .summary-content-container .summary-card.card-small,
+    /* .summary-content-container .summary-card.card-small,
     .summary-content-container .summary-card.card-wide,
     .summary-content-container .summary-card.card-mini {
         height: 110px;
         min-height: 110px;
-    }
+    } */
 }

@@ -1,11 +1,11 @@
 /* ==========================================================================
    GLOBAL APP SHELL ARCHITECTURE (DESKTOP BASE)
    ========================================================================== */
-html,
+/* html,
 body {
     height: 100%;
     overflow: hidden;
-}
+} */
 
 .app-shell {
     display: grid;
@@ -121,7 +121,6 @@ span.desktop-only {
         padding-left: 96px;
         padding-right: 96px;
     }
-
     #content.content-panel > .app-page-layout {
         width: 100%;
         max-width: 976px;
@@ -130,7 +129,6 @@ span.desktop-only {
         box-sizing: border-box;
         opacity: 1;
     }
-
     #content.content-panel > .contacts-main-grid.app-page-layout .contacts-detail-panel {
         padding-top: 0;
     }
@@ -140,12 +138,11 @@ span.desktop-only {
    ⚡ BREAKPOINT: TABLETS (Below notebook width)
    ========================================================================== */
 @media(max-width: 1023px) {
-    html,
+    /* html,
     body {
         height: 100%;
         overflow: hidden;
-    }
-
+    } */
     .app-shell {
         display: flex;
         flex-direction: column;
@@ -154,19 +151,16 @@ span.desktop-only {
         height: 100dvh;
         overflow: hidden;
     }
-
     .app-shell div[w3-include-html*="sidebar"] {
         width: 100%;
         height: auto;
     }
-
     .app-shell .main-content-wrapper {
         width: 100%;
         height: 100dvh;
         min-height: 0;
         overflow: hidden;
     }
-    
     .app-shell .sidebar {
         position: fixed;
         bottom: 0;
@@ -184,7 +178,6 @@ span.desktop-only {
         overflow: hidden;
         box-sizing: border-box;
     }
-
     .sidebar-top-group {
         display: flex;
         flex-direction: row;
@@ -194,7 +187,6 @@ span.desktop-only {
         height: 100%;
         gap: 0;
     }
-
     .nav-links {
         display: flex;
         flex-direction: row;
@@ -205,12 +197,10 @@ span.desktop-only {
         margin: 0;
         padding: 0;
     }
-
     .sidebar-logo,
     .sidebar-footer {
         display: none !important;
     }
-
     .nav-item {
         display: flex;
         flex-direction: column;
@@ -225,20 +215,17 @@ span.desktop-only {
         box-sizing: border-box;
         transition: background-color 0.2s ease;
     }
-
     .nav-item:hover,
     .nav-item.active {
         background-color: var(--hover);
         color: var(--white);
         border-radius: 0;
     }
-
     .nav-icon {
         width: 1.5rem;
         height: 1.5rem;
         margin: 0 auto;
     }
-
     .main-content-wrapper {
         display: flex;
         flex-direction: column;
@@ -246,7 +233,6 @@ span.desktop-only {
         height: 100dvh;
         min-height: 0;
     }
-
     #content.content-panel {
         padding: 1.5rem 1rem 7rem;
         display: flex;
@@ -265,7 +251,6 @@ span.desktop-only {
     .main-content-wrapper .app-header {
         padding: 0 2.5rem;
     }
-
     .header-logo-mobile.mobile-only {
         display: block !important;
         width: 2rem;
@@ -274,14 +259,20 @@ span.desktop-only {
 }
 
 /* ==========================================================================
-   ⚡ BREAKPOINT: PURE MOBILE (767px and Below)
+⚡ BREAKPOINT: PURE MOBILE(767px and Below) 
+
    ========================================================================== */
 @media(max-width: 767px) {
-    #content.content-panel {
-        padding-top: 0.5rem !important;
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
+/* ======== GLOBAL MOBILE OVERRIDE(For all pages) ========== */
+    #content.content-panel,
+    main#content {
+        padding: 24px 16px 0!important;
     }
+    /* Clean override for contacts page - No !important needed! */
+    .app-shell .main-content-wrapper #content.content-panel:has(.contacts-main-grid) {
+        padding: 0;
+    }
+/* =========================================================== */
 
     .greeting-section {
         position: fixed;
@@ -297,40 +288,34 @@ span.desktop-only {
         align-items: center;
         z-index: 99999;
         animation: mobileWelcome 2.5s ease-in-out forwards;
-        }
-
+    }
     .greeting-section h2 {
         font-size: 2.5rem;
         color: var(--primary-color);
         text-align: center;
         margin: 0 0 0.5rem;
         font-weight: 400;
-        }
-
+    }
     .greeting-section h1 {
         font-size: 4rem;
         color: var(--secondary-color); 
         font-weight: 700;
         text-align: center;
         margin: 0;
-        }
-
+    }
     .main-content-wrapper .app-header {
         padding: 0.75rem 1rem;
         height: auto;
     }
-
     .main-content-wrapper .app-header .app-title.desktop-only,
     .main-content-wrapper .app-header .help-btn.desktop-only {
         display: none !important;
     }
-
     .header-user-actions {
         display: flex;
         align-items: center;
         margin-left: auto;
     }
-
     .header-dropdown-menu {
         top: 3.2rem;
         right: 0;
@@ -342,12 +327,10 @@ span.desktop-only {
         flex-direction: column;
         overflow: hidden;
     }
-
     .header-dropdown-menu .mobile-only-item {
         display: block;
         border-top: none;
     }
-
     .dropdown-item {
         font-size: 0.9rem;
         padding: 0.8rem 1.25rem;
@@ -355,27 +338,22 @@ span.desktop-only {
         width: 100%;
         box-sizing: border-box;
     }
-
     .logout-item {
         background-color: transparent;
     }
-
     .user-profile-wrapper .user-initials {
         width: 2.5rem;
         height: 2.5rem;
         font-size: 1rem;
     }
-
     .nav-links {
         width: 100%;
         height: 100%;
     }
-
     .nav-item {
         flex: 1;
         padding: 0;
     }
-
     .nav-icon {
         width: 1.5rem;
         height: 1.5rem;
@@ -386,9 +364,7 @@ span.desktop-only {
     .mobile-only {
         display: block !important;
     }
-
     #content.content-panel {
-        padding: 0.5rem 1rem 6rem;
         min-height: calc(100dvh - 11rem);
         box-sizing: border-box;
     }
@@ -414,23 +390,5 @@ span.desktop-only {
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
-    }
-}
-
-/* ==========================================================================
-   📱 GLOBAL MOBILE OVERRIDE (For all pages)
-   ========================================================================== */
-@media (max-width: 767px) {
-    /* Base padding for all mobile panels */
-    #content.content-panel {
-        padding-top: 1rem;
-        padding-left: 16px;
-        padding-right: 16px;
-        padding-bottom: 100px;
-    }
-
-    /* Clean override for contacts page - No !important needed! */
-    .app-shell .main-content-wrapper #content.content-panel:has(.contacts-main-grid) {
-        padding: 0;
     }
 }
