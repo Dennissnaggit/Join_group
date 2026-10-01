@@ -7,6 +7,11 @@ export const GUEST_CONTACTS_SEED = [
   { id: "guest-contact-3", name: "Alex Demo", email: "alex@guest.join", phone: "+49 170 1000003", color: "#5a42b2" },
   { id: "guest-contact-4", name: "Sofia Berger", email: "sofia@guest.join", phone: "+49 170 1000004", color: "#e74c3c" },
   { id: "guest-contact-5", name: "David Klein", email: "david@guest.join", phone: "+49 170 1000005", color: "#3498db" },
+  { id: "guest-contact-6", name: "Benedikt Ziegler", email: "benedikt@guest.join", phone: "+49 170 1000006", color: "#93278f" },
+  { id: "guest-contact-7", name: "Clara Weiss", email: "clara@guest.join", phone: "+49 170 1000007", color: "#00ceff" },
+  { id: "guest-contact-8", name: "Felix Neumann", email: "felix@guest.join", phone: "+49 170 1000008", color: "#ff5555" },
+  { id: "guest-contact-9", name: "Gisela Weber", email: "gisela@guest.join", phone: "+49 170 1000009", color: "#ff7700" },
+  { id: "guest-contact-10", name: "Hannah Schmidt", email: "hannah@guest.join", phone: "+49 170 1000010", color: "#462fe6" },
 ];
 
 export const GUEST_TASKS_SEED = [
@@ -59,7 +64,7 @@ export function writeGuestList(key, list) {
   localStorage.setItem(key, JSON.stringify(Array.isArray(list) ? list : []));
 }
 
-function ensureMinimum(key, seed, minimum = 5) {
+function ensureMinimum(key, seed, minimum = 20) {
   const list = readGuestList(key);
   const existingIds = new Set(list.map(item => item?.id));
 

@@ -31,6 +31,22 @@
     flex-shrink: 0;
 }
 
+.header-user-avatar,
+.user-profile-icon {
+    position: relative;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.header-dropdown-menu,
+.profile-menu,
+#headerDropdown {
+    position: absolute;
+    z-index: 9999 !important;
+    pointer-events: auto !important;
+}
+
+
 .app-header .help-btn {
     background: none;
     border: none;
@@ -114,20 +130,20 @@
 }
 
 .header-dropdown-menu {
-    position: fixed !important;
-    top: 80px !important;
-    right: 20px !important;
-    overflow: visible !important;
-    width: 180px !important;
-    min-width: 180px !important;
+    position: fixed;
+    top: 70px;
+    right: 10px;
+    overflow: visible;
+    width: 150px;
+    min-width: 150px !important;
     background-color: var(--primary-color);
     border-radius: 1.25rem 0 1.25rem 1.25rem;
     padding: 10px 8px;
     box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
-    display: flex !important;
+    display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    z-index: 99999 !important;
+    z-index: 99999;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.15s ease-in-out, visibility 0.15s ease-in-out;
@@ -143,7 +159,7 @@
     background: none;
     border: none;
     color: var(--dropdown);
-    padding: 0.75rem 1.25rem;
+    padding: 10px 16px !important; /* <-- CAMBIADO: De 0.75rem 1.25rem a 10px 16px para igualar a logout-item */
     text-align: left;
     font-size: 1rem;
     text-decoration: none;
@@ -151,7 +167,8 @@
     width: 100%;
     box-sizing: border-box;
     transition: background-color 0.2s ease, color 0.2s ease;
-    display: block;
+    display: flex; /* Cambiado a flex para que alinee igual que logout-item */
+    align-items: center;
 }
 
 .header-dropdown-menu .mobile-only-item {
@@ -273,7 +290,6 @@
     display: flex;
 }
 
-/* Public legal pages: place login exactly 110px below the logo on desktop. */
 .external-view .sidebar-top-group {
     gap: 0;
 }
@@ -322,9 +338,9 @@
         justify-content: center;
         align-items: center;
         gap: 0.25rem;
-        padding: 0 0.8rem;
+        padding: 0 0.3rem;
         color: var(--footer);
-        font-size: 0.75rem;
+        font-size: 1rem;
         height: 100%;
         width: 100%;
         box-sizing: border-box;
@@ -343,7 +359,6 @@
         margin: 0 auto;
     }
 
-    /* Public bottom navigation for visitors without an active session. */
     .external-view .sidebar {
         justify-content: stretch;
     }
@@ -412,11 +427,15 @@
             opacity 0.2s ease,
             transform 0.2s ease,
             visibility 0s linear 0.2s;
+        z-index: 9999 !important;
+        position: absolute !important;
+        pointer-events: none;
     }
 
     .header-dropdown-menu.show-menu {
         transform: translateX(0);
         transition-delay: 0s;
+        pointer-events: auto !important;
     }
 
     .dropdown-item {

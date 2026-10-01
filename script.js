@@ -230,3 +230,54 @@ document.addEventListener('click', () => {
 });
 
 document.addEventListener("DOMContentLoaded", init);
+
+/**
+ * Adjusts sidebar and header display based on the URL 'view=external' parameter.
+ */
+function handleExternalView() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const isExternal = urlParams.get('view') === 'external';
+
+  const navLinks = document.getElementById('nav-links');
+  const loginBtn = document.getElementById('sidebar-login-btn');
+  const headerUser = document.querySelector('.header-user-avatar') || document.querySelector('.user-profile-icon');
+
+  if (isExternal) {
+    if (navLinks) navLinks.classList.add('d-none');
+    if (loginBtn) loginBtn.classList.remove('d-none');
+    if (headerUser) headerUser.classList.add('d-none');
+  } else {
+    if (navLinks) navLinks.classList.remove('d-none');
+    if (loginBtn) loginBtn.classList.add('d-none');
+    if (headerUser) headerUser.classList.remove('d-none');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', handleExternalView);
+
+/**
+ * Checks URL parameters and updates UI elements for external/guest view.
+ */
+function checkExternalView() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const isExternal = urlParams.get('view') === 'external';
+
+  const navLinks = document.getElementById('nav-links');
+  const loginBtn = document.getElementById('sidebar-login-btn');
+  const helpBtn = document.querySelector('.help-btn');
+  const userProfile = document.querySelector('.user-profile-wrapper');
+
+  if (isExternal) {
+    if (navLinks) navLinks.classList.add('d-none');
+    if (loginBtn) loginBtn.classList.remove('d-none');
+    if (helpBtn) helpBtn.classList.add('d-none');
+    if (userProfile) userProfile.classList.add('d-none');
+  } else {
+    if (navLinks) navLinks.classList.remove('d-none');
+    if (loginBtn) loginBtn.classList.add('d-none');
+    if (helpBtn) helpBtn.classList.remove('d-none');
+    if (userProfile) userProfile.classList.remove('d-none');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', checkExternalView);
