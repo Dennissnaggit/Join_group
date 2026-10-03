@@ -39,6 +39,18 @@ export function formatDisplayDate(value) {
   return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString("en-GB");
 }
 
+export function isValidDateInput(value, minimum = "") {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const [year, month, day] = value.split("-").map(Number);
+  const date = new Date(0);
+  date.setFullYear(year, month - 1, day);
+  date.setHours(0, 0, 0, 0);
+  return date.getFullYear() === year
+    && date.getMonth() === month - 1
+    && date.getDate() === day
+    && (!minimum || value >= minimum);
+}
+
 /** Escapes HTML special characters to prevent XSS. */
 export function escapeHtml(str) {
   return String(str || "")

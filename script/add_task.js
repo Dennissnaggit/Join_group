@@ -71,6 +71,11 @@ const assignedToSelected =
 let availableContacts = [];
 
 let selectedContactIds = [];
+const taskStatuses = new Set(["todo", "in-progress", "await-feedback", "done"]);
+const requestedTaskStatus = new URLSearchParams(window.location.search).get("status");
+const initialTaskStatus = taskStatuses.has(requestedTaskStatus)
+  ? requestedTaskStatus
+  : "todo";
 
 const dueDateInput = document.getElementById(
   "exampleFormControlInput1"
@@ -147,8 +152,7 @@ function addSubtask() {
     "list-group-item d-flex justify-content-between align-items-center subtask-item";
 
   li.innerHTML = `
-    <span class="subtask-text">• ${text}</span>
-
+    <span class="subtask-text"></span>
     <div class="subtask-actions">
       <img
         src="../assets/AdTask/edit.png"
@@ -167,6 +171,7 @@ function addSubtask() {
       >
     </div>
   `;
+  li.querySelector(".subtask-text").textContent = `• ${text}`;
 
   document
     .getElementById("subtaskList")
@@ -204,6 +209,7 @@ function editSubtask(icon) {
   editInput.value = text;
   editInput.dataset.originalValue = text;
   editInput.setAttribute("aria-label", "Subtask bearbeiten");
+  editInput.addEventListener("input", () => editInput.setCustomValidity(""));
   textElement.replaceWith(editInput);
 
   actions.innerHTML = `
@@ -250,6 +256,8 @@ function saveSubtaskEdit(element) {
   const text = editInput.value.trim();
 
   if (!text) {
+    editInput.setCustomValidity("A subtask title is required.");
+    editInput.reportValidity();
     editInput.focus();
     return;
   }
@@ -845,6 +853,7 @@ function buildTaskData() {
     title: title,
     description: description,
     dueDate: dueDate,
+    status: initialTaskStatus,
     priority: getPriority(),
     category: category,
     assignedTo: getAssignedTo(),
@@ -923,13 +932,20 @@ function validateAddTaskForm() {
   requiredTaskFields.forEach(validateTaskField);
 
   const firstInvalidField = requiredTaskFields.find(getTaskFieldError);
-
-  if (firstInvalidField === categoryInput) {
-    categoryToggle.focus();
-  } else {
-    firstInvalidField?.focus();
+  if (firstInvalidField) {
+    (firstInvalidField === categoryInput ? categoryToggle : firstInvalidField).focus();
+    return false;
   }
-  return !firstInvalidField;
+  const emptySubtask = [...document.querySelectorAll("#subtaskList .subtask-edit-input")]
+    .find(subtask => !subtask.value.trim());
+  if (emptySubtask) {
+    emptySubtask.setCustomValidity("A subtask title is required.");
+    emptySubtask.reportValidity();
+    emptySubtask.focus();
+    return false;
+  }
+
+  return true;
 }
 
 titleInput.addEventListener("input", () => clearTaskFieldError(titleInput));

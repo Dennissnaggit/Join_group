@@ -20,6 +20,17 @@ let touchDragPreviewEl = null;
 let touchDragSourceCard = null;
 let touchPreviewOffsetX = 0;
 let touchPreviewOffsetY = 0;
+let touchScrollIntent = false;
+let lastTouchY = 0;
+
+function scrollBoardPage(deltaY) {
+  const content = document.querySelector("#content.content-panel");
+  if (content && content.scrollHeight > content.clientHeight) {
+    content.scrollTop += deltaY;
+    return;
+  }
+  window.scrollBy(0, deltaY);
+}
 
 /** Returns the task status string for a given column element ID. */
 export function getStatusFromTaskList(id) {
@@ -58,7 +69,8 @@ function handleListDrop(event) {
 
 function moveTaskToStatus(taskId, newStatus) {
   const task = state.tasks.find(t => t.id === taskId);
-  if (!task) return;
+  if (!task || task.status === newStatus) return;
+  const previousStatus = task.status;
   task.status = newStatus;
   callbacks.renderBoard?.();
 
@@ -73,7 +85,11 @@ function moveTaskToStatus(taskId, newStatus) {
     );
   }
 
-  saveTaskStatus(taskId, newStatus).catch(err => console.error("Status speichern fehlgeschlagen:", err));
+  saveTaskStatus(taskId, newStatus).catch(err => {
+    task.status = previousStatus;
+    callbacks.renderBoard?.();
+    console.error("Status speichern fehlgeschlagen:", err);
+  });
 }
 
 function cleanupDragPreview() {
@@ -174,8 +190,10 @@ export function handleTaskTouchStart(event) {
   state.touchDraggedTaskId = event.currentTarget.dataset.taskId;
   state.touchStartX        = touch.clientX;
   state.touchStartY        = touch.clientY;
+  lastTouchY               = touch.clientY;
   state.touchDropListId    = null;
   state.isTouchDragging    = false;
+  touchScrollIntent = false;
 
   touchDragArmed = false;
   touchDragCancelled = false;
@@ -194,11 +212,25 @@ export function handleTaskTouchMove(event) {
   const dx    = Math.abs(touch.clientX - state.touchStartX);
   const dy    = Math.abs(touch.clientY - state.touchStartY);
 
+  if (touchScrollIntent) {
+    scrollBoardPage(lastTouchY - touch.clientY);
+    lastTouchY = touch.clientY;
+    event.preventDefault();
+    return;
+  }
   if (touchDragCancelled) return;
 
   if (!touchDragArmed) {
-    // Before hold-time has passed, allow normal scrolling gestures.
-    if (dx > TOUCH_SCROLL_INTENT_PX || dy > TOUCH_SCROLL_INTENT_PX) {
+    if (dy > TOUCH_SCROLL_INTENT_PX) {
+      touchScrollIntent = true;
+      state.ignoreNextCardClick = true;
+      window.clearTimeout(touchDragHoldTimer);
+      scrollBoardPage(state.touchStartY - touch.clientY);
+      lastTouchY = touch.clientY;
+      event.preventDefault();
+      return;
+    }
+    if (dx > TOUCH_SCROLL_INTENT_PX) {
       touchDragCancelled = true;
       window.clearTimeout(touchDragHoldTimer);
       cleanupTouchDragVisuals();
@@ -231,6 +263,7 @@ export function handleTaskTouchEnd(event) {
   window.clearTimeout(touchDragHoldTimer);
   touchDragArmed = false;
   touchDragCancelled = false;
+  touchScrollIntent = false;
   if (!state.touchDraggedTaskId) return;
 
   if (state.isTouchDragging && state.touchDropListId) {
@@ -252,6 +285,7 @@ export function handleTaskTouchCancel() {
   window.clearTimeout(touchDragHoldTimer);
   touchDragArmed = false;
   touchDragCancelled = false;
+  touchScrollIntent = false;
   state.touchDraggedTaskId = null;
   state.touchDropListId = null;
   state.isTouchDragging = false;

@@ -52,6 +52,17 @@ body {
     font-size: 16px;
 }
 
+small,
+.small,
+.form-text,
+.blockquote-footer,
+.form-control-sm,
+.btn-sm,
+.valid-feedback,
+.invalid-feedback {
+    font-size: 1rem;
+}
+
 /* --- Elementos Destacados (18px y negrita) --- */
 .form-label,
 .card-title,

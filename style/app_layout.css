@@ -209,7 +209,7 @@ span.desktop-only {
         gap: 0.25rem;
         padding: 0 1rem;
         color: var(--footer);
-        font-size: 0.75rem;
+        font-size: 1rem;
         height: 100%;
         width: 100%;
         box-sizing: border-box;
@@ -332,7 +332,7 @@ span.desktop-only {
         border-top: none;
     }
     .dropdown-item {
-        font-size: 0.9rem;
+        font-size: 1rem;
         padding: 0.8rem 1.25rem;
         color: var(--dropdawn);
         width: 100%;

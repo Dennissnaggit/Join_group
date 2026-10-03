@@ -3,7 +3,7 @@ import { deleteTaskFromFirestore, updateTaskInFirestore } from "./board-firestor
 import {
   getInitials, getAvatarColor,
   getPriorityLabel, getOverlayPriorityIcon, formatDisplayDate,
-  escapeHtml, deleteIcon, editIcon,
+  escapeHtml, deleteIcon, editIcon, isValidDateInput,
   buildPriorityButtons, selectPriority, getActivePriority,
 } from "./board-helpers.js";
 
@@ -21,6 +21,7 @@ const subtaskEditActions = changed => changed
      <span class="board-modal-subtask-sep"></span>
      <button type="button" class="board-modal-subtask-btn" data-action="save"   title="Speichern">&#x2713;</button>`;
 
+let closeEditDropdownsOnOutsideClick;
 
 // ── Task Detail Overlay ────────────────────────────────────────────────────
 
@@ -59,6 +60,8 @@ export function closeTaskOverlay() {
   document.getElementById("boardTaskOverlay")?.classList.remove("is-open");
   document.getElementById("boardTaskModalContent")?.classList.remove("board-task-modal--wide");
   document.body.classList.remove("board-no-scroll");
+  document.removeEventListener("click", closeEditDropdownsOnOutsideClick);
+  closeEditDropdownsOnOutsideClick = null;
 }
 
 async function deleteBoardTask(taskId) {
@@ -124,6 +127,11 @@ function buildSubtasksHtml(subtasks) {
     <li class="board-modal-subtask-item" data-index="${i}">
       <button type="button" class="board-modal-check-btn" data-action="toggle">${checkboxImg(s.done)}</button>
       <span class="board-modal-subtask-title">${escapeHtml(s.title)}</span>
+      <div class="board-modal-subtask-actions">
+        <button type="button" class="board-modal-subtask-btn" data-action="edit" title="Bearbeiten">${editIcon()}</button>
+        <span class="board-modal-subtask-sep"></span>
+        <button type="button" class="board-modal-subtask-btn" data-action="delete" title="Löschen">${deleteIcon()}</button>
+      </div>
     </li>`).join("");
 }
 
@@ -137,6 +145,10 @@ function setupSubtaskToggle(task) {
     const idx    = parseInt(item.dataset.index, 10);
     const action = e.target.closest("[data-action]")?.dataset.action;
     if (action === "toggle") subtaskToggleDone(item, task, idx);
+    if (action === "edit") subtaskEnterEdit(item, task, idx);
+    if (action === "save") subtaskSave(item, task, idx);
+    if (action === "cancel") subtaskExitEdit(item, task, idx);
+    if (action === "delete") subtaskDelete(list, task, idx);
   });
 }
 
@@ -153,6 +165,7 @@ function subtaskToggleDone(item, task, idx) {
 function subtaskEnterEdit(item, task, idx) {
   const titleEl   = item.querySelector(".board-modal-subtask-title");
   const actionsEl = item.querySelector(".board-modal-subtask-actions");
+  if (!titleEl || !actionsEl) return;
   const original  = task.subtasks[idx].title;
 
   const input = document.createElement("input");
@@ -167,6 +180,7 @@ function subtaskEnterEdit(item, task, idx) {
   item.classList.add("is-editing");
 
   input.addEventListener("input", () => {
+    input.setCustomValidity("");
     actionsEl.innerHTML = subtaskEditActions(input.value.trim() !== original);
   });
 }
@@ -175,7 +189,12 @@ function subtaskSave(item, task, idx) {
   const input = item.querySelector(".board-modal-subtask-input");
   if (!input) return;
   const val = input.value.trim();
-  if (val) task.subtasks[idx].title = val;
+  if (!val) {
+    input.setCustomValidity("A subtask title is required.");
+    input.reportValidity();
+    return;
+  }
+  task.subtasks[idx].title = val;
   subtaskExitEdit(item, task, idx);
   updateTaskInFirestore(task.id, { subtasks: task.subtasks }).catch(console.error);
   const st = state.tasks.find(t => t.id === task.id);
@@ -231,6 +250,7 @@ function buildEditHTML(task) {
         <div class="bat-field">
           <label class="bat-label">Title<span class="bat-required">*</span></label>
           <input id="editTitle" class="bat-input" type="text" value="${escapeHtml(task.title)}">
+          <span class="bat-error" id="editTitleError" hidden></span>
         </div>
         <div class="bat-field bat-field--grow">
           <label class="bat-label">Description</label>
@@ -238,7 +258,8 @@ function buildEditHTML(task) {
         </div>
         <div class="bat-field">
           <label class="bat-label">Due date<span class="bat-required">*</span></label>
-          <input id="editDueDate" class="bat-input" type="date" value="${task.dueDate}">
+          <input id="editDueDate" class="bat-input" type="date" value="${escapeHtml(task.dueDate)}">
+          <span class="bat-error" id="editDueDateError" hidden></span>
         </div>
       </div>
       <div class="bat-divider" aria-hidden="true"></div>
@@ -249,11 +270,15 @@ function buildEditHTML(task) {
         </div>
         <div class="bat-field bat-assigned-field">
           <label class="bat-label">Assigned to</label>
-          <div class="bat-dropdown-wrapper">
-            <div id="batAssignedToggle" class="bat-input bat-dropdown-toggle">
-              <span>Select contacts to assign</span><span class="bat-dropdown-arrow">▾</span>
+          <div class="bat-dropdown-wrapper" data-dropdown="contacts">
+            <div id="batAssignedToggle" class="bat-input bat-dropdown-toggle" role="button" tabindex="0" aria-expanded="false">
+              <span>Select contacts to assign</span>
+              <span class="bat-dropdown-arrow">&#9662;</span>
             </div>
             <div id="batAssignedDropdown" class="bat-dropdown" hidden>
+              <div class="bat-dropdown-search-wrapper">
+                <input id="batAssignedSearch" class="bat-dropdown-search" type="text" placeholder="Search contacts...">
+              </div>
               ${buildContactCheckboxes(task.assignedTo)}
             </div>
           </div>
@@ -274,6 +299,7 @@ function buildEditHTML(task) {
         </div>
       </div>
     </div>
+    <p id="batFormError" class="bat-error" role="alert" hidden></p>
     <div class="bat-footer">
       <p class="bat-required-hint"><span class="bat-required">*</span>This field is required</p>
       <div class="bat-actions">
@@ -336,21 +362,86 @@ function setupEditListeners(task) {
 
   setupDropdown("batAssignedToggle", "batAssignedDropdown", updateSelectedAvatars);
   setupSubtaskInput("batSubtaskInput", "batSubtaskAdd", "batSubtaskList");
+  setupEditValidation(task);
   updateSelectedAvatars();
 }
 
 function setupDropdown(toggleId, dropdownId, onChange) {
   const toggle   = document.getElementById(toggleId);
   const dropdown = document.getElementById(dropdownId);
-  toggle?.addEventListener("click", e => { e.stopPropagation(); dropdown.hidden = !dropdown.hidden; });
+  toggle?.addEventListener("click", e => {
+    e.stopPropagation();
+    dropdown.hidden = !dropdown.hidden;
+    toggle.setAttribute("aria-expanded", String(!dropdown.hidden));
+  });
+  toggle?.addEventListener("keydown", event => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    toggle.click();
+  });
   dropdown?.querySelectorAll(".bat-contact-check").forEach(cb => cb.addEventListener("change", onChange));
 
-  const closeOutside = e => {
-    const el = document.getElementById(dropdownId);
-    if (!el) { document.removeEventListener("click", closeOutside); return; }
-    if (!e.target.closest(".bat-dropdown-wrapper")) el.hidden = true;
+  document.removeEventListener("click", closeEditDropdownsOnOutsideClick);
+  closeEditDropdownsOnOutsideClick = event => {
+    document.querySelectorAll(".bat-dropdown-wrapper").forEach(wrapper => {
+      if (wrapper.contains(event.target)) return;
+      wrapper.querySelector(".bat-dropdown").hidden = true;
+      wrapper.querySelector(".bat-dropdown-toggle").setAttribute("aria-expanded", "false");
+    });
   };
-  document.addEventListener("click", closeOutside);
+  document.addEventListener("click", closeEditDropdownsOnOutsideClick);
+}
+
+function getTodayDateValue() {
+  const date = new Date();
+  date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+  return date.toISOString().slice(0, 10);
+}
+
+function setupEditValidation(task) {
+  const title = document.getElementById("editTitle");
+  const dueDate = document.getElementById("editDueDate");
+  dueDate.min = getTodayDateValue();
+  title.addEventListener("input", () => clearEditError(title, "editTitleError"));
+  dueDate.addEventListener("change", () => clearEditError(dueDate, "editDueDateError"));
+  dueDate.dataset.originalValue = task.dueDate || "";
+}
+
+function clearEditError(field, errorId) {
+  field.removeAttribute("aria-invalid");
+  field.removeAttribute("aria-describedby");
+  document.getElementById(errorId).hidden = true;
+}
+
+function validateEditForm() {
+  const title = document.getElementById("editTitle");
+  const dueDate = document.getElementById("editDueDate");
+  const titleValue = title.value.trim();
+  const dateValue = dueDate.value;
+  const minimum = dateValue === dueDate.dataset.originalValue ? "" : getTodayDateValue();
+  const dateValid = isValidDateInput(dateValue, minimum);
+  const blankSubtask = document.querySelector("#batSubtaskList .bat-subtask-edit-input")
+    && [...document.querySelectorAll("#batSubtaskList .bat-subtask-edit-input")]
+      .find(input => !input.value.trim());
+
+  setEditError(title, "editTitleError", !titleValue, "This field is required.");
+  setEditError(dueDate, "editDueDateError", !dateValid, "Please choose a valid current or future date.");
+  const firstInvalid = !titleValue ? title : !dateValid ? dueDate : blankSubtask;
+  if (blankSubtask) {
+    blankSubtask.setCustomValidity("A subtask title is required.");
+    blankSubtask.reportValidity();
+  }
+  firstInvalid?.focus();
+  return Boolean(titleValue && dateValid && !blankSubtask);
+}
+
+function setEditError(field, errorId, invalid, message) {
+  const error = document.getElementById(errorId);
+  field.toggleAttribute("aria-invalid", invalid);
+  if (invalid) field.setAttribute("aria-describedby", errorId);
+  else field.removeAttribute("aria-describedby");
+  error.textContent = invalid ? message : "";
+  error.hidden = !invalid;
 }
 
 function setupSubtaskInput(inputId, addBtnId, listId) {
@@ -422,6 +513,7 @@ function batEditSubtask(item) {
   item.classList.add("is-editing");
 
   input.addEventListener("input", () => {
+    input.setCustomValidity("");
     actions.innerHTML = batSubtaskEditActions(input.value.trim() !== original);
   });
 }
@@ -441,7 +533,12 @@ function batSaveSubtask(item) {
   const input   = item.querySelector(".bat-subtask-edit-input");
   const actions = item.querySelector(".bat-subtask-actions");
   if (!input) return;
-  const val = input.value.trim() || input.value;
+  const val = input.value.trim();
+  if (!val) {
+    input.setCustomValidity("A subtask title is required.");
+    input.reportValidity();
+    return;
+  }
   const span = document.createElement("span");
   span.className   = "bat-subtask-text";
   span.textContent = "• " + val;
@@ -481,8 +578,8 @@ function updateSelectedAvatars() {
 }
 
 async function saveTaskEdit(taskId) {
-  const title = document.getElementById("editTitle")?.value.trim();
-  if (!title) return;
+  if (!validateEditForm()) return;
+  const title = document.getElementById("editTitle").value.trim();
 
   const scope = document.getElementById("boardTaskModalContent") || document;
 
@@ -492,8 +589,7 @@ async function saveTaskEdit(taskId) {
     dueDate:     document.getElementById("editDueDate")?.value || "",
     priority:    getActivePriority(),
     assignedTo:  [...scope.querySelectorAll(".bat-contact-check:checked")].map(cb => cb.value),
-    subtasks:    [...scope.querySelectorAll("#batSubtaskList .bat-subtask-text")]
-                   .map(el => ({ title: el.textContent.replace(/^•\s*/, "").trim(), done: false })),
+    subtasks:    getEditedSubtasks(scope, state.tasks.find(task => task.id === taskId)),
   };
 
   try {
@@ -504,5 +600,21 @@ async function saveTaskEdit(taskId) {
     callbacks.renderBoard?.();
   } catch (err) {
     console.error("Fehler beim Speichern:", err);
+    const error = document.getElementById("batFormError");
+    if (error) {
+      error.textContent = "The task could not be saved. Please try again.";
+      error.hidden = false;
+    }
   }
+}
+
+function getEditedSubtasks(scope, task) {
+  return [...scope.querySelectorAll("#batSubtaskList .bat-subtask-item")].map(item => {
+    const text = item.querySelector(".bat-subtask-text, .bat-subtask-edit-input");
+    const index = Number(item.dataset.origIdx);
+    return {
+      title: (text.value ?? text.textContent).replace(/^•\s*/, "").trim(),
+      done: index >= 0 ? Boolean(task?.subtasks[index]?.done) : false,
+    };
+  });
 }

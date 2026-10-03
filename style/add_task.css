@@ -342,7 +342,7 @@ FOOTER
     border: 1px solid #d1d1d1;
     border-radius: 0.5rem;
     padding: 0 0.625rem;
-    font-size: 0.9375rem;
+    font-size: 1rem;
     color: var(--primary-color, #2a3647);
     background: #ffffff;
     box-sizing: border-box;
@@ -411,7 +411,7 @@ FOOTER
 
     color: white;
 
-    font-size: 0.75rem;
+    font-size: 1rem;
     font-weight: 700;
 
     border: 1px solid white;
@@ -462,7 +462,7 @@ FOOTER
 
     color: white;
 
-    font-size: 0.75rem;
+    font-size: 1rem;
     font-weight: 700;
 
     border: 1px solid white;
@@ -483,7 +483,7 @@ FOOTER
     padding: 0.75rem 0.875rem;
     margin: 0;
 
-    font-size: 0.9375rem;
+    font-size: 1rem;
 
     color: #a0a0a0;
 
@@ -694,7 +694,7 @@ SUBTASKS
         min-height: 1.5rem;
         padding-top: 0.25rem;
         padding-bottom: 0;
-        font-size: 0.875rem;
+        font-size: 1rem;
         overflow: hidden;
     }
 
@@ -898,7 +898,7 @@ SUBTASKS
     }
 
     .required-notice {
-        font-size: 0.875rem;
+        font-size: 1rem;
     }
 
     /* Touch-Geräte haben kein echtes Hover */
@@ -936,7 +936,7 @@ SUBTASKS
     .priorityBtn {
         padding: 0 0.35rem;
         gap: 0.25rem;
-        font-size: 0.85rem;
+        font-size: 1rem;
     }
 
     .priorityBtn img {
@@ -950,7 +950,7 @@ SUBTASKS
     .clearBtn,
     .createBtn {
         padding: 0 0.5rem;
-        font-size: 0.875rem;
+        font-size: 1rem;
     }
 }
 
@@ -979,7 +979,7 @@ SUBTASKS
     .form-label,
     .form-label-style,
     .multi-select-title {
-        font-size: 0.95rem;
+        font-size: 1rem;
     }
 
     .form-control,
@@ -1000,7 +1000,7 @@ SUBTASKS
     .form-control,
     .form-select,
     .input-field input {
-        font-size: 0.95rem;
+        font-size: 1rem;
     }
 
     /* Priority Buttons weiterhin nebeneinander */
@@ -1012,7 +1012,7 @@ SUBTASKS
         height: 2.875rem;
         padding: 0 0.25rem;
         gap: 0.2rem;
-        font-size: 0.75rem;
+        font-size: 1rem;
         border-radius: 8px;
     }
 
@@ -1029,16 +1029,16 @@ SUBTASKS
     .createBtn {
         height: 2.875rem;
         padding: 0 0.35rem;
-        font-size: 0.8rem;
+        font-size: 1rem;
         border-radius: 8px;
     }
 
     .required-notice {
-        font-size: 0.8rem;
+        font-size: 1rem;
     }
 
     .name-wrap {
-        font-size: 0.9rem;
+        font-size: 1rem;
         gap: 0.5rem;
     }
 
@@ -1046,7 +1046,7 @@ SUBTASKS
         width: 2rem;
         height: 2rem;
         flex-basis: 2rem;
-        font-size: 0.75rem;
+        font-size: 1rem;
     }
 
     .checkbox-img {

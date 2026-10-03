@@ -14,8 +14,10 @@ const COLUMNS = [
 ];
 
 const STATUS_LABELS = {
-  "todo": "To do", "in-progress": "In progress",
-  "await-feedback": "Await feedback", "done": "Done",
+  todo: "To do",
+  "in-progress": "In progress",
+  "await-feedback": "Await feedback",
+  done: "Done",
 };
 
 /** Re-renders all four board columns. */
@@ -31,7 +33,7 @@ function renderColumn(status, columnId) {
   column.innerHTML = "";
 
   if (!tasks.length) {
-    column.innerHTML = `<div class="board-empty" role="status"><span>No tasks in ${STATUS_LABELS[status] || status}</span></div>`;
+    column.innerHTML = `<div class="board-empty" role="status"><span>No tasks in ${STATUS_LABELS[status]}</span></div>`;
     return;
   }
   tasks.forEach(task => column.appendChild(createTaskCard(task)));
@@ -40,9 +42,12 @@ function renderColumn(status, columnId) {
 function getFilteredTasksByStatus(status) {
   return state.tasks.filter(task => {
     if (task.status !== status) return false;
-    if (!state.searchValue) return true;
-    return task.title.toLowerCase().includes(state.searchValue)
-      || task.description.toLowerCase().includes(state.searchValue);
+    const query = String(state.searchValue || "").trim().toLowerCase();
+    if (!query) return true;
+
+    const title = String(task.title || "").toLowerCase();
+    const description = String(task.description || "").toLowerCase();
+    return title.includes(query) || description.includes(query);
   });
 }
 

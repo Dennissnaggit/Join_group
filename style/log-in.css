@@ -984,6 +984,17 @@ body:not(.sign-up-page) .login-box--login > .btn-group {
   gap: 35px;
 }
 
+body:not(.sign-up-page) .login-box--login > .btn-group > .button-dark,
+body:not(.sign-up-page) .login-box--login > .btn-group > .guest-login,
+body:not(.sign-up-page) .login-box--login > .btn-group > .guest-login > .button-outline {
+  width: 180px;
+  box-sizing: border-box;
+}
+
+body:not(.sign-up-page) .login-box--login > .btn-group > .guest-login {
+  display: block;
+}
+
 /* Switch only the sign-up page to its compact layout from 960px down. */
 @media (min-width: 769px) and (max-width: 960px) {
   .sign-up-page .start-logo {
