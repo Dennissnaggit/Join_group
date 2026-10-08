@@ -314,6 +314,10 @@ FOOTER
     flex-shrink: 0;
 }
 
+#assignedToWrapper:has(#assignedToDropdown:not(.d-none)) .bat-dropdown-arrow {
+    transform: rotate(180deg);
+}
+
 .bat-dropdown {
     position: absolute;
     top: calc(100% + 0.25rem);
@@ -1113,6 +1117,10 @@ body .app-shell .main-content-wrapper #content.content-panel {
 .category-arrow {
     flex-shrink: 0;
     font-size: 1rem;
+}
+
+#categoryDropdownWrapper:has(#categoryOptions:not(.d-none)) .category-arrow {
+    transform: rotate(180deg);
 }
 
 .category-options {
