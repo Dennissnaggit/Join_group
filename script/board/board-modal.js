@@ -257,9 +257,9 @@ function buildEditHTML(task) {
           <textarea id="editDescription" class="bat-input bat-textarea">${escapeHtml(task.description)}</textarea>
         </div>
         <div class="bat-field">
-          <label class="bat-label">Due date<span class="bat-required">*</span></label>
+          <label class="bat-label" for="editDueDate">Due date<span class="bat-required">*</span></label>
           <input id="editDueDate" class="bat-input" type="date" value="${escapeHtml(task.dueDate)}">
-          <span class="bat-error" id="editDueDateError" hidden></span>
+          <span class="bat-error" id="editDueDateError" aria-live="polite" hidden></span>
         </div>
       </div>
       <div class="bat-divider" aria-hidden="true"></div>
@@ -362,7 +362,7 @@ function setupEditListeners(task) {
 
   setupDropdown("batAssignedToggle", "batAssignedDropdown", updateSelectedAvatars);
   setupSubtaskInput("batSubtaskInput", "batSubtaskAdd", "batSubtaskList");
-  setupEditValidation(task);
+  setupEditValidation();
   updateSelectedAvatars();
 }
 
@@ -398,13 +398,20 @@ function getTodayDateValue() {
   return date.toISOString().slice(0, 10);
 }
 
-function setupEditValidation(task) {
+function setupEditValidation() {
   const title = document.getElementById("editTitle");
   const dueDate = document.getElementById("editDueDate");
   dueDate.min = getTodayDateValue();
   title.addEventListener("input", () => clearEditError(title, "editTitleError"));
-  dueDate.addEventListener("change", () => clearEditError(dueDate, "editDueDateError"));
-  dueDate.dataset.originalValue = task.dueDate || "";
+  dueDate.addEventListener("focus", () => { dueDate.min = getTodayDateValue(); });
+  dueDate.addEventListener("change", () => {
+    const minimum = getTodayDateValue();
+    dueDate.min = minimum;
+    const valid = isValidDateInput(dueDate.value, minimum);
+    if (dueDate.value && !valid) dueDate.value = "";
+    setEditError(dueDate, "editDueDateError", !valid,
+      "Please select a current or future date.");
+  });
 }
 
 function clearEditError(field, errorId) {
@@ -435,14 +442,14 @@ function validateEditForm() {
   const dueDate = document.getElementById("editDueDate");
   const titleValue = title.value.trim();
   const dateValue = dueDate.value;
-  const minimum = dateValue === dueDate.dataset.originalValue ? "" : getTodayDateValue();
+  const minimum = getTodayDateValue();
   const dateValid = isValidDateInput(dateValue, minimum);
   const blankSubtask = document.querySelector("#batSubtaskList .bat-subtask-edit-input")
     && [...document.querySelectorAll("#batSubtaskList .bat-subtask-edit-input")]
       .find(input => !input.value.trim());
 
   setEditError(title, "editTitleError", !titleValue, "This field is required.");
-  setEditError(dueDate, "editDueDateError", !dateValid, "Please choose a valid current or future date.");
+  setEditError(dueDate, "editDueDateError", !dateValid, "Please select a current or future date.");
   const firstInvalid = !titleValue ? title : !dateValid ? dueDate : blankSubtask;
   if (blankSubtask) {
     showBatSubtaskError(blankSubtask);

@@ -931,6 +931,30 @@ body.board-no-scroll {
   color: #ff8190;
 }
 
+#editDueDateError {
+  display: block;
+  width: 100%;
+  min-height: 27px;
+  height: 47px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 4px 8px;
+  background: transparent;
+  color: rgba(230, 0, 38, 1);
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+  letter-spacing: 0;
+  flex-shrink: 0;
+}
+
+#editDueDateError[hidden] {
+  display: block !important;
+  visibility: hidden;
+}
+
 /* ── Inputs ── */
 
 .bat-input {
@@ -953,6 +977,10 @@ body.board-no-scroll {
 
 .bat-input[aria-invalid="true"] {
   border-color: #ff8190;
+}
+
+#editDueDate[aria-invalid] {
+  border-color: rgba(230, 0, 38, 1);
 }
 
 .bat-textarea {
