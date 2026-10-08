@@ -104,6 +104,7 @@ const taskFieldErrors = {
  * Zeigt / versteckt die Buttons im Subtask Input.
  */
 input.addEventListener("input", function () {
+  clearSubtaskError(this);
   if (this.value.trim()) {
     inputActions.classList.remove("d-none");
     inputActions.classList.add("d-flex");
@@ -118,7 +119,7 @@ input.addEventListener("input", function () {
  * Subtask mit Enter hinzufügen.
  */
 input.addEventListener("keydown", function (event) {
-  if (event.key === "Enter" && this.value.trim()) {
+  if (event.key === "Enter") {
     event.preventDefault();
     addSubtask();
   }
@@ -128,7 +129,29 @@ input.addEventListener("keydown", function (event) {
 /**
  * Subtask Input leeren.
  */
+function showSubtaskError(field) {
+  const error = document.getElementById("subtaskError");
+  field.classList.add("is-invalid");
+  field.setAttribute("aria-invalid", "true");
+  field.setAttribute("aria-describedby", error.id);
+  error.textContent = "A subtask title is required.";
+  error.classList.add("show");
+  field.focus();
+}
+
+function clearSubtaskError(field) {
+  field.classList.remove("is-invalid");
+  field.removeAttribute("aria-invalid");
+  field.removeAttribute("aria-describedby");
+  if (!document.querySelector("#subtaskList .is-invalid, #subtaskInput.is-invalid")) {
+    const error = document.getElementById("subtaskError");
+    error.textContent = "";
+    error.classList.remove("show");
+  }
+}
+
 function clearSubtaskInput() {
+  clearSubtaskError(input);
   input.value = "";
 
   inputActions.classList.add("d-none");
@@ -143,6 +166,7 @@ function addSubtask() {
   const text = input.value.trim();
 
   if (!text) {
+    showSubtaskError(input);
     return;
   }
 
@@ -185,7 +209,10 @@ function addSubtask() {
  * Subtask entfernen.
  */
 function removeSubtask(icon) {
-  icon.closest("li").remove();
+  const li = icon.closest("li");
+  const editInput = li.querySelector(".subtask-edit-input");
+  li.remove();
+  if (editInput) clearSubtaskError(editInput);
 }
 
 
@@ -209,7 +236,7 @@ function editSubtask(icon) {
   editInput.value = text;
   editInput.dataset.originalValue = text;
   editInput.setAttribute("aria-label", "Subtask bearbeiten");
-  editInput.addEventListener("input", () => editInput.setCustomValidity(""));
+  editInput.addEventListener("input", () => clearSubtaskError(editInput));
   textElement.replaceWith(editInput);
 
   actions.innerHTML = `
@@ -256,9 +283,7 @@ function saveSubtaskEdit(element) {
   const text = editInput.value.trim();
 
   if (!text) {
-    editInput.setCustomValidity("A subtask title is required.");
-    editInput.reportValidity();
-    editInput.focus();
+    showSubtaskError(editInput);
     return;
   }
 
@@ -274,6 +299,7 @@ function cancelSubtaskEdit(element) {
 
 function finishSubtaskEdit(li, text) {
   const editInput = li.querySelector(".subtask-edit-input");
+  clearSubtaskError(editInput);
   const textElement = document.createElement("span");
 
   textElement.className = "subtask-text";
@@ -688,6 +714,7 @@ function resetAddTaskForm() {
     ).innerHTML = "";
 
     input.value = "";
+    clearSubtaskError(input);
 
     inputActions.classList.add("d-none");
     inputActions.classList.remove("d-flex");
@@ -939,9 +966,7 @@ function validateAddTaskForm() {
   const emptySubtask = [...document.querySelectorAll("#subtaskList .subtask-edit-input")]
     .find(subtask => !subtask.value.trim());
   if (emptySubtask) {
-    emptySubtask.setCustomValidity("A subtask title is required.");
-    emptySubtask.reportValidity();
-    emptySubtask.focus();
+    showSubtaskError(emptySubtask);
     return false;
   }
 

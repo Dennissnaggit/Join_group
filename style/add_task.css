@@ -142,6 +142,7 @@ textarea.form-control {
     box-shadow: none;
 }
 
+.subtask-edit-input.is-invalid,
 .form-control.is-invalid,
 .form-select.is-invalid {
     border-color: rgba(230, 0, 38, 1);
@@ -584,6 +585,10 @@ SUBTASKS
     color: var(--primary-color);
     font: inherit;
     outline: none;
+}
+
+.subtask-edit-input.is-invalid {
+    border-bottom: 1px solid #e60026;
 }
 
 .subtask-text {
