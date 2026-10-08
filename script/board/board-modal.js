@@ -285,17 +285,17 @@ function buildEditHTML(task) {
           <div id="batSelectedAvatars" class="bat-selected-avatars"></div>
         </div>
         <div class="bat-field">
-          <label class="bat-label">Subtasks</label>
+          <label class="bat-label" for="batSubtaskInput">Subtasks</label>
           <div class="bat-subtask-input-wrap">
-            <input id="batSubtaskInput" class="bat-input bat-subtask-field" type="text" placeholder="Add new subtask">
+            <input id="batSubtaskInput" class="bat-input bat-subtask-field" type="text" placeholder="add new subtask">
             <div class="bat-subtask-input-icons is-empty">
-              <button type="button" class="bat-subtask-icon-btn bat-si-plus">+</button>
-              <button type="button" class="bat-subtask-icon-btn bat-si-clear"><img src="../assets/icons/board/subtasks/close.svg" alt="x" width="16" height="16"></button>
+              <button type="button" class="bat-subtask-icon-btn bat-si-clear"><img src="../assets/subtask/delete.png" alt="Abbrechen" width="24" height="24"></button>
               <span class="bat-si-sep"></span>
-              <button type="button" class="bat-subtask-icon-btn bat-si-confirm"><img src="../assets/icons/board/subtasks/mark.svg" alt="ok" width="16" height="16"></button>
+              <button type="button" class="bat-subtask-icon-btn bat-si-confirm"><img src="../assets/subtask/check.png" alt="Hinzufügen" width="24" height="24"></button>
             </div>
           </div>
           <ul id="batSubtaskList" class="bat-subtask-list">${buildSubtaskItems(task.subtasks)}</ul>
+          <p id="batSubtaskError" class="bat-subtask-error" aria-live="polite" hidden></p>
         </div>
       </div>
     </div>
@@ -336,9 +336,9 @@ function batSubtaskItemHTML(title, idx) {
     <li class="bat-subtask-item" data-orig-idx="${idx}">
       <span class="bat-subtask-text">• ${escapeHtml(title)}</span>
       <div class="bat-subtask-actions">
-        <button type="button" class="bat-subtask-action-btn" data-action="edit"><img src="../assets/icons/board/subtasks/edit.svg" alt="edit" width="16" height="16"></button>
+        <button type="button" class="bat-subtask-action-btn" data-action="edit"><img src="../assets/AdTask/edit.png" alt="edit" width="16" height="16"></button>
         <span class="bat-subtask-action-sep"></span>
-        <button type="button" class="bat-subtask-action-btn" data-action="delete"><img src="../assets/icons/board/subtasks/delete.svg" alt="delete" width="16" height="16"></button>
+        <button type="button" class="bat-subtask-action-btn" data-action="delete"><img src="../assets/AdTask/close.png" alt="delete" width="16" height="16"></button>
       </div>
     </li>`;
 }
@@ -413,6 +413,23 @@ function clearEditError(field, errorId) {
   document.getElementById(errorId).hidden = true;
 }
 
+function showBatSubtaskError(input) {
+  input.setAttribute("aria-invalid", "true");
+  input.setAttribute("aria-describedby", "batSubtaskError");
+  const error = document.getElementById("batSubtaskError");
+  error.textContent = "A subtask title is required.";
+  error.hidden = false;
+  input.focus();
+}
+
+function clearBatSubtaskError(input) {
+  input.removeAttribute("aria-invalid");
+  input.removeAttribute("aria-describedby");
+  if (!document.querySelector('#batSubtaskList [aria-invalid="true"], #batSubtaskInput[aria-invalid="true"]')) {
+    document.getElementById("batSubtaskError").hidden = true;
+  }
+}
+
 function validateEditForm() {
   const title = document.getElementById("editTitle");
   const dueDate = document.getElementById("editDueDate");
@@ -428,8 +445,7 @@ function validateEditForm() {
   setEditError(dueDate, "editDueDateError", !dateValid, "Please choose a valid current or future date.");
   const firstInvalid = !titleValue ? title : !dateValid ? dueDate : blankSubtask;
   if (blankSubtask) {
-    blankSubtask.setCustomValidity("A subtask title is required.");
-    blankSubtask.reportValidity();
+    showBatSubtaskError(blankSubtask);
   }
   firstInvalid?.focus();
   return Boolean(titleValue && dateValid && !blankSubtask);
@@ -454,7 +470,9 @@ function setupSubtaskInput(inputId, addBtnId, listId) {
 
   const addItem = () => {
     const text = input?.value.trim();
-    if (!text || !list) return;
+    if (!list) return;
+    if (!text) { showBatSubtaskError(input); return; }
+    clearBatSubtaskError(input);
     const tpl = document.createElement("template");
     tpl.innerHTML = batSubtaskItemHTML(text, -1);
     const li = tpl.content.firstElementChild;
@@ -464,9 +482,8 @@ function setupSubtaskInput(inputId, addBtnId, listId) {
     input.focus();
   };
 
-  input?.addEventListener("input",   () => input.value.length ? setTyping() : setEmpty());
-  icons?.querySelector(".bat-si-plus")?.addEventListener("click",    () => input?.value.trim() ? addItem() : input?.focus());
-  icons?.querySelector(".bat-si-clear")?.addEventListener("click",   () => { if(input) input.value = ""; setEmpty(); input?.focus(); });
+  input?.addEventListener("input",   () => { clearBatSubtaskError(input); input.value.trim() ? setTyping() : setEmpty(); });
+  icons?.querySelector(".bat-si-clear")?.addEventListener("click",   () => { if(input) { input.value = ""; clearBatSubtaskError(input); } setEmpty(); input?.focus(); });
   icons?.querySelector(".bat-si-confirm")?.addEventListener("click", addItem);
   input?.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); addItem(); } });
 
@@ -476,7 +493,7 @@ function setupSubtaskInput(inputId, addBtnId, listId) {
     if (!btn || !item) return;
     const action = btn.dataset.action;
     if (action === "edit")   batEditSubtask(item);
-    if (action === "delete") item.remove();
+    if (action === "delete") { item.remove(); clearBatSubtaskError(input); }
     if (action === "save")   batSaveSubtask(item);
     if (action === "cancel") batCancelSubtask(item);
   });
@@ -489,12 +506,6 @@ function setupSubtaskInput(inputId, addBtnId, listId) {
 
 function batEditSubtask(item) {
   if (item.classList.contains("is-editing")) return;
-
-  // Close any other open edit in the same list first
-  const list = item.closest(".bat-subtask-list");
-  list?.querySelectorAll(".bat-subtask-item.is-editing").forEach(other => {
-    if (other !== item) batSaveSubtask(other);
-  });
 
   const span    = item.querySelector(".bat-subtask-text");
   const actions = item.querySelector(".bat-subtask-actions");
@@ -509,24 +520,23 @@ function batEditSubtask(item) {
   input.focus();
   input.select();
 
-  actions.innerHTML = batSubtaskEditActions(false);
+  actions.innerHTML = batSubtaskEditActions();
   item.classList.add("is-editing");
 
+  input.setAttribute("aria-label", "Subtask bearbeiten");
+  input.addEventListener("keydown", event => {
+    if (event.key === "Enter") { event.preventDefault(); batSaveSubtask(item); }
+    if (event.key === "Escape") { event.preventDefault(); batCancelSubtask(item); }
+  });
   input.addEventListener("input", () => {
-    input.setCustomValidity("");
-    actions.innerHTML = batSubtaskEditActions(input.value.trim() !== original);
+    clearBatSubtaskError(input);
   });
 }
 
-function batSubtaskEditActions(changed) {
-  if (changed) {
-    return `<button type="button" class="bat-subtask-action-btn" data-action="cancel"><img src="../assets/icons/board/subtasks/close.svg" alt="cancel" width="16" height="16"></button>
-            <span class="bat-subtask-action-sep"></span>
-            <button type="button" class="bat-subtask-action-btn" data-action="save"><img src="../assets/icons/board/subtasks/mark.svg" alt="save" width="16" height="16"></button>`;
-  }
-  return `<button type="button" class="bat-subtask-action-btn" data-action="delete"><img src="../assets/icons/board/subtasks/delete.svg" alt="delete" width="16" height="16"></button>
+function batSubtaskEditActions() {
+  return `<button type="button" class="bat-subtask-action-btn" data-action="cancel"><img src="../assets/AdTask/close.png" alt="Abbrechen" width="20" height="20"></button>
           <span class="bat-subtask-action-sep"></span>
-          <button type="button" class="bat-subtask-action-btn" data-action="save"><img src="../assets/icons/board/subtasks/mark.svg" alt="save" width="16" height="16"></button>`;
+          <button type="button" class="bat-subtask-action-btn" data-action="save"><img src="../assets/AdTask/check.png" alt="Speichern" width="20" height="20"></button>`;
 }
 
 function batSaveSubtask(item) {
@@ -535,18 +545,18 @@ function batSaveSubtask(item) {
   if (!input) return;
   const val = input.value.trim();
   if (!val) {
-    input.setCustomValidity("A subtask title is required.");
-    input.reportValidity();
+    showBatSubtaskError(input);
     return;
   }
+  clearBatSubtaskError(input);
   const span = document.createElement("span");
   span.className   = "bat-subtask-text";
   span.textContent = "• " + val;
   input.replaceWith(span);
   actions.innerHTML = `
-    <button type="button" class="bat-subtask-action-btn" data-action="edit"><img src="../assets/icons/board/subtasks/edit.svg" alt="edit" width="16" height="16"></button>
+    <button type="button" class="bat-subtask-action-btn" data-action="edit"><img src="../assets/AdTask/edit.png" alt="edit" width="16" height="16"></button>
     <span class="bat-subtask-action-sep"></span>
-    <button type="button" class="bat-subtask-action-btn" data-action="delete"><img src="../assets/icons/board/subtasks/delete.svg" alt="delete" width="16" height="16"></button>`;
+    <button type="button" class="bat-subtask-action-btn" data-action="delete"><img src="../assets/AdTask/close.png" alt="delete" width="16" height="16"></button>`;
   item.classList.remove("is-editing");
 }
 
@@ -554,14 +564,15 @@ function batCancelSubtask(item) {
   const input   = item.querySelector(".bat-subtask-edit-input");
   const actions = item.querySelector(".bat-subtask-actions");
   if (!input) return;
+  clearBatSubtaskError(input);
   const span = document.createElement("span");
   span.className   = "bat-subtask-text";
   span.textContent = "• " + (input.defaultValue ?? input.value);
   input.replaceWith(span);
   actions.innerHTML = `
-    <button type="button" class="bat-subtask-action-btn" data-action="edit"><img src="../assets/icons/board/subtasks/edit.svg" alt="edit" width="16" height="16"></button>
+    <button type="button" class="bat-subtask-action-btn" data-action="edit"><img src="../assets/AdTask/edit.png" alt="edit" width="16" height="16"></button>
     <span class="bat-subtask-action-sep"></span>
-    <button type="button" class="bat-subtask-action-btn" data-action="delete"><img src="../assets/icons/board/subtasks/delete.svg" alt="delete" width="16" height="16"></button>`;
+    <button type="button" class="bat-subtask-action-btn" data-action="delete"><img src="../assets/AdTask/close.png" alt="delete" width="16" height="16"></button>`;
   item.classList.remove("is-editing");
 }
 
