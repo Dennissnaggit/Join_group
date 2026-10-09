@@ -24,10 +24,7 @@ import {
   createToastTemplate,
 } from "./contacts_template.js";
 
-import {
-  initContactInputRestrictions,
-  validateContactForm,
-} from "./contacts_validation.js";
+import { initContactInputRestrictions } from "./contacts_validation.js";
 
 let contacts = [];
 let currentUser = null;
@@ -205,14 +202,11 @@ function highlightActiveItem(id) {
  */
 function handleMobileViewToggle() {
   if (window.innerWidth <= 768) {
-    document
-      .querySelector(".contacts-main-grid")
+    document.querySelector(".contacts-main-grid")
       ?.classList.add("show-detail-active");
-    document
-      .querySelector(".contacts-sidebar-list")
+    document.querySelector(".contacts-sidebar-list")
       ?.classList.add("d-none-mobile");
-    document
-      .querySelector(".contacts-detail-panel")
+    document.querySelector(".contacts-detail-panel")
       ?.classList.add("d-show-mobile");
     document.getElementById("mobileAddBtn")?.classList.add("d-none");
     document.getElementById("mobileMenuBtn")?.classList.remove("d-none");
@@ -229,6 +223,7 @@ export function toggleMobileMenu(event) {
     menu.classList.toggle("d-none");
   }
 }
+
 /**
  * Resets mobile view back to contacts list view.
  */
@@ -269,21 +264,15 @@ function getTargetId(event, element) {
 function openEditModal(event, element) {
   event?.preventDefault?.();
   event?.stopPropagation?.();
-  let targetId = getTargetId(event, element);
-  let contact = contacts.find(
-    (c) => String(c.id).trim() === String(targetId).trim()
-  );
-  let overlay = document.getElementById("contactModalOverlay");
-  let content = document.getElementById("contactModalContent");
+  const targetId = getTargetId(event, element);
+  const contact = contacts.find((c) => String(c.id).trim() === String(targetId).trim());
+  const overlay = document.getElementById("contactModalOverlay");
+  const content = document.getElementById("contactModalContent");
 
   if (!contact || !overlay || !content) return;
-  content.innerHTML = createEditModalTemplate(
-    contact,
-    getInitials(contact.name)
-  );
+  content.innerHTML = createEditModalTemplate(contact, getInitials(contact.name));
   overlay.classList.remove("d-none");
 
-  // Activa el bloqueo de letras en teléfono y números en nombre al editar:
   const { nameInput, emailInput, phoneInput } = getActiveModalInputs();
   initContactInputRestrictions(nameInput, emailInput, phoneInput);
 }
@@ -322,30 +311,37 @@ function createContactDataObj() {
   };
 }
 
+/**
+ * Main entry point for saving a new contact.
+ */
 async function saveNewContact(event) {
   if (event) event.preventDefault();
 
   const { nameInput, emailInput, phoneInput } = getActiveModalInputs();
-
-  const isFormValid = validateContactForm(nameInput, emailInput, phoneInput);
-  if (!isFormValid) {
-    console.warn("Validation failed: Please check highlighted fields.");
-    return;
-  }
+  if (!validateContactForm(nameInput, emailInput, phoneInput)) return;
 
   const newContact = createContactDataObj();
+  await handleContactStorage(newContact);
+  
+  executePostSaveActions();
+}
 
+/**
+ * Handles storage strategy (Guest vs Logged-in User).
+ */
+async function handleContactStorage(newContact) {
   if (!currentUser && isGuestSession()) {
     contacts.push(newContact);
     writeGuestContacts(contacts);
-    executePostSaveActions();
     return;
   }
 
-  if (!currentUser) return console.error("No user logged in.");
+  if (!currentUser) {
+    console.error("No user logged in.");
+    return;
+  }
 
   await saveContactToFirestore(newContact);
-  executePostSaveActions();
 }
 
 /**

@@ -1,36 +1,153 @@
 /* ==========================================================================
-   6. RESPONSIVE DESIGN: TABLETS & MOBILE COMPACT (1023px)
+   1. TABLETS & DESKTOP
    ========================================================================== */
-@media(max-width: 1023px) {
-    .mobile-action-menu {
-        display: none !important;
-        position: fixed;
-        bottom: 2rem;
+@media(min-width: 768px) {
+    .modal-card {
+        display: flex;
+        flex-direction: row;
+        width: clamp(48rem, 85vw, 75.75rem);
+        height: auto;
+        min-height: 37rem; /* ~592px  Figma */
+        max-height: 90vh;
+        background-color: var(--white, #ffffff);
+        border-radius: 1.875rem;
+        overflow: hidden;
+        position: relative;
+        box-sizing: border-box;
+    }
+
+    .modal-left-panel {
+        width: clamp(13.5rem, 30vw, 28.25rem);
+        flex-shrink: 0;
+        background-color: var(--primary-color, #2A3647);
+        padding: clamp(1.25rem, 2.5vw, 3rem) 0.5rem clamp(1.25rem, 2.5vw, 3rem) clamp(1rem, 2vw, 2.5rem);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        box-sizing: border-box;
+    }
+
+    .modal-left-panel .modal-logo {
+        margin-bottom: 1.5rem;
+        width: 50px;
+    }
+
+    .modal-left-panel h1 {
+        font-size: clamp(2.5rem, 4vw, 3.5rem);
+        line-height: 1.1;
+        margin-bottom: 0.5rem;
+        font-weight: 700;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .modal-left-panel p {
+        font-size: clamp(1.1rem, 1.8vw, 1.55rem);
+        white-space: nowrap;
+        margin: 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .modal-right-panel {
+        flex: 1 1 auto;
+        min-width: 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: clamp(1rem, 2.5vw, 3rem);
+        padding: 3rem clamp(2rem, 3.5vw, 4.5rem);
+        padding-left: calc(clamp(2rem, 3.5vw, 4.5rem) - 1rem);
+        box-sizing: border-box;
+    }
+
+    .modal-avatar-circle {
+        position: static;
+        transform: none;
+        aspect-ratio: 1 / 1;
+        flex-shrink: 0;
+        margin: auto 0;
+        margin-left: auto;
+        align-self: center;
+        border-radius: 50%;
+        border: 3px solid #ffffff;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-form-container {
+        flex: 1 1 auto;
+        min-width: 0;
+        max-width: 26.375rem;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-left: auto;
+    }
+
+    .modal-actions-container {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 20px;
+        width: auto;
+    }
+
+    .modal-actions-container button {
+        white-space: nowrap;
+        height: 48px;
+        padding: 10px 16px;
+        font-size: 1rem;
+    }
+
+    .btn-cancel,
+    .modal-actions-container .btn-cancel {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: auto;
+        height: 48px;
+        padding: 12px 24px;
+        background-color: #ffffff;
+        border: 1px solid var(--primary-color, #2A3647);
+        color: var(--primary-color, #2A3647);
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+
+    .modal-actions-container .btn-cancel {
+        display: inline-flex;
+    }
+
+    .close-btn-container {
+        position: absolute;
+        top: 2rem;
         right: 2rem;
-        z-index: 999;
+        cursor: pointer;
+    }
+
+    button.btn-cancel,
+    .btn-cancel {
+        display: inline-flex !important;
     }
 }
 
+/* ==========================================================================
+   2. LOOK TABLET (800px)
+   ========================================================================== */
 @media(max-width: 800px) {
     .contacts-sidebar-list.d-none-mobile {
-        display: none;
+        display: none !important;
     }
 
     .contacts-detail-panel.d-show-mobile {
-        display: flex;
+        display: flex !important;
         flex-direction: column;
         width: 100%;
-    }
-
-    .mobile-menu-floating-btn {
-        display: flex !important;
-    }
-    .contact-info-body h3 {
-        font-weight: 400;
-    }
-
-    .info-label {
-        font-weight: 700;
     }
 
     .contacts-header-title {
@@ -40,9 +157,11 @@
         align-items: flex-start;
         gap: 8px;
     }
+
     .contact-detail-header {
         gap: 16px;
     }
+
     .contact-header-titles h2,
     .contact-header-titles span {
         font-size: 2rem;
@@ -59,27 +178,15 @@
         display: none;
     }
 
-    .mobile-back-arrow {
-        position: absolute;
-        right: 0;
-        top: 0;
-        cursor: pointer;
-    }
-
     .mobile-menu-floating-btn {
         position: fixed;
         bottom: 90px;
         right: 16px;
         background: transparent;
         border: none;
-        box-shadow: none;
         cursor: pointer;
         z-index: 100;
-        display: flex;
-    }
-
-    .mobile-menu-floating-btn.d-none {
-        display: none !important;
+        display: flex !important;
     }
 
     .mobile-action-menu {
@@ -90,21 +197,16 @@
         border-radius: 20px 20px 0 20px;
         padding: 10px 14px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-        z-index: 999 !important;
+        z-index: 999;
     }
 
-    .mobile-action-menu:not(.d-none) {
-        display: flex !important;
-        flex-direction: column;
-        gap: 8px;
-    }
     .mobile-action-menu button {
         background: transparent;
         border: none;
         display: flex;
         align-items: center;
         gap: 8px;
-        font-size: 16px;
+        font-size: 1rem;
         color: var(--primary-color);
         cursor: pointer;
         padding: 8px 12px;
@@ -115,132 +217,16 @@
         background-color: #f0f0f0;
         border-radius: 8px;
     }
-
-    .mobile-action-menu.d-none {
-        display: none !important;
-    }
-
-    .mobile-action-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 16px;
-        color: #2a3647;
-        cursor: pointer;
-    }
-}
-
-@media(min-width: 826px) {
-    .mobile-template-title {
-        display: none !important;
-    }
 }
 
 /* ==========================================================================
-   💻 📐 DESKTOP & HORIZONTAL TABLET (From 1000px and up)
-   Text sizes and panels shrink slightly so it holds perfectly down to 1000px.
-   ========================================================================== */
-    @media(min-width: 768px) {
-    .modal-card {
-        display: flex;
-        flex-direction: row;
-        width: clamp(38rem, 85vw, 75.75rem);
-        height: clamp(26rem, 60vh, 35.25rem);
-        max-height: 564px;
-        background-color: var(--white);
-        border-radius: 1.875rem;
-        overflow: hidden;
-        position: relative;
-        box-sizing: border-box;
-    }
-
-    .modal-left-panel {
-        width: clamp(14rem, 32vw, 28.25rem);
-        flex-shrink: 1;
-        background-color: var(--primary-color);
-        padding: clamp(1.25rem, 2.5vw, 3rem);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        box-sizing: border-box;
-    }
-
-
-    .modal-left-panel h1 {
-        font-size: clamp(1.75rem, 4vw, 3.75rem);
-        line-height: 1.1;
-        margin-bottom: 0.5rem;
-    }
-
-    .modal-left-panel p {
-        font-size: clamp(0.85rem, 1.2vw, 1.25rem);
-    }
-
-    .modal-right-panel {
-        flex: 1 1 auto;
-        min-width: 0;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        gap: clamp(0.75rem, 2vw, 2.5rem);
-        padding: 2rem clamp(1rem, 2.5vw, 3rem);
-        box-sizing: border-box;
-    }
-
-    .modal-left-panel .modal-logo {
-        margin-bottom: 1.5rem;
-    }
-
-    .modal-avatar-circle {
-        position: static;
-        transform: none;
-        width: clamp(4rem, 7.5vw, 6.5rem);
-        height: clamp(4rem, 7.5vw, 6.5rem);
-        aspect-ratio: 1 / 1;
-        flex-shrink: 0 !important;
-        margin: 0;
-        align-self: center;
-        margin-bottom: 2.5rem;
-    }
-
-    .modal-form-container {
-        flex: 1 1 auto;
-        min-width: 0;
-        max-width: 24.5rem;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .modal-actions-container {
-        display: flex;
-        gap: 12px;
-        justify-content: flex-start;
-        align-items: center;
-        margin-top: 20px;
-    }
-
-    .modal-actions-container button {
-        white-space: nowrap !important;
-        height: 40px;
-        padding: 10px 16px;
-        font-size: 1rem;
-    }
-
-    .close-btn-container {
-        position: absolute;
-        top: 1.5rem;
-        right: 1.5rem;
-        cursor: pointer;
-    }
-
-}
-
-/* ==========================================================================
-   📱 MÓVIL and MODAL (to 767px)
+   3. MÓVIL Y MODAL RESPONSIVO (Hasta 767px)
    ========================================================================== */
 @media(max-width: 767px) {
+    .button-wrapper {
+        padding: 0 16px;
+    }
+
     .contacts-sidebar-list {
         width: 100%;
         min-width: 100%;
@@ -250,27 +236,8 @@
         display: none !important;
     }
 
-    .contacts-detail-panel.d-show-mobile {
-        display: flex !important;
-        width: 100%;
-    }
-
     .mobile-back-arrow {
         display: none;
-    }
-
-    .letter-divider {
-        font-weight: 400;
-    }
-
-    .contact-avatar,
-    .contact-info-short {
-        font-weight: 400;
-    }
-
-    .contact-list-item,
-    .contact-list-item span {
-        font-weight: 400;
     }
 
     .show-detail-active .mobile-back-arrow,
@@ -279,10 +246,6 @@
         width: 32px;
         height: 32px;
         cursor: pointer;
-    }
-
-    .add-new-contact-btn span {
-        display: none;
     }
 
     .contacts-sidebar-list .add-new-contact-btn {
@@ -300,6 +263,10 @@
         box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     }
 
+    .contacts-sidebar-list .add-new-contact-btn span {
+        display: none;
+    }
+
     .contacts-sidebar-list .add-new-contact-btn img {
         display: block !important;
         width: 24px;
@@ -307,80 +274,30 @@
         margin: 0;
     }
 
-    .mobile-action-menu {
-        position: fixed;
-        bottom: 5.5rem;
-        right: 1rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        z-index: 99;
-    }
-
-    .mobile-action-menu.d-none {
-        display: none !important;
-    }
-
-    .mobile-action-menu button {
-        padding: 0.5rem 0.5rem;
-        font-size: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        cursor: pointer;
-        box-sizing: border-box;
-    }
-
-    .mobile-action-menu button img {
-        width: 1.25rem;
-        height: 1.25rem;
-        object-fit: contain;
-    }
-
-    .modal-overlay:not(.d-none) {
-        padding: 1rem;
-        box-sizing: border-box;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
     .modal-card {
         display: flex;
         flex-direction: column;
         width: clamp(280px, 90vw, 396px);
         height: auto;
-        max-height: 95vh;
-        border-radius: 30px;
-        overflow: visible;
+        max-height: 92vh;
+        overflow-y: auto;
+        border-radius: 1.875rem;
         position: relative;
         box-sizing: border-box;
     }
 
     .modal-left-panel {
         width: 100%;
-        height: clamp(220px, 40vh, 351px);
-        /* height: 396px; */
+        min-height: 18rem;
         background-color: var(--primary-color);
-        padding: 2.5rem 1.5rem 1.5rem;
+        padding: 2.5rem 1.5rem 3.5rem 1.5rem;
         box-sizing: border-box;
         border-top-left-radius: 30px;
         border-top-right-radius: 30px;
-        border-bottom-left-radius: 0;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: flex-start;
-        position: relative;
-    }
-
-    .modal-card .modal-left-panel {
-        flex: none !important;
-    }
-
-    .modal-card {
-        max-height: 90vh;
-        overflow-y: auto; 
     }
 
     .modal-left-panel .modal-logo {
@@ -388,14 +305,19 @@
     }
 
     .modal-left-panel h1 {
-        font-size: clamp(2rem, 7vw, 2.75rem);
-        color: var(--white);
+        font-size: clamp(2.8rem, 8vw, 3rem);
+        line-height: 1.1;
+        color: #ffffff;
         margin-bottom: 0.5rem;
+        width: 100%;
     }
 
     .modal-left-panel p {
-        font-size: clamp(0.95rem, 3.8vw, 1.1rem);
-        color: var(--white);
+        font-size: clamp(1.2rem, 4.2vw, 1.35rem);
+        font-weight: 400;
+        line-height: 1.3;
+        margin-top: 0;
+        color: #ffffff;
     }
 
     .close-btn-container {
@@ -416,12 +338,12 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 4.5rem 1.5rem 2rem;
+        padding: 5rem 1rem 2rem;
         box-sizing: border-box;
         border-bottom-left-radius: 30px;
         border-bottom-right-radius: 30px;
         position: relative;
-        background-color: var(--white);
+        background-color: #ffffff;
     }
 
     .modal-avatar-circle {
@@ -430,32 +352,24 @@
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 10;
-        width: clamp(6rem, 18vw, 7.5rem);
-        height: clamp(6rem, 18vw, 7.5rem);
+        width: clamp(7rem, 16vw, 7.5rem);
+        height: clamp(7rem, 16vw, 7.5rem);
         border-radius: 50%;
-        border: 3px solid var(--white);
+        border: 3px solid #ffffff;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 
     .modal-form-container {
         width: 100%;
         max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
     }
 
     .modal-form {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
-        width: 100%;
-    }
-
-    .modal-card .modal-actions-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        gap: 16px;
-        margin-top: 24px;
         width: 100%;
     }
 
@@ -463,135 +377,89 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        gap: 0.5rem;
+        margin-top: 8px;
         width: 100%;
-        margin-top: 1.5rem;
     }
 
     .modal-actions-container .btn-cancel {
-        display: none !important;
-    }
-
-    .modal-card .modal-actions-container .btn-cancel {
         display: inline-flex;
         width: auto;
         height: 48px;
         padding: 12px 24px;
-        background-color: var(--white);
+        background-color: #ffffff;
         border: 1px solid var(--primary-color);
         color: var(--primary-color);
         border-radius: 10px;
-        font-size: 18px;
-        font-weight: 400;
+        font-size: 1rem;
+        font-weight: 500;
         white-space: nowrap;
+        align-items: center;
+        justify-content: center;
     }
 
-    .modal-card .modal-actions-container .btn-create {
+    .modal-actions-container .btn-create {
         width: auto;
         height: 48px;
         padding: 12px 24px;
         margin-top: 0;
+        font-size: 1rem;
+        white-space: nowrap;
+    }
+
+    .modal-form-container input {
+        height: 36px;
+        font-size: 1rem; 
+        padding: 0 1rem;
+    }
+
+    .modal-actions-container button {
+        font-size: 1rem;
+        padding: 0.625rem 0.875rem;
         white-space: nowrap;
     }
 }
 
 /* ==========================================================================
-   📱 SMALL PHONE OPTIMIZATION (From 450px down)
-   Squeezes the card to the final 396px width for true mobile devices.
+4. SMALL MOBILE SCREENS(Up to 450px)
    ========================================================================== */
 @media(max-width: 450px) {
-    .modal-left-panel p {
-        font-size: 1rem;
-        margin: 0;
-    }
-
-    .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100vw;
-        height: 100 dvh;
-        padding: 0;
-        margin: 0;
-        background-color: rgba(0, 0, 0, 0.6);
-        z-index: 1000;
-        display: flex;
-        align-items: flex-start;
-        justify-content: center;
-    }
-
-    .modal-overlay #contactModalContent {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        display: flex;
-    }
-
-    .modal-overlay .modal-card {
+    .modal-card {
         width: 100%;
         max-width: 100%;
         height: 100%;
         max-height: 100%;
         border-radius: 0;
+        box-shadow: none;
+    }
+
+    .modal-left-panel {
+        border-radius: 0;
+        padding: 2rem 1.25rem 1.5rem;
+    }
+
+    .modal-right-panel {
+        border-radius: 0;
+        padding: 4rem 1.25rem 3rem;
+    }
+
+    .modal-left-panel p {
+        font-size: 1.25rem;
         margin: 0;
+    }
+
+    .modal-overlay {
         padding: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        overflow-y: auto;
     }
 
-    .modal-overlay .modal-left-panel {
-        width: 100%;
-        max-width: 100%;
-        border-radius: 0;
-        padding: 2.5rem 1.5rem 1.5rem;
-        box-sizing: border-box;
-        margin: 0;
-    }
-
-    .modal-overlay .modal-right-panel {
-        width: 100%;
-        margin: 0;
-        border-radius: 0;
-        padding: 1.5rem;
-        box-sizing: border-box;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .modal-form .input-icon-container:first-of-type {
-        margin-top: 40px;
-    }
-
-    .modal-overlay #contactModalContent,
+    .modal-overlay .modal-content,
     .modal-overlay .modal-card {
         width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        border: none;
-        border-radius: 0;
-        box-shadow: none;
-    }
-
-    .contact-modal-overlay,
-    #contactModalOverlay {
-        padding: 0;
-        align-items: flex-end;
-    }
-
-    .contact-modal-container,
-    .add-contact-card {
-        width: 100%;
         max-width: 100%;
         height: 100%;
-        margin: 0;
+        min-height: 100vh;
         border-radius: 0;
-        box-shadow: none;
+        margin: 0;
+        box-sizing: border-box;
     }
 }

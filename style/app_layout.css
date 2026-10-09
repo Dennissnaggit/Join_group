@@ -1,12 +1,6 @@
 /* ==========================================================================
    GLOBAL APP SHELL ARCHITECTURE (DESKTOP BASE)
    ========================================================================== */
-/* html,
-body {
-    height: 100%;
-    overflow: hidden;
-} */
-
 .app-shell {
     display: grid;
     grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
@@ -129,7 +123,7 @@ span.desktop-only {
         box-sizing: border-box;
         opacity: 1;
     }
-    #content.content-panel > .contacts-main-grid.app-page-layout .contacts-detail-panel {
+    #content.content-panel > .contacts-main-grid.app-page-layout{
         padding-top: 0;
     }
 }
@@ -138,11 +132,6 @@ span.desktop-only {
    ⚡ BREAKPOINT: TABLETS (Below notebook width)
    ========================================================================== */
 @media(max-width: 1023px) {
-    /* html,
-    body {
-        height: 100%;
-        overflow: hidden;
-    } */
     .app-shell {
         display: flex;
         flex-direction: column;
@@ -247,7 +236,6 @@ span.desktop-only {
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
     }
-
     .main-content-wrapper .app-header {
         padding: 0 2.5rem;
     }
@@ -268,12 +256,9 @@ span.desktop-only {
     main#content {
         padding: 24px 16px 0!important;
     }
-    /* Clean override for contacts page - No !important needed! */
     .app-shell .main-content-wrapper #content.content-panel:has(.contacts-main-grid) {
         padding: 0;
     }
-/* =========================================================== */
-
     .greeting-section {
         position: fixed;
         top: 0;
