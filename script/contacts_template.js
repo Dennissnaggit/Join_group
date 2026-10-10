@@ -78,7 +78,7 @@ function getEditFormTemplate(contact) {
     </form>`;
 }
 
-/**Creates edit contact modal HTML template.*/
+/** Creates edit contact modal HTML template. */
 export function createEditModalTemplate(contact, initials) {
   return `
     <div class="modal-card">
@@ -89,22 +89,35 @@ export function createEditModalTemplate(contact, initials) {
         </div>
         <div class="modal-right-panel">
             <div class="close-btn-container" onclick="closeContactModal()"><img src="../assets/icons/close.svg" alt="Close"></div>
-            <div class="modal-avatar-circle" style="background-color: ${
-              contact.color
-            };">${initials}</div>
-            <div class="modal-form-container">${getEditFormTemplate(
-              contact
-            )}</div>
+            <div class="modal-avatar-circle" style="background-color: ${contact.color};">${initials}</div>
+            <div class="modal-form-container">${getEditFormTemplate(contact)}</div>
         </div>
     </div>`;
 }
 
-function getAddFormTemplate() {
+/**
+ * Renders a single input field container.
+ */
+function renderInput(type, id, placeholder, icon, alt = "") {
   return `
-    <form class="modal-form" onsubmit="saveNewContact(event)">
-        <div class="input-icon-container"><input type="text" id="modalName" placeholder="Name" required><img src="../assets/icons/person.svg" alt=""></div>
-        <div class="input-icon-container"><input type="email" id="modalEmail" placeholder="Email" required><img src="../assets/icons/mail.svg" alt=""></div>
-        <div class="input-icon-container"><input type="tel" id="modalPhone" placeholder="Phone" required><img src="../assets/icons/lock.svg" alt=""></div>
+    <div class="input-container">
+        <div class="input-icon-container">
+            <input type="${type}" id="${id}" placeholder="${placeholder}" required>
+            <img src="../assets/icons/${icon}" alt="${alt}">
+        </div>
+        <span class="invalid-feedback"></span>
+    </div>`;
+}
+
+/**
+ * Generates the HTML template for the add contact form.
+ */
+export function getAddFormTemplate() {
+  return `
+    <form class="modal-form" onsubmit="saveNewContact(event)" novalidate>
+        ${renderInput("text", "modalName", "Name", "person.svg")}
+        ${renderInput("email", "modalEmail", "Email", "mail.svg")}
+        ${renderInput("tel", "modalPhone", "Phone", "phone.svg", "Phone icon")}
         <div class="modal-actions-container">
             <button type="button" class="btn-cancel" onclick="closeContactModal()">Cancel <img src="../assets/icons/close.svg" alt=""></button>
             <button type="submit" class="btn-create">Create contact <img src="../assets/icons/check.svg" alt=""></button>
@@ -112,7 +125,7 @@ function getAddFormTemplate() {
     </form>`;
 }
 
-/**Creates add contact modal HTML template.*/
+/** Creates add contact modal HTML template. */
 export function createAddModalTemplate() {
   return `
     <div class="modal-card">

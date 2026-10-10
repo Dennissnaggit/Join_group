@@ -1,8 +1,8 @@
 /* ==========================================================================
-   1. LAYOUT PRINCIPAL
+1. MAIN LAYOUT
    ========================================================================== */
-#content.content-panel{
-    padding: 0px !important;
+#content.content-panel {
+    padding: 0 !important;
 }
 
 .contacts-main-grid {
@@ -15,7 +15,7 @@
 .contacts-sidebar-list {
     width: 350px;
     min-width: 350px;
-    background-color: white;
+    background-color: #ffffff;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -26,19 +26,26 @@
     overflow-y: auto;
     padding: 0 16px;
 }
+
+#contacts-list-container {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
 /* ==========================================================================
-   2. PRINCIPAL BUtTON (Sidebar)
+2. MAIN BUTTON(Sidebar)
    ========================================================================== */
 .button-wrapper {
     display: flex;
     justify-content: center;
+    padding: 12px 16px;
 }
 
 .add-new-contact-btn {
     width: 100%;
     padding: 16px;
     background-color: var(--primary-color);
-    color: white;
+    color: #ffffff;
     border: none;
     border-radius: 10px;
     font-size: 21px;
@@ -49,16 +56,13 @@
     justify-content: center;
     gap: 16px;
 }
+
 /* ==========================================================================
 3. COLUMN DETAIL AND ELEMENTS
    ========================================================================== */
-.mobile-back-arrow {
-    display: none;
-}
-
 .contacts-detail-panel {
     flex: 1;
-    padding: 4rem 1rem 1rem 1rem;
+    padding: 4rem 1rem 1rem;
     display: flex;
     flex-direction: column;
     background-color: var(--background-color);
@@ -68,7 +72,7 @@
     display: flex;
     align-items: center;
     gap: 0.9rem;
-    padding: 1rem 0 1rem 0;
+    padding: 1rem 0;
 }
 
 .contacts-header-title h1 {
@@ -124,8 +128,9 @@
     cursor: pointer;
     font-size: 16px;
 }
+
 /* ==========================================================================
-   4. ELEMENTSLIST & INFORMATION
+   4. CONTACTSLIST & INFORMATION
    ========================================================================== */
 .contact-list-item {
     display: flex;
@@ -137,26 +142,21 @@
     cursor: pointer;
 }
 
-#contacts-list-container {
-    flex-grow: 1;
-    overflow-y: auto; 
-}
-
 .contact-list-item.active {
     background-color: var(--primary-color);
-    color: white;
+    color: #ffffff;
 }
 
 .contact-avatar {
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    color: white;
+    color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    border: 2px solid white;
+    border: 2px solid #ffffff;
     flex-shrink: 0;
 }
 
@@ -164,14 +164,14 @@
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    color: white;
+    color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 28px;
     font-weight: 700;
-    border: 3px solid white;
-    box-shadow: 0px 0px 4px rgba(0,0,0,0.1);
+    border: 3px solid #ffffff;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
     flex-shrink: 0;
 }
 
@@ -189,7 +189,7 @@
 .contact-email-link {
     font-size: 16px;
     color: var(--email);
-    white-space: nowrap; 
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -212,7 +212,7 @@
     align-items: center;
     justify-content: center;
     font-size: 1.25rem;
-    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
     z-index: 1200;
     opacity: 0;
     visibility: hidden;
@@ -224,17 +224,10 @@
     visibility: visible;
     transform: translate(-50%, calc(-50% + 120px));
 }
+
 /* ==========================================================================
    5. MODAL / OVERLAY HORIZONTAL
    ========================================================================== */
-.modal-overlay .modal-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: transparent;
-    box-shadow: none;
-}
-
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -245,7 +238,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 999;
+    z-index: 1000;
+}
+
+.modal-overlay.d-none {
+    display: none !important;
+    pointer-events: none !important;
+}
+
+.modal-overlay .modal-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    box-shadow: none;
 }
 
 .modal-card {
@@ -254,7 +260,7 @@
     min-width: 0;
     height: auto;
     min-height: 592px;
-    background-color: white;
+    background-color: #ffffff;
     border-radius: 30px;
     overflow: hidden;
     display: flex;
@@ -263,18 +269,16 @@
     box-sizing: border-box;
 }
 
-
 .modal-left-panel {
-    flex: 0 1 35%; 
-    min-width: 200px;
+    flex: 0 1 35%;
+    min-width: 280px;
     background-color: var(--secondary-color);
-    padding: clamp(1.5rem,3vw, 3rem);
-    color: white;
+    padding: 48px;
+    color: #ffffff;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    padding: 48px;
     box-sizing: border-box;
 }
 
@@ -288,11 +292,15 @@
     line-height: 1.1;
     margin: 0 0 1rem;
     font-weight: 700;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .modal-left-panel p {
     font-size: 20px;
     margin: 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .blue-line-horizontal {
@@ -305,7 +313,7 @@
 .modal-right-panel {
     flex: 1 1 auto;
     min-width: 0;
-    background-color: white;
+    background-color: #ffffff;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -321,13 +329,13 @@
     height: 120px;
     border-radius: 50%;
     background-color: var(--prio-medium);
-    color: white;
+    color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 47px;
     font-weight: 700;
-    box-shadow: 0px 0px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
 }
 
 .close-btn-container {
@@ -350,19 +358,24 @@
 .modal-form {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    width: 100%;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
     width: 100%;
 }
 
 .input-icon-container {
-        width: 100%;
-        position: relative;
+    width: 100%;
+    position: relative;
 }
 
 .input-icon-container input {
     width: 100%;
     padding: 12px 20px;
-    font-size: 1rem;
+    font-size: 16px;
     border: 1px solid var(--border-grey);
     border-radius: 10px;
     box-sizing: border-box;
@@ -381,15 +394,39 @@
     pointer-events: none;
 }
 
-.input-icon-container input:focus {
+.input-icon-container input:focus:not(.is-invalid) {
     border-color: var(--secondary-color);
+}
+
+.input-icon-container input,
+.input-icon-container input:focus {
+    outline: none;
+}
+
+.input-icon-container input.is-invalid,
+.input-icon-container input.is-invalid:focus {
+    border: 2px solid var(--prio-urgent, #FF3D00) !important;
+    border-color: var(--prio-urgent, #FF3D00) !important;
+}
+
+.invalid-feedback {
+    display: block;
+    color: var(--prio-urgent, #FF3D00);
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    min-height: 16px;
+    width: 100%;
+    animation: fadeIn 0.2s ease-in-out;
 }
 
 .modal-actions-container {
     display: flex;
     justify-content: flex-end;
     gap: 16px;
-    margin-top: 30px;
+    margin-top: 20px;
     width: 100%;
 }
 
@@ -415,7 +452,7 @@
 .btn-cancel:hover {
     border-color: var(--secondary-color);
     color: var(--secondary-color);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     transform: translateY(-1px);
 }
 
@@ -427,63 +464,32 @@
 
 .btn-create:hover {
     background-color: var(--secondary-color);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     transform: translateY(-1px);
 }
 
-.input-icon-container input,
-.input-icon-container input:focus,
-.input-icon-container input.is-invalid {
-    outline: none !important;
-    box-shadow: none !important;
+.modal-actions-container .btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
 }
-
-.input-icon-container.is-invalid {
-    border: 2px solid var(--prio-urgent, #FF3D00) !important;
-    border-radius: 10px !important;
-    box-shadow: 0 0 6px 1px rgba(255, 61, 0, 0.3) !important;
-}
-
-.input-icon-container.is-invalid input:focus {
-    border: none !important;
-    outline: none !important;
-    box-shadow: none !important;
-}
-
-.invalid-feedback {
-    display: block;
-    color: var(--prio-urgent, #FF3D00);
-    font-size: 1rem;
-    font-weight: 500;
-    text-align: center;
-    margin-top: 6px;
-    margin-bottom: 4px;
-    width: 100%;
-    animation: fadeIn 0.2s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-3px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: 999;
+.modal-actions-container .btn-cancel {
     display: none;
 }
 
+button.btn-cancel,
+.btn-cancel {
+    display: none !important;
+}
+
+/* ==========================================================================
+6. MOBILE COMPONENTS(Floating Menu)
+   ========================================================================== */
 .mobile-action-menu {
+    display: none;
     background-color: #ffffff;
     padding: 12px 16px;
-    display: flex;
     flex-direction: column;
     gap: 12px;
     border-radius: 20px 20px 0 20px;
@@ -509,7 +515,8 @@
     height: 16px;
 }
 
-.mobile-back-arrow {
+.mobile-back-arrow,
+.mobile-menu-floating-btn {
     display: none;
     cursor: pointer;
 }
@@ -519,23 +526,13 @@
     pointer-events: none !important;
 }
 
-.modal-overlay:not(.d-none) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100 dvh;
-    z-index: 1000;
-    pointer-events: auto;
-}
-
-.mobile-menu-floating-btn {
-    display: none;
-}
-
-.mobile-action-menu {
-    display: none;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-3px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

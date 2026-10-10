@@ -1,121 +1,114 @@
 /**
- * Helper to add invalid class to input and its container.
+ * Helper to update invalid message below the specific input container.
  */
-function markAsInvalid(input) {
-  if (!input) return;
-  input.classList?.add("is-invalid");
-  const container =
-    input.closest?.(".input-icon-container") || input.parentElement;
-  container?.classList?.add("is-invalid");
-}
+function updateErrorMessage(inputElement, message) {
+  if (!inputElement) return;
 
-/**
- * Helper to remove invalid class and error message safely.
- */
-function clearInvalidState(input) {
-  if (!input) return;
-  input.classList?.remove("is-invalid");
-  const container =
-    input.closest?.(".input-icon-container") || input.parentElement;
-  if (container) {
-    container.classList?.remove("is-invalid");
-    updateErrorMessage(container, null);
+  const container = inputElement.closest(".input-container");
+  if (!container) return;
+
+  const msgEl = container.querySelector(".invalid-feedback");
+
+  if (message) {
+    if (msgEl) msgEl.textContent = message;
+    inputElement.classList.add("is-invalid");
+  } else {
+    if (msgEl) msgEl.textContent = "";
+    inputElement.classList.remove("is-invalid");
   }
 }
 
 /**
- * Validates email format with TLD restriction (max 4 characters after dot).
+ * Validates email format using standard regex.
  */
 export function isValidEmailFormat(email) {
   if (!email) return false;
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email.trim());
 }
 
 /**
- * Updates or removes the invalid message below the field container.
+ * Validates name input value and character restrictions.
  */
-function updateErrorMessage(container, message) {
-  if (!container || !container.parentElement) return;
-  let msgEl = container.parentElement.querySelector(".invalid-feedback");
-  if (message) {
-    if (!msgEl) {
-      msgEl = document.createElement("span");
-      msgEl.className = "invalid-feedback";
-      container.parentElement.appendChild(msgEl);
-    }
-    msgEl.textContent = message;
-  } else if (msgEl) {
-    msgEl.remove();
+export function checkName(nameInput) {
+  const value = nameInput ? nameInput.value.trim() : "";
+  const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+
+  if (!value) {
+    updateErrorMessage(nameInput, "Please enter your name.");
+    return false;
   }
+  
+  if (!nameRegex.test(value)) {
+    updateErrorMessage(nameInput, "Please enter a valid name.");
+    return false;
+  }
+
+  updateErrorMessage(nameInput, "");
+  return true;
 }
 
 /**
- * Setup real-time input restrictions and smart validation.
+ * Validates email input value and format.
+ */
+export function checkEmail(emailInput) {
+  const value = emailInput ? emailInput.value.trim() : "";
+
+  if (!value) {
+    updateErrorMessage(emailInput, "Please enter an email address.");
+    return false;
+  }
+  if (!isValidEmailFormat(value)) {
+    updateErrorMessage(emailInput, "Please enter a valid email address.");
+    return false;
+  }
+
+  updateErrorMessage(emailInput, "");
+  return true;
+}
+
+/**
+ * Validates phone input value and allowed characters.
+ */
+export function checkPhone(phoneInput) {
+  const value = phoneInput ? phoneInput.value.trim() : "";
+  const phoneRegex = /^[0-9+\s]+$/;
+
+  if (!value) {
+    updateErrorMessage(phoneInput, "Please enter your phone number.");
+    return false;
+  }
+  if (!phoneRegex.test(value)) {
+    updateErrorMessage(phoneInput, "Please enter a valid phone number.");
+    return false;
+  }
+
+  updateErrorMessage(phoneInput, "");
+  return true;
+}
+
+/**
+ * Setup real-time listeners for instant feedback on input/blur.
  */
 export function initContactInputRestrictions(
   nameInput,
   emailInput,
   phoneInput
 ) {
-  const bindInput = (input, msg, validateFn) =>
-    input?.addEventListener("input", (e) => {
-      const val = e.target.value;
-      const isBad = val.length > 0 && validateFn(val);
-      const container = input.closest(".input-icon-container") || input;
+  nameInput?.addEventListener("input", () => checkName(nameInput));
+  phoneInput?.addEventListener("input", () => checkPhone(phoneInput));
 
-      container.classList?.toggle("is-invalid", isBad);
-      updateErrorMessage(container, isBad ? msg : null);
-    });
-
-  bindInput(nameInput, "Numbers and special characters are not allowed", (v) =>
-    /[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/.test(v)
-  );
-  bindInput(phoneInput, "Only numbers, spaces and '+' are allowed", (v) =>
-    /[^0-9+\s]/.test(v)
-  );
-  bindInput(emailInput, "Spaces are not allowed in email", (v) => /\s/.test(v));
-
-  emailInput?.addEventListener("blur", (e) => {
-    const val = e.target.value.trim();
-    const container = emailInput.closest(".input-icon-container") || emailInput;
-    const isBad = val.length > 0 && !isValidEmailFormat(val);
-
-    container.classList?.toggle("is-invalid", isBad);
-    updateErrorMessage(
-      container,
-      isBad ? "Please enter a valid email address" : null
-    );
-  });
+  emailInput?.addEventListener("input", () => checkEmail(emailInput));
+  emailInput?.addEventListener("blur", () => checkEmail(emailInput));
 }
 
 /**
  * Validates all fields prior to contact submission.
  */
 export function validateContactForm(nameInput, emailInput, phoneInput) {
-  let isValid = true;
-  const nameVal = nameInput ? nameInput.value.trim() : "";
-  const emailVal = emailInput ? emailInput.value.trim() : "";
-  const phoneVal = phoneInput ? phoneInput.value.trim() : "";
+  const isNameValid = checkName(nameInput);
+  const isEmailValid = checkEmail(emailInput);
+  const isPhoneValid = checkPhone(phoneInput);
 
-  if (!nameVal) {
-    markAsInvalid(nameInput);
-    isValid = false;
-  } else {
-    clearInvalidState(nameInput);
-  }
-  if (!emailVal || !isValidEmailFormat(emailVal)) {
-    markAsInvalid(emailInput);
-    isValid = false;
-  } else {
-    clearInvalidState(emailVal);
-  }
-  if (!phoneVal) {
-    markAsInvalid(phoneInput);
-    isValid = false;
-  } else {
-    clearInvalidState(phoneVal);
-  }
-
-  return isValid;
+  return isNameValid && isEmailValid && isPhoneValid;
 }
