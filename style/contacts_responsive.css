@@ -220,107 +220,6 @@
 }
 
 /* ==========================================================================
-   💻 📐 DESKTOP & HORIZONTAL TABLET (From 1000px and up)
-   Text sizes and panels shrink slightly so it holds perfectly down to 1000px.
-   ========================================================================== */
-    @media(min-width: 768px) {
-    .modal-card {
-        display: flex;
-        flex-direction: row;
-        width: clamp(38rem, 85vw, 75.75rem);
-        height: clamp(26rem, 60vh, 35.25rem);
-        max-height: 564px;
-        background-color: var(--white);
-        border-radius: 1.875rem;
-        overflow: hidden;
-        position: relative;
-        box-sizing: border-box;
-    }
-
-    .modal-left-panel {
-        width: clamp(14rem, 32vw, 28.25rem);
-        flex-shrink: 1;
-        background-color: var(--primary-color);
-        padding: clamp(1.25rem, 2.5vw, 3rem);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        box-sizing: border-box;
-    }
-
-
-    .modal-left-panel h1 {
-        font-size: clamp(1.75rem, 4vw, 3.75rem);
-        line-height: 1.1;
-        margin-bottom: 0.5rem;
-    }
-
-    .modal-left-panel p {
-        font-size: clamp(1rem, 1.2vw, 1.25rem);
-    }
-
-    .modal-right-panel {
-        flex: 1 1 auto;
-        min-width: 0;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        gap: clamp(0.75rem, 2vw, 2.5rem);
-        padding: 2rem clamp(1rem, 2.5vw, 3rem);
-        box-sizing: border-box;
-    }
-
-    .modal-left-panel .modal-logo {
-        margin-bottom: 1.5rem;
-    }
-
-    .modal-avatar-circle {
-        position: static;
-        transform: none;
-        width: clamp(4rem, 7.5vw, 6.5rem);
-        height: clamp(4rem, 7.5vw, 6.5rem);
-        aspect-ratio: 1 / 1;
-        flex-shrink: 0 !important;
-        margin: 0;
-        align-self: center;
-        margin-bottom: 2.5rem;
-    }
-
-    .modal-form-container {
-        flex: 1 1 auto;
-        min-width: 0;
-        max-width: 24.5rem;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .modal-actions-container {
-        display: flex;
-        gap: 12px;
-        justify-content: flex-start;
-        align-items: center;
-        margin-top: 20px;
-    }
-
-    .modal-actions-container button {
-        white-space: nowrap !important;
-        height: 40px;
-        padding: 10px 16px;
-        font-size: 1rem;
-    }
-
-    .close-btn-container {
-        position: absolute;
-        top: 1.5rem;
-        right: 1.5rem;
-        cursor: pointer;
-    }
-
-}
-
-/* ==========================================================================
    📱 MÓVIL and MODAL (to 767px)
    ========================================================================== */
 @media(max-width: 767px) {
@@ -406,7 +305,7 @@
     }
 
     .modal-left-panel h1 {
-        font-size: clamp(2.8rem, 8vw, 3rem);
+        font-size: clamp(2.3rem, 8vw, 3rem);
         line-height: 1.1;
         color: #ffffff;
         margin-bottom: 0.5rem;
