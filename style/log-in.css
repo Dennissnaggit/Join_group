@@ -817,10 +817,11 @@ font-size: 16px;
   }
 
   body .start-logo .logo {
-    width: 63.99963px;
-    height: 78.03114px;
+    width: 63.999629974365234px;
+    height: 78.03114318847656px;
     top: 37px;
     left: 38px;
+    transform: none;
     object-fit: contain;
     opacity: 1;
   }
@@ -839,8 +840,12 @@ font-size: 16px;
   }
 
   body:not(.sign-up-page) .start-logo {
-    /* Logo: top 37px + height 78px, followed by a 24px gap. */
-    padding-top: 139px;
+    display: grid;
+    grid-template-rows: minmax(139px, 1fr) auto minmax(139px, 1fr);
+    justify-items: center;
+    align-items: start;
+    padding: 0 16px;
+    gap: 0;
   }
 
   .start-logo .log-in {
@@ -854,8 +859,23 @@ font-size: 16px;
   }
 
   body:not(.sign-up-page) .start-logo .log-in {
+    grid-row: 2;
     height: auto;
-    margin-top: 0;
+    margin: 0;
+  }
+
+  body:not(.sign-up-page) .start-logo .nav-bar {
+    grid-row: 3;
+    grid-column: 1;
+    align-self: start;
+    margin-top: 24px;
+  }
+
+  body:not(.sign-up-page) .start-logo .legals {
+    grid-row: 3;
+    grid-column: 1;
+    align-self: end;
+    margin: 0 0 24px;
   }
 
   .sign-up-page .start-logo .log-in {
