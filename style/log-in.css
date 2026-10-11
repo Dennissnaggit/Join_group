@@ -1141,3 +1141,18 @@ body:not(.sign-up-page) .login-box--login > .btn-group > .guest-login {
 .success-message--error {
   background-color: #e74c3c;
 }
+
+/* Reserve two lines for validation messages on narrow smartphones. */
+@media (max-width: 400px) {
+  .login-field-error,
+  .login-password-field + .login-field-error,
+  .sign-up-page .signup-field-error {
+    min-width: 0;
+    max-width: 100%;
+    height: 42px;
+    font-size: clamp(12px, 3.5vw, 14px);
+    line-height: 1.2;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}
