@@ -179,10 +179,10 @@ body.board-no-scroll {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  flex: 1 1 auto;
-  min-height: inherit;
-  height: auto;
+  width: 252px;
+  /* flex: 1 1 auto; */
+  min-height: 48px;
+  height: 48px;
   border: 0.125rem dashed #b8b8b8;
   border-radius: 0.75rem;
   padding: 0.25rem 0.75rem;
