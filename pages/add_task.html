@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="../style/components.css" />
     <link rel="stylesheet" href="../style/add_task.css" />
     <link rel="stylesheet" href="../style/add_task_responsive.css" />
-    <script type="module" src="../script/add_task.js"></script>
+    <script type="module" src="../script/addTask.js"></script>
     <script src="../script.js"></script>
     <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
   </head>
@@ -277,5 +277,48 @@
       <span>Task added to board</span>
       <img src="../assets/icons/board.svg" alt="" />
     </div>
+    <!-- Static markup for dynamically populated task entries. -->
+    <template id="subtaskItemTemplate">
+      <li class="list-group-item d-flex justify-content-between align-items-center subtask-item">
+        <span class="subtask-text"></span>
+        <div class="subtask-actions">
+          <img src="../assets/AdTask/edit.png" class="action-icon" data-subtask-action="edit" alt="Bearbeiten" />
+          <div class="action-divider"></div>
+          <img src="../assets/AdTask/close.png" class="action-icon" data-subtask-action="remove" alt="Löschen" />
+        </div>
+      </li>
+    </template>
+    <template id="subtaskActionsTemplate">
+      <div class="subtask-actions">
+        <img src="../assets/AdTask/edit.png" class="action-icon" data-subtask-action="edit" alt="Bearbeiten" />
+        <div class="action-divider"></div>
+        <img src="../assets/AdTask/close.png" class="action-icon" data-subtask-action="remove" alt="Löschen" />
+      </div>
+    </template>
+    <template id="subtaskEditActionsTemplate">
+      <div class="subtask-actions">
+        <img src="../assets/AdTask/close.png" class="action-icon" data-subtask-action="cancel" alt="Abbrechen" />
+        <div class="action-divider"></div>
+        <img src="../assets/AdTask/check.png" class="action-icon" data-subtask-action="save" alt="Speichern" />
+      </div>
+    </template>
+    <template id="subtaskEditInputTemplate">
+      <input type="text" class="subtask-edit-input" aria-label="Subtask bearbeiten" />
+    </template>
+    <template id="assignedContactTemplate">
+      <label class="bat-contact-option">
+        <div class="bat-contact-name-wrap">
+          <div class="bat-contact-avatar"></div>
+          <span class="bat-contact-name"></span>
+        </div>
+        <input type="checkbox" class="bat-contact-check" />
+      </label>
+    </template>
+    <template id="selectedAvatarTemplate">
+      <div class="bat-selected-avatar"></div>
+    </template>
+    <template id="noContactsTemplate">
+      <p class="bat-no-contacts">No contacts found</p>
+    </template>
   </body>
 </html>
