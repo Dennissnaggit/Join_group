@@ -32,7 +32,7 @@ export function isValidEmailFormat(email) {
  */
 export function checkName(nameInput) {
   const value = nameInput ? nameInput.value.trim() : "";
-  const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+  const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑäöüÄÖÜß\s-]+$/;
 
   if (!value) {
     updateErrorMessage(nameInput, "Please enter your name.");
@@ -90,16 +90,35 @@ export function checkPhone(phoneInput) {
 /**
  * Setup real-time listeners for instant feedback on input/blur.
  */
+// export function initContactInputRestrictions(
+//   nameInput,
+//   emailInput,
+//   phoneInput
+// ) {
+//   nameInput?.addEventListener("input", () => checkName(nameInput));
+//   phoneInput?.addEventListener("input", () => checkPhone(phoneInput));
+
+//   emailInput?.addEventListener("input", () => checkEmail(emailInput));
+//   emailInput?.addEventListener("blur", () => checkEmail(emailInput));
+// }
+
 export function initContactInputRestrictions(
   nameInput,
   emailInput,
   phoneInput
 ) {
+  // Para nombre y teléfono, si querés podés validar al escribir o al salir
   nameInput?.addEventListener("input", () => checkName(nameInput));
   phoneInput?.addEventListener("input", () => checkPhone(phoneInput));
 
-  emailInput?.addEventListener("input", () => checkEmail(emailInput));
+  // ✅ CORRECCIÓN DE UX PARA EMAIL:
+  // Valida únicamente cuando el usuario sale del campo (blur)
   emailInput?.addEventListener("blur", () => checkEmail(emailInput));
+
+  // Mientras escribe, solo limpiamos el mensaje de error para no molestarlo con la primera letra
+  emailInput?.addEventListener("input", () => {
+    updateErrorMessage(emailInput, "");
+  });
 }
 
 /**

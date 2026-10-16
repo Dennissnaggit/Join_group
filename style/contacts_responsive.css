@@ -1,142 +1,4 @@
 /* ==========================================================================
-   1. TABLETS & DESKTOP
-   ========================================================================== */
-@media(min-width: 768px) {
-    .modal-card {
-        display: flex;
-        flex-direction: row;
-        width: clamp(48rem, 85vw, 75.75rem);
-        height: auto;
-        min-height: 37rem; /* ~592px  Figma */
-        max-height: 90vh;
-        background-color: var(--white, #ffffff);
-        border-radius: 1.875rem;
-        overflow: hidden;
-        position: relative;
-        box-sizing: border-box;
-    }
-
-    .modal-left-panel {
-        width: clamp(13.5rem, 30vw, 28.25rem);
-        flex-shrink: 0;
-        background-color: var(--primary-color, #2A3647);
-        padding: clamp(1.25rem, 2.5vw, 3rem) 0.5rem clamp(1.25rem, 2.5vw, 3rem) clamp(1rem, 2vw, 2.5rem);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
-        box-sizing: border-box;
-    }
-
-    .modal-left-panel .modal-logo {
-        margin-bottom: 1.5rem;
-        width: 50px;
-    }
-
-    .modal-left-panel h1 {
-        font-size: clamp(2.5rem, 4vw, 3.5rem);
-        line-height: 1.1;
-        margin-bottom: 0.5rem;
-        font-weight: 700;
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    .modal-left-panel p {
-        font-size: clamp(1.1rem, 1.8vw, 1.55rem);
-        white-space: nowrap;
-        margin: 0;
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    .modal-right-panel {
-        flex: 1 1 auto;
-        min-width: 0;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        gap: clamp(1rem, 2.5vw, 3rem);
-        padding: 3rem clamp(2rem, 3.5vw, 4.5rem);
-        padding-left: calc(clamp(2rem, 3.5vw, 4.5rem) - 1rem);
-        box-sizing: border-box;
-    }
-
-    .modal-avatar-circle {
-        position: static;
-        transform: none;
-        aspect-ratio: 1 / 1;
-        flex-shrink: 0;
-        margin: auto 0;
-        margin-left: auto;
-        align-self: center;
-        border-radius: 50%;
-        border: 3px solid #ffffff;
-        box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
-    }
-
-    .modal-form-container {
-        flex: 1 1 auto;
-        min-width: 0;
-        max-width: 26.375rem;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        margin-left: auto;
-    }
-
-    .modal-actions-container {
-        display: flex;
-        gap: 12px;
-        justify-content: flex-start;
-        align-items: center;
-        margin-top: 20px;
-        width: auto;
-    }
-
-    .modal-actions-container button {
-        white-space: nowrap;
-        height: 48px;
-        padding: 10px 16px;
-        font-size: 1rem;
-    }
-
-    .btn-cancel,
-    .modal-actions-container .btn-cancel {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: auto;
-        height: 48px;
-        padding: 12px 24px;
-        background-color: #ffffff;
-        border: 1px solid var(--primary-color, #2A3647);
-        color: var(--primary-color, #2A3647);
-        border-radius: 10px;
-        font-size: 1rem;
-        font-weight: 500;
-        white-space: nowrap;
-    }
-
-    .modal-actions-container .btn-cancel {
-        display: inline-flex;
-    }
-
-    .close-btn-container {
-        position: absolute;
-        top: 2rem;
-        right: 2rem;
-        cursor: pointer;
-    }
-
-    button.btn-cancel,
-    .btn-cancel {
-        display: inline-flex !important;
-    }
-}
-
-/* ==========================================================================
    2. LOOK TABLET (800px)
    ========================================================================== */
 @media(max-width: 800px) {
@@ -305,7 +167,7 @@
     }
 
     .modal-left-panel h1 {
-        font-size: clamp(2.3rem, 8vw, 3rem);
+        font-size: clamp(2.8rem, 7vw, 3.2rem); 
         line-height: 1.1;
         color: #ffffff;
         margin-bottom: 0.5rem;
@@ -313,7 +175,7 @@
     }
 
     .modal-left-panel p {
-        font-size: clamp(1.2rem, 4.2vw, 1.35rem);
+        font-size: clamp(1.2rem, 3.5vw, 1.4rem);
         font-weight: 400;
         line-height: 1.3;
         margin-top: 0;

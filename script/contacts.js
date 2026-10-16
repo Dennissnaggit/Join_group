@@ -24,7 +24,10 @@ import {
   createToastTemplate,
 } from "./contacts_template.js";
 
-import { initContactInputRestrictions } from "./contacts_validation.js";
+import {
+  initContactInputRestrictions,
+  validateContactForm,
+} from "./contacts_validation.js";
 
 let contacts = [];
 let currentUser = null;
@@ -521,6 +524,21 @@ function showContactCreatedSuccess() {
   setTimeout(() => {
     toast.classList.remove("show");
   }, 2000);
+}
+
+/**
+ * Validate the contact form before saving.
+ */
+function handleSaveContact(event) {
+  event.preventDefault();
+
+  const nameInput = document.getElementById("modalName");
+  const emailInput = document.getElementById("modalEmail");
+  const phoneInput = document.getElementById("modalPhone");
+
+  if (!validateContactForm(nameInput, emailInput, phoneInput)) {
+    return;
+  }
 }
 
 // Global function exports
